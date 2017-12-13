@@ -17,3 +17,5 @@ php:
 elasticsearch:
     image: elasticsearch:latest
     environment: []
+    ports:
+        - "9201:9200"

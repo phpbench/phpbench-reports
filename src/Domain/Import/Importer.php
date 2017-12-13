@@ -56,7 +56,7 @@ class Importer
 
     private function generateId(array $data)
     {
-        $id = implode('-', [ $data['suite-uuid'], $data['benchmark-class'], $data['benchmark-subject-name'] ]);
+        $id = md5(implode('-', [ $data['suite-uuid'], $data['benchmark-class'], $data['benchmark-subject-name'] ]));
         return $id;
     }
 }
