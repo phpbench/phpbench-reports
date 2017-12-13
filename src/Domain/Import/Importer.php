@@ -24,7 +24,10 @@ class Importer
     public function import(Document $document)
     {
         $data = $this->flattenDocument($document->firstChild);
-        $this->variantStore->store($this->generateId($data), $data);
+        $identifier = $this->generateId($data);
+        $this->variantStore->store($identifier, $data);
+
+        return $identifier;
     }
 
     private function flattenDocument(Element $element, string $basePrefix = '')

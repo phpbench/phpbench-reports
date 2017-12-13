@@ -29,11 +29,13 @@ services:
         tags: 
             - { name: 'console.command', command: 'phpbench:import' }
 
-    Elasticsearch\ClientBuilder:
-        class: "Elasticsearch\\ClientBuilder"
+    Elasticsearch\ClientBuilder: ~
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     Elasticsearch\Client:
         factory: "Elasticsearch\\ClientBuilder:fromConfig"
         arguments: [ '%elastic_config%' ]
+
+    App\Infrastructure\Filesystem\SuiteStorage\FilesystemSuiteStorage:
+        arguments: [ '%kernel.root_dir%/../suites' ]

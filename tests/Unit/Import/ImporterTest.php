@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use App\Domain\Store\VariantStore;
 use App\Domain\Import\Importer;
 use PhpBench\Dom\Document;
+use Prophecy\Argument;
 
 class ImporterTest extends TestCase
 {
@@ -30,16 +31,21 @@ class ImporterTest extends TestCase
         $document = new Document();
         $document->loadXML(file_get_contents(__DIR__ . '/../../Fixtures/suite1.xml'));
 
-        $this->variantStore->store([
-            'suite-uuid' => '1234',
-            'env-uname-os' => 'Linux',
-            'env-uname-host' => 'dtlx1',
-            'env-php-version' => '7.1',
-            'benchmark-class' => 'HashingBench',
-            'benchmark-subject-name' => 'benchMd5',
-            'benchmark-subject-variant-sleep' => 10,
-            'benchmark-subject-variant-stats-max' => '0.953',
-        ])->shouldBeCalled();
+        $this->variantStore->store(
+            Argument::any(),
+            [
+                [
+                    'suite-uuid' => '1234',
+                    'env-uname-os' => 'Linux',
+                    'env-uname-host' => 'dtlx1',
+                    'env-php-version' => '7.1',
+                    'benchmark-class' => 'HashingBench',
+                    'benchmark-subject-name' => 'benchMd5',
+                    'benchmark-subject-variant-sleep' => 10,
+                    'benchmark-subject-variant-stats-max' => '0.953',
+                ]
+            ]
+        )->shouldBeCalled();
 
         $this->importer->import($document);
     }
