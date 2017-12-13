@@ -11,4 +11,9 @@ php:
     image: php:7-fpm
     volumes: 
         - .:/project
+    links:
+        - elasticsearch
 
+elasticsearch:
+    image: elasticsearch:latest
+    environment: []
