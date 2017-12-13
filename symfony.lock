@@ -8,6 +8,9 @@
     "guzzlehttp/streams": {
         "version": "3.0.0"
     },
+    "phpbench/dom": {
+        "version": "0.2.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
