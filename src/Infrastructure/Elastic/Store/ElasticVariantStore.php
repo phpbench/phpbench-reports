@@ -30,4 +30,23 @@ class ElasticVariantStore implements VariantStore
             ]);
         }
     }
+
+    public function forSuiteUuid(string $uuid): array
+    {
+        $result = $this->client->search([
+            'index' => self::INDEX_NAME,
+            'type' => self::INDEX_NAME,
+            'body' => [
+                'query' => [
+                    'match' => [
+                        'suite-uuid' => $uuid,
+                    ],
+                ],
+            ],
+        ]);
+
+        return array_map(function ($hit) {
+            return $hit['_source'];
+        }, $result['hits']['hits']);
+    }
 }

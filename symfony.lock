@@ -206,6 +206,9 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.6.0"
     },
+    "symfony/polyfill-php72": {
+        "version": "v1.6.0"
+    },
     "symfony/routing": {
         "version": "3.3",
         "recipe": {
@@ -214,6 +217,9 @@
             "version": "3.3",
             "ref": "a249484db698d1a847a30291c8f732414ac47e25"
         }
+    },
+    "symfony/var-dumper": {
+        "version": "v4.0.1"
     },
     "symfony/yaml": {
         "version": "v4.0.1"
