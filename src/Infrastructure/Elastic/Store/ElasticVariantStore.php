@@ -21,11 +21,13 @@ class ElasticVariantStore implements VariantStore
 
     public function store(string $id, array $data): void
     {
-        $this->client->index([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'id' => $id,
-            'body' => $data,
-        ]);
+        foreach ($data as $id => $document) {
+            $this->client->index([
+                'index' => self::INDEX_NAME,
+                'type' => self::INDEX_NAME,
+                'id' => $id,
+                'body' => $document,
+            ]);
+        }
     }
 }

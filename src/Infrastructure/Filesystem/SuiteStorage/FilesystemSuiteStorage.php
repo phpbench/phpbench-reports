@@ -26,6 +26,6 @@ class FilesystemSuiteStorage implements SuiteStorage
             $filesystem->mkdir($path);
         }
 
-        file_put_contents($path, $xmlContents);
+        $filesystem->dumpFile($path, $xmlContents);
     }
 }

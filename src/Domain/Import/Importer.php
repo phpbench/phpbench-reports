@@ -23,26 +23,51 @@ class Importer
 
     public function import(Document $document)
     {
-        $data = $this->flattenDocument($document->firstChild);
-        $identifier = $this->generateId($data);
-        $this->variantStore->store($identifier, $data);
+        $suiteUuid = null;
 
-        return $identifier;
+        foreach ($document->query('//suite') as $suiteDocument) {
+            $document = $this->flattenDocument($suiteDocument);
+            foreach ($suiteDocument->query('.//env/*') as $envDocument) {
+                $document = array_merge($document, $this->flattenDocument($envDocument, 'env'));
+            }
+            foreach ($suiteDocument->query('.//benchmark') as $benchmarkDocument) {
+                $document = array_merge($document, $this->flattenDocument($benchmarkDocument));
+                foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
+                    $document = array_merge($document, $this->flattenDocument($subjectDocument));
+                    foreach ($benchmarkDocument->query('.//variant') as $variantDocument) {
+                        $document = array_merge($document, $this->flattenDocument($variantDocument));
+                        foreach ($benchmarkDocument->query('.//stats') as $statsDocument) {
+                            $document = array_merge($document, $this->flattenDocument($statsDocument));
+                        }
+
+                        $identifier = $this->generateId($document);
+                        $documents[$identifier] = $document;
+                    }
+                }
+            }
+
+            $this->variantStore->store($identifier, $documents);
+
+            $suiteUuid = $suiteDocument->getAttribute('uuid');
+        }
+
+        if (null === $suiteUuid) {
+            throw new \RuntimeException(
+                'No suites found in document'
+            );
+        }
+
+        return $suiteUuid;
     }
 
     private function flattenDocument(Element $element, string $basePrefix = '')
     {
         $data = [];
-        /**  @var Element $element */
-        foreach ($element->query('./*[not(self::result)]') as $element) {
-            $prefix = $this->buildPrefix($basePrefix, $element->nodeName);
+        $prefix = $this->buildPrefix($basePrefix, $element->nodeName);
 
-            foreach ($element->attributes as $attrName => $attrElement) {
-                $key = $prefix . self::DELIMITER . $attrName;
-                $data[$key] = $attrElement->nodeValue;
-            }
-
-            $data = array_merge($data, $this->flattenDocument($element, $prefix));
+        foreach ($element->attributes as $attrName => $attrElement) {
+            $key = $prefix . self::DELIMITER . $attrName;
+            $data[$key] = $attrElement->nodeValue;
         }
 
         return $data;
@@ -59,7 +84,7 @@ class Importer
 
     private function generateId(array $data)
     {
-        $id = md5(implode('-', [ $data['suite-uuid'], $data['benchmark-class'], $data['benchmark-subject-name'] ]));
+        $id = implode('-', [ $data['suite-uuid'], md5(serialize($data)) ]);
         return $id;
     }
 }

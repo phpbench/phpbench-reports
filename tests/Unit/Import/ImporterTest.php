@@ -33,18 +33,18 @@ class ImporterTest extends TestCase
 
         $this->variantStore->store(
             Argument::any(),
-            [
+            Argument::containing(
                 [
                     'suite-uuid' => '1234',
                     'env-uname-os' => 'Linux',
                     'env-uname-host' => 'dtlx1',
                     'env-php-version' => '7.1',
                     'benchmark-class' => 'HashingBench',
-                    'benchmark-subject-name' => 'benchMd5',
-                    'benchmark-subject-variant-sleep' => 10,
-                    'benchmark-subject-variant-stats-max' => '0.953',
+                    'subject-name' => 'benchMd5',
+                    'variant-sleep' => 10,
+                    'stats-max' => '0.953',
                 ]
-            ]
+            )
         )->shouldBeCalled();
 
         $this->importer->import($document);
