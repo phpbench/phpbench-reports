@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<phpbench version="0.15-dev (@git_version@)">
+  <suite uuid="1234">
+    <env>
+      <uname os="Linux" host="dtlx1"/>
+      <php version="7.1"/>
+    </env>
+    <benchmark class="HashingBench">
+      <subject name="benchMd5">
+        <variant sleep="10">
+          <stats max="0.953"/>
+        </variant>
+      </subject>
+    </benchmark>
+    <result key="time" class="PhpBench\Model\Result\TimeResult"/>
+    <result key="mem" class="PhpBench\Model\Result\MemoryResult"/>
+    <result key="comp" class="PhpBench\Model\Result\ComputedResult"/>
+  </suite>
+</phpbench>
