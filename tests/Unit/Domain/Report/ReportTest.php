@@ -3,7 +3,7 @@
 namespace App\Tests\Unit\Domain\Report;
 
 use PHPUnit\Framework\TestCase;
-use App\Domain\Report\Report;
+use App\Domain\Report\VariantReport;
 
 class ReportTest extends TestCase
 {
@@ -31,7 +31,7 @@ class ReportTest extends TestCase
         ];
 
         $expected = [
-            'benchmark-class: BenchOne' => [
+            'BenchOne' => [
                 0 => [
                     'benchmark-class' => 'BenchOne',
                     'subject-name' => 'one',
@@ -45,8 +45,8 @@ class ReportTest extends TestCase
                     'stats-mean' => '180819.35',
                 ],
             ],
-            'benchmark-class: BenchTwo' => [
-                2 => [
+            'BenchTwo' => [
+                0 => [
                     'benchmark-class' => 'BenchTwo',
                     'subject-name' => 'three',
                     'stats-max' => '185742.7',
@@ -55,7 +55,7 @@ class ReportTest extends TestCase
             ],
         ];
 
-        $report = Report::aggregate($dataSet);
+        $report = VariantReport::aggregate($dataSet);
         $this->assertEquals($expected, $report);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Domain\Report;
 
 use Functional as F;
 
-class Report
+class VariantReport
 {
     public static function aggregate(array $dataSet)
     {
@@ -39,7 +39,7 @@ class Report
         return F\group($dataSet, function ($row) use ($groupBy) {
             $groupHash = [];
             foreach ($groupBy as $key) {
-                $groupHash[] = $key. ': ' .$row[$key];
+                $groupHash[] = $row[$key];
             }
 
             return implode(', ', $groupHash);

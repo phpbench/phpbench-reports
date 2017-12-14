@@ -6,6 +6,7 @@ use PhpBench\Dom\Document;
 use Elasticsearch\Client;
 use App\Domain\Store\VariantStore;
 use PhpBench\Dom\Element;
+use App\Domain\Store\SuiteStore;
 
 class Importer
 {
@@ -16,9 +17,15 @@ class Importer
      */
     private $variantStore;
 
-    public function __construct(VariantStore $variantStore)
+    /**
+     * @var SuiteStore
+     */
+    private $suiteStore;
+
+    public function __construct(VariantStore $variantStore, SuiteStore $suiteStore)
     {
         $this->variantStore = $variantStore;
+        $this->suiteStore = $suiteStore;
     }
 
     public function import(Document $document)
@@ -26,29 +33,10 @@ class Importer
         $suiteUuid = null;
 
         foreach ($document->query('//suite') as $suiteDocument) {
-            $document = $this->flattenDocument($suiteDocument);
-            foreach ($suiteDocument->query('.//env/*') as $envDocument) {
-                $document = array_merge($document, $this->flattenDocument($envDocument, 'env'));
-            }
-            foreach ($suiteDocument->query('.//benchmark') as $benchmarkDocument) {
-                $document = array_merge($document, $this->flattenDocument($benchmarkDocument));
-                foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
-                    $document = array_merge($document, $this->flattenDocument($subjectDocument));
-                    foreach ($benchmarkDocument->query('.//variant') as $variantDocument) {
-                        $document = array_merge($document, $this->flattenDocument($variantDocument));
-                        foreach ($benchmarkDocument->query('.//stats') as $statsDocument) {
-                            $document = array_merge($document, $this->flattenDocument($statsDocument));
-                        }
-
-                        $identifier = $this->generateId($document);
-                        $documents[$identifier] = $document;
-                    }
-                }
-            }
-
-            $this->variantStore->store($identifier, $documents);
-
             $suiteUuid = $suiteDocument->getAttribute('uuid');
+            $this->storeSuite($suiteUuid, $suiteDocument);
+            $this->storeVariants($suiteDocument);
+
         }
 
         if (null === $suiteUuid) {
@@ -58,6 +46,41 @@ class Importer
         }
 
         return $suiteUuid;
+    }
+
+    private function storeSuite(string $identifier, $suiteDocument)
+    {
+        $document = $this->flattenDocument($suiteDocument);
+        foreach ($suiteDocument->query('.//env/*') as $envDocument) {
+            $document = array_merge($document, $this->flattenDocument($envDocument, 'env'));
+        }
+
+        $this->suiteStore->store($identifier, [ $document ]);
+    }
+
+    private function storeVariants($suiteDocument)
+    {
+        $document = $this->flattenDocument($suiteDocument);
+        foreach ($suiteDocument->query('.//env/*') as $envDocument) {
+            $document = array_merge($document, $this->flattenDocument($envDocument, 'env'));
+        }
+        foreach ($suiteDocument->query('.//benchmark') as $benchmarkDocument) {
+            $document = array_merge($document, $this->flattenDocument($benchmarkDocument));
+            foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
+                $document = array_merge($document, $this->flattenDocument($subjectDocument));
+                foreach ($benchmarkDocument->query('.//variant') as $variantDocument) {
+                    $document = array_merge($document, $this->flattenDocument($variantDocument));
+                    foreach ($benchmarkDocument->query('.//stats') as $statsDocument) {
+                        $document = array_merge($document, $this->flattenDocument($statsDocument));
+                    }
+
+                    $identifier = $this->generateId($document);
+                    $documents[$identifier] = $document;
+                }
+            }
+        }
+
+        $this->variantStore->store($identifier, $documents);
     }
 
     private function flattenDocument(Element $element, string $basePrefix = '')

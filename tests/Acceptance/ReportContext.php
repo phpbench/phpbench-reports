@@ -48,7 +48,7 @@ class ReportContext implements Context
      */
     public function iViewTheResultingReport()
     {
-        $this->lastResponse = $this->kernel->handle(Request::create('/report/aggregate/suite/' . $this->result));
+        $this->lastResponse = $this->kernel->handle(Request::create('/report/suite/' . $this->result));
     }
 
     /**

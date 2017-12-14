@@ -5,4 +5,4 @@ Feature: Upload suite results
 
     Scenario: Upload suite result
         When I upload the suite "worse_reflection.xml"
-        Then I should a confirmation with the URL "http://localhost/report/aggregate/suite/133c84a2d96ba55b7006192c42517b419ee4c4ef"
+        Then I should a confirmation with the URL "http://localhost/report/suite/133c84a2d96ba55b7006192c42517b419ee4c4ef"

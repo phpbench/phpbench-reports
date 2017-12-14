@@ -7,7 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Domain\Store\VariantStore;
 use Twig\Environment;
-use App\Domain\Report\Report;
+use App\Domain\Report\VariantReport;
+use App\Domain\Store\SuiteStore;
+use App\Domain\Report\EnvReport;
 
 class ReportController
 {
@@ -21,23 +23,31 @@ class ReportController
      */
     private $twig;
 
-    public function __construct(VariantStore $variantStore, Environment $twig)
+    /**
+     * @var SuiteStore
+     */
+    private $suiteStore;
+
+    public function __construct(VariantStore $variantStore, Environment $twig, SuiteStore $suiteStore)
     {
         $this->variantStore = $variantStore;
         $this->twig = $twig;
+        $this->suiteStore = $suiteStore;
     }
 
     /**
-     * @Route("/report/suite/{uuid}", name="suite_suite")
+     * @Route("/report/suite/{uuid}", name="report_suite")
      */
     public function suite(Request $request)
     {
         $uuid = $request->attributes->get('uuid');
-        $report = Report::aggregate($this->variantStore->forSuiteUuid($uuid));
+        $suiteReport = EnvReport::env($this->suiteStore->forSuiteUuid($uuid));
+        $variantReport = VariantReport::aggregate($this->variantStore->forSuiteUuid($uuid));
 
         return new Response($this->twig->render('report/aggregate_suite.html.twig', [
             'uuid' => $uuid,
-            'report' => $report,
+            'suiteReport' => $suiteReport,
+            'variantReport' => $variantReport,
         ]));
     }
 }
