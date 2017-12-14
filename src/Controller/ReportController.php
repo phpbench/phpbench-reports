@@ -9,7 +9,7 @@ use App\Domain\Store\VariantStore;
 use Twig\Environment;
 use App\Domain\Report\Report;
 
-class SuiteController
+class ReportController
 {
     /**
      * @var VariantStore
@@ -28,13 +28,15 @@ class SuiteController
     }
 
     /**
-     * @Route("/report/aggregate/suite/{uuid}", name="report_aggregate")
+     * @Route("/report/suite/{uuid}", name="suite_suite")
      */
-    public function aggregate(Request $request)
+    public function suite(Request $request)
     {
-        $report = Report::aggregate($this->variantStore->forSuiteUuid($request->attributes->get('uuid')));
+        $uuid = $request->attributes->get('uuid');
+        $report = Report::aggregate($this->variantStore->forSuiteUuid($uuid));
 
         return new Response($this->twig->render('report/aggregate_suite.html.twig', [
+            'uuid' => $uuid,
             'report' => $report,
         ]));
     }

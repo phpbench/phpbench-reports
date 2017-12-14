@@ -4,10 +4,14 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet"  href="/assets/semantic.min.css">
     </head>
     <body>
+        <div class="ui container">
         <h1>PHPBench Reports</h1>
+        <h2>{% block page_title %}{% endblock %}</h2>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
+        </div>
     </body>
 </html>

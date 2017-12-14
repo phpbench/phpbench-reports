@@ -24,6 +24,7 @@ class ReportTest extends TestCase
             ],
             [
                 'benchmark-class' => 'BenchTwo',
+                'subject-name' => 'three',
                 'stats-max' => '185742.7',
                 'stats-mean' => '180819.35',
             ],
@@ -47,6 +48,7 @@ class ReportTest extends TestCase
             'benchmark-class: BenchTwo' => [
                 2 => [
                     'benchmark-class' => 'BenchTwo',
+                    'subject-name' => 'three',
                     'stats-max' => '185742.7',
                     'stats-mean' => '180819.35',
                 ],

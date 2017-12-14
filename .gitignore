@@ -1,5 +1,6 @@
 docker-compose.override.yml
 /suites
+/node_modules
 
 ###> symfony/framework-bundle ###
 .env

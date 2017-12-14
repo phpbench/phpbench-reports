@@ -37,7 +37,7 @@ class ImportController
         $id = $this->importer->importFromPayload($request->getContent());
 
         return new JsonResponse([
-            'suite_url' => $this->generator->generate('report_aggregate', [
+            'suite_url' => $this->generator->generate('report_suite', [
                 'uuid' => $id,
             ], UrlGeneratorInterface::ABSOLUTE_URL)
         ]);

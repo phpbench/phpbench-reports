@@ -15,6 +15,9 @@ class Report
         $report = new self();
         $dataSet = $report->sort($dataSet);
         $tables = $report->groupBy($dataSet, $config['groups']);
+        $tables = F\map($tables, (function ($table) {
+            return $this->sort($table);
+        })->bindTo($report));
 
         return $tables;
     }
