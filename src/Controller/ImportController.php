@@ -8,23 +8,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use PhpBench\Dom\Document;
 use App\Domain\SuiteStorage;
+use App\Service\ImporterService;
 
 class ImportController
 {
     /**
-     * @var Importer
+     * @var ImporterService
      */
     private $importer;
 
-    /**
-     * @var SuiteStorage
-     */
-    private $storage;
-
-    public function __construct(Importer $importer, SuiteStorage $storage)
+    public function __construct(ImporterService $importer)
     {
         $this->importer = $importer;
-        $this->storage = $storage;
     }
 
     /**
@@ -32,11 +27,7 @@ class ImportController
      */
     public function import(Request $request)
     {
-        $payload = $request->getContent();
-        $document = new Document();
-        $document->loadXML($payload);
-        $id = $this->importer->import($document);
-        $this->storage->storePayload($id, $payload);
+        $id = $this->importer->importFromPayload($request->getContent());
 
         return new JsonResponse(['ok']);
     }

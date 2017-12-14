@@ -1,4 +1,5 @@
 docker-compose.override.yml
+/suites
 
 ###> symfony/framework-bundle ###
 .env
@@ -11,3 +12,7 @@ docker-compose.override.yml
 /phpunit.xml
 ###< phpunit/phpunit ###
 
+
+###> behat/symfony2-extension ###
+behat.yml
+###< behat/symfony2-extension ###

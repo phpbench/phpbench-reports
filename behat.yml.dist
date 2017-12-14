@@ -1,0 +1,13 @@
+default:
+    suites:
+        default:
+            contexts:
+                - App\Tests\Acceptance\ReportContext:
+                    kernel: '@kernel'
+                    importerService: '@App\Service\ImporterService'
+
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: vendor/autoload.php
+                class: App\Kernel

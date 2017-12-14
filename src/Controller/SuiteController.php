@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Domain\Store\VariantStore;
+use Twig\Environment;
 
 class SuiteController
 {
@@ -14,9 +15,15 @@ class SuiteController
      */
     private $variantStore;
 
-    public function __construct(VariantStore $variantStore)
+    /**
+     * @var Environment
+     */
+    private $twig;
+
+    public function __construct(VariantStore $variantStore, Environment $twig)
     {
         $this->variantStore = $variantStore;
+        $this->twig = $twig;
     }
 
     /**
@@ -26,6 +33,8 @@ class SuiteController
     {
         $variants = $this->variantStore->forSuiteUuid($request->attributes->get('uuid'));
 
-        return new Response('', 200);
+        return new Response($this->twig->render('report/aggregate_suite.html.twig', [
+            'variants' => $variants,
+        ]));
     }
 }

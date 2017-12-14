@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<table>
+    <tr>
+        <th>Benchmark</th>
+        <th>Subject</th>
+        <th>Min</th>
+        <th>Max</th>
+        <th>Mean</th>
+        <th>Mode</th>
+        <th>R-stdev</th>
+    </tr>
+    {% for variant in variants %}
+    <tr>
+        <td>{{ variant['benchmark-class'] }}</td>
+        <td>{{ variant['subject-name'] }}</td>
+        <td>{{ variant['stats-min'] }}</td>
+        <td>{{ variant['stats-max'] }}</td>
+        <td>{{ variant['stats-mean'] }}</td>
+        <td>{{ variant['stats-mode'] }}</td>
+        <td>{{ variant['stats-rstdev'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

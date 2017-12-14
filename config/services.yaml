@@ -3,6 +3,7 @@
 parameters:
     elastic_config:
         hosts: [ 'elasticsearch:9200' ]
+    locale: 'en'
 
 services:
     # default configuration for services in *this* file
@@ -39,3 +40,6 @@ services:
 
     App\Infrastructure\Filesystem\SuiteStorage\FilesystemSuiteStorage:
         arguments: [ '%kernel.root_dir%/../suites' ]
+
+    App\Service\ImporterService:
+        public: true
