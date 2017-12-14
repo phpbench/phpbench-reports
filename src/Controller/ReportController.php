@@ -44,9 +44,26 @@ class ReportController
         $suiteReport = EnvReport::env($this->suiteStore->forSuiteUuid($uuid));
         $variantReport = VariantReport::aggregate($this->variantStore->forSuiteUuid($uuid));
 
-        return new Response($this->twig->render('report/aggregate_suite.html.twig', [
+        return new Response($this->twig->render('report/report_suite.html.twig', [
             'uuid' => $uuid,
             'suiteReport' => $suiteReport,
+            'variantReport' => $variantReport,
+        ]));
+    }
+
+    /**
+     * @Route("/report/suite/{uuid}/benchmark/{class}", name="report_benchmark")
+     */
+    public function benchmark(Request $request)
+    {
+        $uuid = $request->attributes->get('uuid');
+        $class = $request->attributes->get('class');
+        $variantReport = VariantReport::aggregate(
+            $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
+        );
+
+        return new Response($this->twig->render('report/report_benchmark.html.twig', [
+            'uuid' => $uuid,
             'variantReport' => $variantReport,
         ]));
     }

@@ -1,22 +1,10 @@
 {% extends "base.html.twig" %}
 {% block title %}Suite{% endblock %}
-{% block page_title %}Suite: {{ uuid }}{% endblock %}
+{% block page_title %}Suite: <a href="{{ path('report_suite', { "uuid": uuid }) }}">{{ uuid }}</a>{% endblock %}
 {% block body %}
 
-    <h3>Env</h3>
-    <table class="ui table">
-        {% for cells in suiteReport|batch(2) %}
-            <tr>
-            {% for field, value in cells %}
-            <td class="selected"><b>{{ field|replace({'env-': ''}) }}</b></td>
-                <td>{{ value }}</td>
-            {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
-
     {% for subTitle, table in variantReport %}
-    <h3>{{ subTitle }}</h3>
+    <h3><a href="{{ path('report_benchmark', { "uuid": uuid, "class": subTitle }) }}">{{ subTitle }}</a></h3>
     <table class="ui table">
         <thead>
         <tr>
@@ -42,4 +30,5 @@
         </tbody>
     </table>
     {% endfor %}
+</script>
 {% endblock %}

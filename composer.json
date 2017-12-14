@@ -17,7 +17,8 @@
         "symfony/lts": "^4@dev",
         "symfony/twig-bundle": "^4.0",
         "symfony/var-dumper": "^4.0",
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "^4.0",
+        "twig/extensions": "^1.5"
     },
     "require-dev": {
         "symfony/dotenv": "^4.0"

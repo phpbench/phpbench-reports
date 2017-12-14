@@ -21,7 +21,7 @@ class ReportContext implements Context
      * @var ImporterService
      */
     private $importerService;
-    private $result;
+    private $suiteUuid;
 
     /**
      * @var Response
@@ -40,15 +40,16 @@ class ReportContext implements Context
     public function iHaveSubmittedTheSuite(string $filename)
     {
         $path = __DIR__ . '/../Fixtures/' . $filename;
-        $this->result = $this->importerService->importFromFile($path);
+        $this->suiteUuid = $this->importerService->importFromFile($path);
     }
 
     /**
      * @When I view the resulting report
+     * @When am viewing the resulting report
      */
     public function iViewTheResultingReport()
     {
-        $this->lastResponse = $this->kernel->handle(Request::create('/report/suite/' . $this->result));
+        $this->lastResponse = $this->kernel->handle(Request::create('/report/suite/' . $this->suiteUuid));
     }
 
     /**
@@ -57,5 +58,13 @@ class ReportContext implements Context
     public function iShouldSeeTheResultsFor(string $subject)
     {
         Assert::assertContains($subject, $this->lastResponse->getContent());
+    }
+
+    /**
+     * @When I click benchmark :class
+     */
+    public function iClickBenchmark($class)
+    {
+        $this->lastResponse = $this->kernel->handle(Request::create('/report/suite/' . $this->suiteUuid . '/benchmark/' . $class));
     }
 }

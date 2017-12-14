@@ -49,4 +49,26 @@ class ElasticVariantStore implements VariantStore
             return $hit['_source'];
         }, $result['hits']['hits']);
     }
+
+    public function forSuiteUuidAndBenchmark(string $uuid, string $class): array
+    {
+        $result = $this->client->search([
+            'index' => self::INDEX_NAME,
+            'type' => self::INDEX_NAME,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            [ 'term' => [ 'suite-uuid' => $uuid, ] ],
+                            [ 'term' => [ 'benchmark-class.keyword' => $class, ] ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        return array_map(function ($hit) {
+            return $hit['_source'];
+        }, $result['hits']['hits']);
+    }
 }

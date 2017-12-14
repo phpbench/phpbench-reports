@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+{% block title %}Suite{% endblock %}
+{% block page_title %}Suite: {{ uuid }}{% endblock %}
+{% block body %}
+    <table class="ui table">
+        {% for cells in suiteReport|batch(2) %}
+            <tr>
+            {% for field, value in cells %}
+            <td class="selected"><b>{{ field|replace({'env-': ''}) }}</b></td>
+            <td title="{{ value }}">{{ value|truncate(50) }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% for subTitle, table in variantReport %}
+    <h3><a href="{{ path('report_benchmark', { "uuid": uuid, "class": subTitle }) }}">{{ subTitle }}</a></h3>
+    <table class="ui table">
+        <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Mean</th>
+            <th>Mode</th>
+            <th>R-stdev</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for variant in table %}
+        <tr>
+            <td>{{ variant['subject-name'] }}</td>
+            <td>{{ variant['stats-min'] | number_format('2') }}µs</td>
+            <td>{{ variant['stats-max'] | number_format('2') }}µs</td>
+            <td>{{ variant['stats-mean'] | number_format('2') }}µs</td>
+            <td>{{ variant['stats-mode'] | number_format('2') }}µs</td>
+            <td>{{ variant['stats-stdev'] | number_format('2') }}%</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+{% endblock %}

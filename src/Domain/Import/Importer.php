@@ -68,9 +68,9 @@ class Importer
             $document = array_merge($document, $this->flattenDocument($benchmarkDocument));
             foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
                 $document = array_merge($document, $this->flattenDocument($subjectDocument));
-                foreach ($benchmarkDocument->query('.//variant') as $variantDocument) {
+                foreach ($subjectDocument->query('.//variant') as $variantDocument) {
                     $document = array_merge($document, $this->flattenDocument($variantDocument));
-                    foreach ($benchmarkDocument->query('.//stats') as $statsDocument) {
+                    foreach ($variantDocument->query('.//stats') as $statsDocument) {
                         $document = array_merge($document, $this->flattenDocument($statsDocument));
                     }
 
