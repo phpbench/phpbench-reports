@@ -5,6 +5,8 @@ default:
                 - App\Tests\Acceptance\ReportContext:
                     kernel: '@kernel'
                     importerService: '@App\Service\ImporterService'
+                - App\Tests\Acceptance\ImportContext:
+                    kernel: '@kernel'
 
     extensions:
         Behat\Symfony2Extension:

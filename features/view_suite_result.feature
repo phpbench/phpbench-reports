@@ -1,4 +1,4 @@
-Feature:
+Feature: View suite results
     As a benchmarker
     When I import results
     I want to see a summary of the results on the web

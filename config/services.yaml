@@ -4,6 +4,7 @@ parameters:
     elastic_config:
         hosts: [ 'elasticsearch:9200' ]
     locale: 'en'
+    router.request_context.scheme: https
 
 services:
     # default configuration for services in *this* file

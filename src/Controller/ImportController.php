@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use PhpBench\Dom\Document;
 use App\Domain\SuiteStorage;
 use App\Service\ImporterService;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ImportController
 {
@@ -17,9 +18,15 @@ class ImportController
      */
     private $importer;
 
-    public function __construct(ImporterService $importer)
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $generator;
+
+    public function __construct(ImporterService $importer, UrlGeneratorInterface $generator)
     {
         $this->importer = $importer;
+        $this->generator = $generator;
     }
 
     /**
@@ -29,6 +36,10 @@ class ImportController
     {
         $id = $this->importer->importFromPayload($request->getContent());
 
-        return new JsonResponse(['ok']);
+        return new JsonResponse([
+            'suite_url' => $this->generator->generate('report_aggregate', [
+                'uuid' => $id,
+            ], UrlGeneratorInterface::ABSOLUTE_URL)
+        ]);
     }
 }
