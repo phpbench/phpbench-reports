@@ -1,0 +1,13 @@
+{
+  "name": "phpbench-reports",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^2.7.1",
+    "chartjs-plugin-annotation": "^0.5.7",
+    "semantic-ui-css": "^2.2.12"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}

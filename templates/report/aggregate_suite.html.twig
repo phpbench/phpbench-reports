@@ -1,8 +1,9 @@
 {% extends "base.html.twig" %}
 {% block body %}
+{% for subTitle, table in report %}
+<h3>{{ subTitle }}</h3>
 <table>
     <tr>
-        <th>Benchmark</th>
         <th>Subject</th>
         <th>Min</th>
         <th>Max</th>
@@ -10,16 +11,16 @@
         <th>Mode</th>
         <th>R-stdev</th>
     </tr>
-    {% for variant in variants %}
+    {% for variant in table %}
     <tr>
-        <td>{{ variant['benchmark-class'] }}</td>
         <td>{{ variant['subject-name'] }}</td>
-        <td>{{ variant['stats-min'] }}</td>
-        <td>{{ variant['stats-max'] }}</td>
-        <td>{{ variant['stats-mean'] }}</td>
-        <td>{{ variant['stats-mode'] }}</td>
-        <td>{{ variant['stats-rstdev'] }}</td>
+        <td>{{ variant['stats-min'] | number_format('2') }}µs</td>
+        <td>{{ variant['stats-max'] | number_format('2') }}µs</td>
+        <td>{{ variant['stats-mean'] | number_format('2') }}µs</td>
+        <td>{{ variant['stats-mode'] | number_format('2') }}µs</td>
+        <td>{{ variant['stats-stdev'] | number_format('2') }}%</td>
     </tr>
     {% endfor %}
 </table>
+{% endfor %}
 {% endblock %}

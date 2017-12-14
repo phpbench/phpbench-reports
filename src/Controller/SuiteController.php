@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Domain\Store\VariantStore;
 use Twig\Environment;
+use App\Domain\Report\Report;
 
 class SuiteController
 {
@@ -31,10 +32,10 @@ class SuiteController
      */
     public function aggregate(Request $request)
     {
-        $variants = $this->variantStore->forSuiteUuid($request->attributes->get('uuid'));
+        $report = Report::aggregate($this->variantStore->forSuiteUuid($request->attributes->get('uuid')));
 
         return new Response($this->twig->render('report/aggregate_suite.html.twig', [
-            'variants' => $variants,
+            'report' => $report,
         ]));
     }
 }

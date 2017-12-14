@@ -6,6 +6,8 @@
         "ext-iconv": "*",
         "behat/symfony2-extension": "^2.1",
         "elasticsearch/elasticsearch": "^6.0",
+        "lstrojny/functional-php": "^1.6",
+        "markrogoyski/math-php": "^0.38.0",
         "phpbench/dom": "^0.2.0",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/console": "^4.0",

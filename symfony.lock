@@ -56,6 +56,12 @@
     "guzzlehttp/streams": {
         "version": "3.0.0"
     },
+    "lstrojny/functional-php": {
+        "version": "1.6.0"
+    },
+    "markrogoyski/math-php": {
+        "version": "v0.38.0"
+    },
     "myclabs/deep-copy": {
         "version": "1.7.0"
     },
