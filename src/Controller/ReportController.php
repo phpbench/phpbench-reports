@@ -42,12 +42,16 @@ class ReportController
     {
         $uuid = $request->attributes->get('uuid');
         $suiteReport = EnvReport::env($this->suiteStore->forSuiteUuid($uuid));
-        $variantReport = VariantReport::aggregate($this->variantStore->forSuiteUuid($uuid));
+        $variantTables = VariantReport::aggregate($this->variantStore->forSuiteUuid($uuid));
+        $suiteChart = VariantReport::chart(
+            $this->variantStore->forSuiteUuid($uuid)
+        );
 
         return new Response($this->twig->render('report/report_suite.html.twig', [
             'uuid' => $uuid,
             'suiteReport' => $suiteReport,
-            'variantReport' => $variantReport,
+            'suiteChart' => $suiteChart,
+            'variantTables' => $variantTables,
         ]));
     }
 
@@ -58,13 +62,17 @@ class ReportController
     {
         $uuid = $request->attributes->get('uuid');
         $class = $request->attributes->get('class');
-        $variantReport = VariantReport::aggregate(
+        $variantTables = VariantReport::aggregate(
+            $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
+        );
+        $variantChart = VariantReport::chart(
             $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
         );
 
         return new Response($this->twig->render('report/report_benchmark.html.twig', [
             'uuid' => $uuid,
-            'variantReport' => $variantReport,
+            'variantTables' => $variantTables,
+            'variantChart' => $variantChart,
         ]));
     }
 }

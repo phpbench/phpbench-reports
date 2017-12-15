@@ -22,6 +22,26 @@ class VariantReport
         return $tables;
     }
 
+    public static function chart(array $dataSet)
+    {
+        $report = new self();
+
+        $labels = array_map(function (array $data) {
+            return $data['subject-name'];
+        }, $dataSet);
+
+        $dataMode = array_map(function (array $data) {
+            return $data['stats-mode'];
+        }, $dataSet);
+
+        return [
+            'labels' => $labels,
+            'series' => [
+                'mode' => $dataMode,
+            ],
+        ];
+    }
+
     private function sort(array $dataSet): array
     {
         $dataSet = F\sort($dataSet, function ($a, $b) {

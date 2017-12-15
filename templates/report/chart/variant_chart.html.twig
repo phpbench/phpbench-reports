@@ -1,0 +1,20 @@
+    <canvas id="{{ chartName }}" ></canvas>
+    <script>
+    var ctx = document.getElementById("{{ chartName }}").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ chart.labels | json_encode | raw }},
+            datasets: [
+                {
+                    fill: false,
+                    borderColor: "rgb(1,123,123)",
+                    borderWidth: 2,
+                    label: 'mode µs',
+                    data: {{ chart.series.mode | json_encode | raw }},
+                }
+            ]
+        }
+    });
+    </script>
+
