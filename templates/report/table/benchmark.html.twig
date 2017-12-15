@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th>Subject</th>
+            <th>Revs * Iters</th>
             <th>Min</th>
             <th>Max</th>
             <th>Mean</th>
@@ -14,6 +15,7 @@
         {% for variant in table %}
         <tr>
             <td>{{ variant['subject-name'] }}</td>
+            <td>{{ variant['variant-revs'] ~ ' * ' ~ variant['variant-iterations'] }}</td>
             <td>{{ variant['stats-min'] | number_format('2') }}µs</td>
             <td>{{ variant['stats-max'] | number_format('2') }}µs</td>
             <td>{{ variant['stats-mean'] | number_format('2') }}µs</td>

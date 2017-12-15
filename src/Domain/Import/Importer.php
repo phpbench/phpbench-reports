@@ -68,11 +68,13 @@ class Importer
             $document = array_merge($document, $this->flattenDocument($benchmarkDocument));
             foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
                 $document = array_merge($document, $this->flattenDocument($subjectDocument));
+                /** @var Element $variantDocument */
                 foreach ($subjectDocument->query('.//variant') as $variantDocument) {
                     $document = array_merge($document, $this->flattenDocument($variantDocument));
                     foreach ($variantDocument->query('.//stats') as $statsDocument) {
                         $document = array_merge($document, $this->flattenDocument($statsDocument));
                     }
+                    $document['variant-iterations'] = $variantDocument->query('.//iteration')->length;
 
                     $identifier = $this->generateId($document);
                     $documents[$identifier] = $document;
