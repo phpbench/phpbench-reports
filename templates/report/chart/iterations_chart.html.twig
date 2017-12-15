@@ -1,0 +1,37 @@
+<canvas height="100" id="{{ chartName }}" ></canvas>
+<script>
+var linearCtx = document.getElementById("{{ chartName }}").getContext('2d');
+var linearChart = new Chart(linearCtx, {
+    type: 'line',
+    data: {
+        labels: {{ chart.labels | json_encode | raw }},
+        datasets: [
+            {
+                fill: false,
+                borderColor: "rgb(1,123,123)",
+                borderWidth: 2,
+                label: '# microseconds',
+                data: {{ chart.series | json_encode | raw }},
+            }
+        ]
+    },
+    options: {
+        annotation: {
+            annotations: [
+                {
+                    type: "line",
+                    mode: "horizontal",
+                    scaleID: "y-axis-0",
+                    value: {{ chart.mean }},
+                    borderColor: "purple",
+                    label: {
+                        content: "Mean {{ chart.mean | number_format }}",
+                        enabled: true,
+                        position: "right",
+                    }
+                }
+            ]
+        }
+    }
+});
+</script>

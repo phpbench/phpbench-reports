@@ -102,6 +102,9 @@ class ReportController
         $iterationTable = IterationReport::iterations(
             $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
         );
+        $iterationChart = IterationReport::chart(
+            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
+        );
 
         return new Response($this->twig->render('report/report_variant.html.twig', [
             'uuid' => $uuid,
@@ -109,6 +112,7 @@ class ReportController
             'subject' => $subject,
             'variant' => $variant,
             'iterationTable' => $iterationTable,
+            'iterationChart' => $iterationChart,
         ]));
     }
 }

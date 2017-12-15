@@ -104,11 +104,12 @@ class Importer
                 $document = array_merge($document, $this->flattenDocument($subjectDocument));
                 foreach ($subjectDocument->query('.//variant') as $index => $variantDocument) {
                     $document['variant-index'] = $index;
+                    $iterationNb = 0;
                     foreach ($variantDocument->query('.//iteration') as $iterationDocument) {
-
                         foreach ($iterationDocument->attributes as $attrName => $attrElement) {
                             $document[$attrName] = $attrElement->nodeValue;
                         }
+                        $document['iteration'] = $iterationNb++;
 
                         $documents[] = $document;
                     }
