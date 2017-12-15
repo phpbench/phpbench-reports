@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Infrastructure\Elastic\Store;
+
+use Elasticsearch\Client;
+use App\Domain\Store\IterationStore;
+
+class ElasticIterationStore implements IterationStore
+{
+    const INDEX_NAME = 'phpbench_iteration';
+
+    /**
+     * @var Client
+     */
+    private $client;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
+
+    public function store(string $id, array $data): void
+    {
+        foreach ($data as $id => $document) {
+            $this->client->index([
+                'index' => self::INDEX_NAME,
+                'type' => self::INDEX_NAME,
+                'id' => $id,
+                'body' => $document,
+            ]);
+        }
+    }
+}

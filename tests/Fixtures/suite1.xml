@@ -6,14 +6,15 @@
       <php version="7.1"/>
     </env>
     <benchmark class="HashingBench">
-      <subject name="benchMd5">
-        <variant sleep="10">
-          <stats max="0.953"/>
-        </variant>
-      </subject>
+        <subject name="benchMd5">
+            <variant sleep="10">
+                <iteration time-net="100" mem-peak="2000" comp-z-value="-0.47"/>
+                <stats max="0.953"/>
+            </variant>
+        </subject>
     </benchmark>
     <result key="time" class="PhpBench\Model\Result\TimeResult"/>
     <result key="mem" class="PhpBench\Model\Result\MemoryResult"/>
     <result key="comp" class="PhpBench\Model\Result\ComputedResult"/>
-  </suite>
+</suite>
 </phpbench>

@@ -7,6 +7,7 @@ use Elasticsearch\Client;
 use App\Domain\Store\VariantStore;
 use PhpBench\Dom\Element;
 use App\Domain\Store\SuiteStore;
+use App\Domain\Store\IterationStore;
 
 class Importer
 {
@@ -22,10 +23,16 @@ class Importer
      */
     private $suiteStore;
 
-    public function __construct(VariantStore $variantStore, SuiteStore $suiteStore)
+    /**
+     * @var IterationStore
+     */
+    private $iterationStore;
+
+    public function __construct(VariantStore $variantStore, SuiteStore $suiteStore, IterationStore $iterationStore)
     {
         $this->variantStore = $variantStore;
         $this->suiteStore = $suiteStore;
+        $this->iterationStore = $iterationStore;
     }
 
     public function import(Document $document)
@@ -36,7 +43,7 @@ class Importer
             $suiteUuid = $suiteDocument->getAttribute('uuid');
             $this->storeSuite($suiteUuid, $suiteDocument);
             $this->storeVariants($suiteDocument);
-
+            $this->storeIterations($suiteDocument);
         }
 
         if (null === $suiteUuid) {
@@ -69,8 +76,9 @@ class Importer
             foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
                 $document = array_merge($document, $this->flattenDocument($subjectDocument));
                 /** @var Element $variantDocument */
-                foreach ($subjectDocument->query('.//variant') as $variantDocument) {
+                foreach ($subjectDocument->query('.//variant') as $index => $variantDocument) {
                     $document = array_merge($document, $this->flattenDocument($variantDocument));
+                    $document['variant-index'] = $index;
                     foreach ($variantDocument->query('.//stats') as $statsDocument) {
                         $document = array_merge($document, $this->flattenDocument($statsDocument));
                     }
@@ -83,6 +91,30 @@ class Importer
         }
 
         $this->variantStore->store($identifier, $documents);
+    }
+
+    private function storeIterations(Element $suiteDocument)
+    {
+        $document = [
+            'suite-uuid' => $suiteDocument->getAttribute('uuid'),
+        ];
+        foreach ($suiteDocument->query('.//benchmark') as $benchmarkDocument) {
+            $document = array_merge($document, $this->flattenDocument($benchmarkDocument));
+            foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
+                $document = array_merge($document, $this->flattenDocument($subjectDocument));
+                foreach ($subjectDocument->query('.//variant') as $index => $variantDocument) {
+                    $document['variant-index'] = $index;
+                    foreach ($variantDocument->query('.//iteration') as $iterationDocument) {
+                        foreach ($iterationDocument->attributes as $attrName => $attrElement) {
+                            $document[$attrName] = $attrElement->nodeValue;
+                        }
+                    }
+                    $documents[] = $document;
+                }
+            }
+        }
+
+        $this->iterationStore->store(uniqid(), $documents);
     }
 
     private function flattenDocument(Element $element, string $basePrefix = '')
