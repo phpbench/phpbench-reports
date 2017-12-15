@@ -75,4 +75,22 @@ class ReportController
             'variantChart' => $variantChart,
         ]));
     }
+
+    /**
+     * @Route("/report/suite/{uuid}/benchmark/{class}/subject/{subject}/variant/{variant}", name="report_variant")
+     */
+    public function variant(Request $request)
+    {
+        $uuid = $request->attributes->get('uuid');
+        $class = $request->attributes->get('class');
+        $subject = $request->attributes->get('subject');
+        $variant = $request->attributes->get('variant');
+
+        return new Response($this->twig->render('report/report_variant.html.twig', [
+            'uuid' => $uuid,
+            'class' => $class,
+            'subject' => $subject,
+            'variant' => $variant,
+        ]));
+    }
 }

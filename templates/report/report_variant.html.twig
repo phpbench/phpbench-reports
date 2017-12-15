@@ -1,0 +1,6 @@
+{% extends "base.html.twig" %}
+{% block title %}Suite{% endblock %}
+{% block page_title %}Suite: <a href="{{ path('report_suite', { "uuid": uuid }) }}">{{ uuid }}</a>{% endblock %}
+{% block body %}
+<h3><a href="{{ path('report_benchmark', {'uuid': uuid, 'class': class}) }}">{{ class }}</a>::{{ subject }}#{{ variant }}</h3>
+{% endblock %}

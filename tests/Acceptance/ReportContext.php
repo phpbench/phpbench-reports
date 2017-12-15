@@ -65,6 +65,26 @@ class ReportContext implements Context
      */
     public function iClickBenchmark($class)
     {
-        $this->lastResponse = $this->kernel->handle(Request::create('/report/suite/' . $this->suiteUuid . '/benchmark/' . $class));
+        $this->lastResponse = $this->kernel->handle(Request::create(
+            '/report/suite/' . $this->suiteUuid . '/benchmark/' . $class
+        ));
+    }
+
+    /**
+     * @When I click variant :variant of subject :subject of benchmark :benchmark
+     */
+    public function iClickVariant($variant, $subject, $class)
+    {
+        $this->lastResponse = $this->kernel->handle(Request::create(
+            '/report/suite/' . $this->suiteUuid . '/benchmark/' . $class . '/subject/ ' . $subject . '/variant/' . $variant
+        ));
+    }
+
+    /**
+     * @Then I should see the iterations report
+     */
+    public function iShouldSeeTheIterationsReport()
+    {
+        Assert::assertContains('PHPBench Reports', $this->lastResponse->getContent());
     }
 }
