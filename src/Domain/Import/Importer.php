@@ -105,11 +105,13 @@ class Importer
                 foreach ($subjectDocument->query('.//variant') as $index => $variantDocument) {
                     $document['variant-index'] = $index;
                     foreach ($variantDocument->query('.//iteration') as $iterationDocument) {
+
                         foreach ($iterationDocument->attributes as $attrName => $attrElement) {
                             $document[$attrName] = $attrElement->nodeValue;
                         }
+
+                        $documents[] = $document;
                     }
-                    $documents[] = $document;
                 }
             }
         }

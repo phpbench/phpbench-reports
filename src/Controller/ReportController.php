@@ -10,6 +10,8 @@ use Twig\Environment;
 use App\Domain\Report\VariantReport;
 use App\Domain\Store\SuiteStore;
 use App\Domain\Report\EnvReport;
+use App\Domain\Report\IterationReport;
+use App\Domain\Store\IterationStore;
 
 class ReportController
 {
@@ -28,11 +30,22 @@ class ReportController
      */
     private $suiteStore;
 
-    public function __construct(VariantStore $variantStore, Environment $twig, SuiteStore $suiteStore)
+    /**
+     * @var IterationStore
+     */
+    private $iterationStore;
+
+    public function __construct(
+        VariantStore $variantStore,
+        Environment $twig,
+        SuiteStore $suiteStore,
+        IterationStore $iterationStore
+    )
     {
         $this->variantStore = $variantStore;
         $this->twig = $twig;
         $this->suiteStore = $suiteStore;
+        $this->iterationStore = $iterationStore;
     }
 
     /**
@@ -86,11 +99,16 @@ class ReportController
         $subject = $request->attributes->get('subject');
         $variant = $request->attributes->get('variant');
 
+        $iterationTable = IterationReport::iterations(
+            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
+        );
+
         return new Response($this->twig->render('report/report_variant.html.twig', [
             'uuid' => $uuid,
             'class' => $class,
             'subject' => $subject,
             'variant' => $variant,
+            'iterationTable' => $iterationTable,
         ]));
     }
 }

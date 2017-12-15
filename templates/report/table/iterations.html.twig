@@ -1,0 +1,26 @@
+<table class="ui table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Time Net</th>
+            <th>Mem Peak</th>
+            <th>Mem Real</th>
+            <th>Mem Final</th>
+            <th>Z-Value</th>
+            <th>Deviation</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for index, iteration in iterationTable %}
+        <tr>
+            <td>{{ index }}</td>
+            <td>{{ iteration['time-net'] | number_format() }}µs</td>
+            <td>{{ iteration['mem-peak'] | number_format() }}b</td>
+            <td>{{ iteration['mem-real'] | number_format() }}b</td>
+            <td>{{ iteration['mem-final'] | number_format() }}b</td>
+            <td>{{ iteration['comp-z-value'] | number_format(4) }}&sigma;</td>
+            <td>{{ iteration['comp-deviation'] | number_format(4) }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -30,4 +30,28 @@ class ElasticIterationStore implements IterationStore
             ]);
         }
     }
+
+    public function forSuiteUuidBenchmarkSubjectAndVariant(string $uuid, string $class, string $subject, string $variant)
+    {
+        $result = $this->client->search([
+            'index' => self::INDEX_NAME,
+            'type' => self::INDEX_NAME,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            [ 'term' => [ 'suite-uuid' => $uuid, ] ],
+                            [ 'term' => [ 'benchmark-class.keyword' => $class, ] ],
+                            [ 'term' => [ 'subject-name.keyword' => $subject, ] ],
+                            [ 'term' => [ 'variant-index' => $variant, ] ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        return array_map(function ($hit) {
+            return $hit['_source'];
+        }, $result['hits']['hits']);
+    }
 }
