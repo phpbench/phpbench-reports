@@ -50,11 +50,26 @@
     "elasticsearch/elasticsearch": {
         "version": "v6.0.1"
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.0"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.4.2"
+    },
     "guzzlehttp/ringphp": {
         "version": "1.1.0"
     },
     "guzzlehttp/streams": {
         "version": "3.0.0"
+    },
+    "league/oauth2-client": {
+        "version": "2.2.1"
+    },
+    "league/oauth2-github": {
+        "version": "2.0.0"
     },
     "lstrojny/functional-php": {
         "version": "1.6.0"
@@ -64,6 +79,9 @@
     },
     "myclabs/deep-copy": {
         "version": "1.7.0"
+    },
+    "paragonie/random_compat": {
+        "version": "v2.0.11"
     },
     "phar-io/manifest": {
         "version": "1.0.1"
@@ -118,6 +136,9 @@
     },
     "psr/container": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/log": {
         "version": "1.0.2"

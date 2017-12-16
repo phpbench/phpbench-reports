@@ -6,6 +6,7 @@
         "ext-iconv": "*",
         "behat/symfony2-extension": "^2.1",
         "elasticsearch/elasticsearch": "^6.0",
+        "league/oauth2-github": "^2.0",
         "lstrojny/functional-php": "^1.6",
         "markrogoyski/math-php": "^0.38.0",
         "phpbench/dom": "^0.2.0",
