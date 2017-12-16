@@ -35,8 +35,11 @@ class ElasticIterationStore implements IterationStore
     {
         $result = $this->client->search([
             'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
+            'size' => 1000,
             'body' => [
+                'sort' =>  [
+                    'index' => 'ASC',
+                ],
                 'query' => [
                     'bool' => [
                         'must' => [

@@ -84,6 +84,7 @@ class ImporterTest extends TestCase
                 'time-net' => 100,
                 'mem-peak' => 2000,
                 'comp-z-value' => -0.47,
+                'iteration' => 0,
             ])
         )->shouldBeCalled();
         $this->importer->import($document);

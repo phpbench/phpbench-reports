@@ -84,6 +84,7 @@ class ReportController
 
         return new Response($this->twig->render('report/report_benchmark.html.twig', [
             'uuid' => $uuid,
+            'class' => $class,
             'variantTables' => $variantTables,
             'variantChart' => $variantChart,
         ]));
@@ -105,6 +106,9 @@ class ReportController
         $iterationChart = IterationReport::chart(
             $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
         );
+        $histogramChart = IterationReport::histogram(
+            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
+        );
 
         return new Response($this->twig->render('report/report_variant.html.twig', [
             'uuid' => $uuid,
@@ -113,6 +117,7 @@ class ReportController
             'variant' => $variant,
             'iterationTable' => $iterationTable,
             'iterationChart' => $iterationChart,
+            'histogramChart' => $histogramChart,
         ]));
     }
 }

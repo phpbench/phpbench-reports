@@ -20,6 +20,7 @@
     } %}
 
     {% for subTitle, table in variantTables %}
+        <h3><a href="{{ path('report_benchmark', { "uuid": uuid, "class": subTitle }) }}">{{ subTitle }}</a></h3>
         {% include "report/table/benchmark.html.twig" %}
     {% endfor %}
 

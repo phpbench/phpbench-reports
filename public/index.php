@@ -31,6 +31,10 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
 
 $kernel = new Kernel($_SERVER['APP_ENV'] ?? 'dev', $_SERVER['APP_DEBUG'] ?? ('prod' !== ($_SERVER['APP_ENV'] ?? 'dev')));
 $request = Request::createFromGlobals();
+
+if ($request->headers->get('Content-Type') === 'application/json') {
+    $request->setRequestFormat('json');
+}
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);

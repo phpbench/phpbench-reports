@@ -1,4 +1,3 @@
-<h3><a href="{{ path('report_benchmark', { "uuid": uuid, "class": subTitle }) }}">{{ subTitle }}</a></h3>
 <table class="ui table">
     <thead>
         <tr>
@@ -8,6 +7,7 @@
             <th>Max</th>
             <th>Mean</th>
             <th>Mode</th>
+            <th>Stdev</th>
             <th>R-stdev</th>
         </tr>
     </thead>
@@ -21,7 +21,8 @@
             <td>{{ variant['stats-max'] | number_format('2') }}µs</td>
             <td>{{ variant['stats-mean'] | number_format('2') }}µs</td>
             <td>{{ variant['stats-mode'] | number_format('2') }}µs</td>
-            <td>{{ variant['stats-stdev'] | number_format('2') }}%</td>
+            <td>{{ variant['stats-stdev'] | number_format('2') }}µs</td>
+            <td>{{ variant['stats-rstdev'] | number_format('2') }}%</td>
         </tr>
         {% endfor %}
     </tbody>

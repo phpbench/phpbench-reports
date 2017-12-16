@@ -76,7 +76,7 @@ class ReportContext implements Context
     public function iClickVariant($variant, $subject, $class)
     {
         $this->lastResponse = $this->kernel->handle(Request::create(
-            '/report/suite/' . $this->suiteUuid . '/benchmark/' . $class . '/subject/ ' . $subject . '/variant/' . $variant
+            '/report/suite/' . $this->suiteUuid . '/benchmark/' . urlencode($class) . '/subject/' . $subject . '/variant/' . $variant
         ));
     }
 

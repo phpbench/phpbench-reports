@@ -10,4 +10,9 @@
     } %}
 
     {% include "report/table/iterations.html.twig" %}
+
+    {% include "report/chart/iterations_histogram.html.twig" with {
+        chartName: "histogramChart",
+        chart: histogramChart,
+    } %}
 {% endblock %}
