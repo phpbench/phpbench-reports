@@ -9,6 +9,12 @@ security:
         main:
             anonymous: ~
 
+            guard:
+                authenticators:
+                    - App\Auth\GithubGuardAuthenticator
+    access_control:
+        - { path: ^/profile, roles: ROLE_USER }
+
             # activate different ways to authenticate
 
             # http_basic: ~

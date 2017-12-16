@@ -16,8 +16,10 @@
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.0",
         "symfony/lts": "^4@dev",
+        "symfony/profiler-pack": "^1.0",
         "symfony/twig-bundle": "^4.0",
         "symfony/var-dumper": "^4.0",
+        "symfony/web-profiler-bundle": "^4.0",
         "symfony/yaml": "^4.0",
         "twig/extensions": "^1.5"
     },
