@@ -1,3 +1,11 @@
+php:
+    build: .
+    volumes: 
+        - .:/project
+    links:
+        - elasticsearch
+        - mysql
+
 web:
     image: nginx:latest
     ports: 
@@ -7,15 +15,17 @@ web:
         - ./docker/site.conf:/etc/nginx/conf.d/default.conf
     links:
         - php
-php:
-    image: php:7-fpm
-    volumes: 
-        - .:/project
-    links:
-        - elasticsearch
+
+mysql:
+    image: mysql:latest
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+    ports:
+        - "3307:3306"
 
 elasticsearch:
     image: elasticsearch:latest
     environment: []
     ports:
         - "9201:9200"
+
