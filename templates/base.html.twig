@@ -15,7 +15,7 @@
                     <a href="{{ path('home') }}"><img src="/phpbench.png" /></a>
                 </div>
                 <div class="item">
-                    <h1>PHPBench Reports</h1>
+                    <h2>{% block page_title %}PHPBench Reports{% endblock %}</h2>
                 </div>
                 <div class="item right aligned">
                 {% if is_granted('ROLE_USER') %}
@@ -26,7 +26,6 @@
                 </div>
             </div>
 
-            <h2>{% block page_title %}{% endblock %}</h2>
             {% block body %}{% endblock %}
             {% block javascripts %}{% endblock %}
         <br/><br/><br/>

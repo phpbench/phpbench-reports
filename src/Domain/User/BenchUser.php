@@ -9,4 +9,6 @@ interface BenchUser
     public function vendorId(): string;
 
     public function username(): string;
+
+    public function apiKey(): string;
 }

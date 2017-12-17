@@ -7,6 +7,8 @@ default:
                     importerService: '@App\Service\ImporterService'
                 - App\Tests\Acceptance\ImportContext:
                     kernel: '@kernel'
+                - App\Tests\Acceptance\UserContext:
+                    kernel: '@kernel'
 
     extensions:
         Behat\Symfony2Extension:
@@ -14,3 +16,7 @@ default:
                 bootstrap: vendor/autoload.php
                 class: App\Kernel
                 env: test
+        Behat\MinkExtension:
+            sessions:
+                my_session:
+                    symfony2: ~

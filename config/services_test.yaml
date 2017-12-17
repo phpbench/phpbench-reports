@@ -1,5 +1,15 @@
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     github_client_id: 1234 
     github_client_secret: 1234
+
+services:
+    _defaults:
+        public: true
+
+    App\Infrastructure\Doctrine\Repository\DoctrineUserRepository:
+        public: true
+        autowire: true
+
+doctrine:
+    dbal:
+        url: mysql://root:root@mysql:3306/phpbench_reports_test

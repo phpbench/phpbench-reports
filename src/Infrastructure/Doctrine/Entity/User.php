@@ -30,14 +30,26 @@ class User implements UserInterface, BenchUser
     private $vendorId;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $password;
 
-    public function __construct(string $username, string $vendorId)
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $apiKey;
+
+    public function __construct(string $username, string $vendorId, string $apiKey, string $password = null)
     {
         $this->username = $username;
         $this->vendorId = $vendorId;
+        $this->password = $password;
+        $this->apiKey = $apiKey;
+    }
+
+    public function updateApiKey(string $apiKey)
+    {
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -86,5 +98,10 @@ class User implements UserInterface, BenchUser
     public function username(): string
     {
         return $this->username;
+    }
+
+    public function apiKey(): string
+    {
+        return $this->apiKey;
     }
 }

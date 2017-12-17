@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController
 {
@@ -25,5 +26,6 @@ class ProfileController
      */
     public function profile(Request $request)
     {
+        return new Response($this->twig->render('user/profile.html.twig'));
     }
 }
