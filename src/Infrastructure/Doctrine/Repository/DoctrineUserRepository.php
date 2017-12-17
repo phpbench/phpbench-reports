@@ -28,9 +28,10 @@ class DoctrineUserRepository implements BenchUserRepository
         $this->tokenGenerator = $tokenGenerator;
     }
 
-    public function create(string $username, string $vendorId, string $password = null): BenchUser
+    public function create(string $username, string $vendorId, string $password = null, $apiKey = null): BenchUser
     {
-        $user = new User($username, $vendorId, $this->tokenGenerator->generate(), $password);
+        $apiKey = $apiKey ?: $this->tokenGenerator->generate();
+        $user = new User($username, $vendorId, $apiKey, $password);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
@@ -61,6 +62,22 @@ class DoctrineUserRepository implements BenchUserRepository
                 ->from(User::class, 'u')
                 ->where('u.username = :username')
                 ->setParameter('username', $username)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+        }
+
+        return null;
+    }
+
+    public function findByApiKey($apiKey):? BenchUser
+    {
+        try {
+            return $this->entityManager->createQueryBuilder()
+                ->select('u')
+                ->from(User::class, 'u')
+                ->where('u.apiKey = :apiKey')
+                ->setParameter('apiKey', $apiKey)
                 ->getQuery()
                 ->getSingleResult();
         } catch (NoResultException $e) {

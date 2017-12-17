@@ -9,10 +9,17 @@ security:
         App\Infrastructure\Doctrine\Entity\User:
             algorithm: bcrypt
             cost: 12
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        import:
+            pattern: ^/import
+            stateless: true
+            guard:
+                authenticators:
+                    - App\Auth\ApiKeyAuthenticator
         main:
             anonymous: ~
             logout: ~
@@ -23,3 +30,7 @@ security:
             guard:
                 authenticators:
                     - App\Auth\GithubGuardAuthenticator
+
+    access_control:
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/import, roles: ROLE_USER }

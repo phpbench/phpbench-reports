@@ -35,7 +35,7 @@ class User implements UserInterface, BenchUser
     private $password;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      */
     private $apiKey;
 

@@ -11,4 +11,6 @@ interface BenchUserRepository
     public function findByVendorId($githubId):? BenchUser;
 
     public function findByUsername(string $username):? BenchUser;
+
+    public function findByApiKey($credentials):? BenchUser;
 }

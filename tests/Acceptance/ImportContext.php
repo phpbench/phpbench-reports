@@ -26,21 +26,31 @@ class ImportContext implements Context
     }
 
     /**
-     * @When I upload the suite :filename
+     * @When I post the suite :filename with API key :apiKey
      */
-    public function iUploadTheSuite($filename)
+    public function iUploadTheSuite($filename, $apiKey)
     {
         $path = __DIR__ . '/../Fixtures/' . $filename;
-        $this->response = $this->kernel->handle(Request::create(
+        $request = Request::create(
             '/import',
             'POST',
             [], [], [], [],
             file_get_contents($path)
-        ));
+        );
+        $request->headers->set('X-API-Key', $apiKey);
+        $this->response = $this->kernel->handle($request);
     }
 
     /**
-     * @Then I should a confirmation with the URL :arg1
+     * @Then the HTTP status should be :code
+     */
+    public function theHttpStatusShouldBe($code)
+    {
+        Assert::assertEquals($code, $this->response->getStatusCode());
+    }
+
+    /**
+     * @Then I receive confirmation with the URL :arg1
      */
     public function iShouldAConfirmationWithTheUrl($url)
     {

@@ -29,14 +29,22 @@ class UserContext extends RawMinkContext implements Context
     }
     /**
      * @Given the user :user exists
+     * @Given the user :user exists with api key :apiKey
      */
-    public function theUserExists($username)
+    public function theUserExists($username, $apiKey = null)
     {
+        $apiKey = $apiKey ?? uniqid();
+
         /** @var DoctrineUserRepository $userRepository */
         $userRepository = $this->kernel->getContainer()->get(DoctrineUserRepository::class);
 
         if (null === $user = $userRepository->findByUsername($username)) {
-            $user = $userRepository->create($username, 1, '$2y$12$C8sHO2VzPQG0igceHzAG/eYwGmFFciJXq4VMa3BnFDUjsLnGwrYaK'); // p/w: test
+            $user = $userRepository->create(
+                $username,
+                uniqid(),
+                '$2y$12$C8sHO2VzPQG0igceHzAG/eYwGmFFciJXq4VMa3BnFDUjsLnGwrYaK', // "test"
+                $apiKey
+            );
         }
         $this->user = $user;
     }
