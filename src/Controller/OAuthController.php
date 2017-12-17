@@ -23,7 +23,10 @@ class OAuthController
     private $urlGenerator;
 
 
-    public function __construct(ProviderFactory $providerFactory, UrlGeneratorInterface $urlGenerator)
+    public function __construct(
+        ProviderFactory $providerFactory,
+        UrlGeneratorInterface $urlGenerator
+    )
     {
         $this->providerFactory = $providerFactory;
         $this->urlGenerator = $urlGenerator;
@@ -42,12 +45,6 @@ class OAuthController
      */
     public function check(Request $request)
     {
-        $provider = $this->providerFactory->githubProvider();
-        $token = $provider->getAccessToken('authorization_code', [
-            'code' => $request->query->get('code'),
-        ]);
-        $user = $provider->getResourceOwner($token);
-
-        return new Response('Welcome ' .$user->getNickname(), 200);
+        return new Response('Fuck', 200);
     }
 }

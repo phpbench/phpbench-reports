@@ -14,6 +14,11 @@ use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Psr\Log\LoggerInterface;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use League\OAuth2\Client\Provider\GithubResourceOwner;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use App\Domain\User\BenchUserRepository;
 
 class GithubGuardAuthenticator implements AuthenticatorInterface
 {
@@ -27,13 +32,27 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
      */
     private $providerFactory;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @var BenchUserRepository
+     */
+    private $userRepository;
+
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
-        ProviderFactory $providerFactory
+        LoggerInterface $logger,
+        ProviderFactory $providerFactory,
+        BenchUserRepository $userRepository
     )
     {
         $this->urlGenerator = $urlGenerator;
         $this->providerFactory = $providerFactory;
+        $this->logger = $logger;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -52,7 +71,9 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
      */
     public function supports(Request $request)
     {
-        return $request->query->has('code');
+        // TODO: Check URL
+        $supports = $request->query->has('code');
+        return $supports;
     }
 
     /**
@@ -65,19 +86,25 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
         $token = $provider->getAccessToken('authorization_code', [
             'code' => $request->query->get('code')
         ]);
-        $user = $provider->getResourceOwner($token);
 
-        return $user;
+        return $token;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function getUser($token, UserProviderInterface $userProvider)
     {
-        return new User($credentials->getNickname(), null, [
-            'ROLE_USER',
-        ]);
+        $provider = $this->providerFactory->githubProvider();
+        $owner = $provider->getResourceOwner($token);
+        $githubId = $owner->getId();
+        $user = $this->userRepository->findByVendorId($githubId);
+
+        if (null === $user) {
+            $user = $this->userRepository->create($owner->getNickname(), $githubId);
+        }
+
+        return $user;
     }
 
     /**

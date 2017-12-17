@@ -1,7 +1,10 @@
 security:
     # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        database:
+            entity:
+                class: App\Infrastructure\Doctrine\Entity\User
+                property: apiKey
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -9,3 +12,6 @@ security:
         main:
             anonymous: ~
             logout: ~
+            guard:
+                authenticators:
+                    - App\Auth\GithubGuardAuthenticator
