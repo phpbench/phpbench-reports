@@ -14,10 +14,12 @@ class User implements UserInterface, BenchUser
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
+
 
     /**
      * @ORM\Column(type="string", unique=true)

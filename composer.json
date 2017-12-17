@@ -9,6 +9,8 @@
         "lstrojny/functional-php": "^1.6",
         "markrogoyski/math-php": "^0.38.0",
         "phpbench/dom": "^0.2.0",
+        "ramsey/uuid": "^3.7",
+        "ramsey/uuid-doctrine": "^1.4",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/console": "^4.0",
         "symfony/finder": "^4.0",
