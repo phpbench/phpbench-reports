@@ -85,6 +85,6 @@ class ReportContext implements Context
      */
     public function iShouldSeeTheIterationsReport()
     {
-        Assert::assertContains('PHPBench Reports', $this->lastResponse->getContent());
+        Assert::assertContains('Mem Peak', $this->lastResponse->getContent());
     }
 }

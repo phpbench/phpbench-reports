@@ -5,6 +5,8 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="stylesheet"  href="/assets/semantic.min.css">
+        <script src="/assets/jquery.min.js"></script>
+        <script src="/assets/semantic.min.js"></script>
         <script src="/assets/Chart.min.js"></script>
         <script src="/assets/chartjs-plugin-annotation.min.js"></script>
     </head>
@@ -14,20 +16,36 @@
                 <div class="item">
                     <a href="{{ path('home') }}"><img src="/phpbench.png" /></a>
                 </div>
+
                 <div class="item">
                     <h2>{% block page_title %}PHPBench Reports{% endblock %}</h2>
                 </div>
-                <div class="item right aligned">
+
                 {% if is_granted('ROLE_USER') %}
-                    <a href="{{ path('disconnect') }}"  title="Connected as {{ app.user.username }}" class="ui button">Logout</a>
+
+                    <div class="ui dropdown item right">
+                        {{ app.user.username }}
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <a class="item" href="{{ path('profile') }}"><i class="icon user"></i> Profile</a>
+                            <a class="item" href="{{ path('disconnect') }}"><i class="icon sign out"></i> Logout</a>
+                        </div>
+                    </div>
                 {% else %}
-                    <a href="{{ path('login') }}" class="ui button"><i class="icon github"></i>Login</a>
+                    <div class="item right aligned">
+                        <a href="{{ path('login') }}" class="ui button"><i class="icon github"></i>Login</a>
+                    </div>
                 {% endif %}
-                </div>
             </div>
 
             {% block body %}{% endblock %}
-            {% block javascripts %}{% endblock %}
+            {% block javascripts %}
+                <script>
+        $(document).ready(function () {
+            $('.ui.dropdown').dropdown();
+        })
+                </script>
+            {% endblock %}
         <br/><br/><br/>
         <hr/>
         <center>
