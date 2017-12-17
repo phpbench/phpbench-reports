@@ -44,6 +44,9 @@ class Importer
             $this->storeSuite($suiteUuid, $suiteDocument);
             $this->storeVariants($suiteDocument);
             $this->storeIterations($suiteDocument);
+
+            // only one suite supported per file
+            break;
         }
 
         if (null === $suiteUuid) {
@@ -55,9 +58,10 @@ class Importer
         return $suiteUuid;
     }
 
-    private function storeSuite(string $identifier, $suiteDocument)
+    private function storeSuite(string $identifier, Element $suiteDocument)
     {
         $document = $this->flattenDocument($suiteDocument);
+        $document['user-id'] = $suiteDocument->parentNode->getAttribute('user-id');
         foreach ($suiteDocument->query('.//env/*') as $envDocument) {
             $document = array_merge($document, $this->flattenDocument($envDocument, 'env'));
         }

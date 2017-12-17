@@ -35,12 +35,12 @@ class ReportContext implements Context
     }
 
     /**
-     * @Given I have submitted the suite :filename
+     * @Given I have submitted the suite :filename as :username
      */
-    public function iHaveSubmittedTheSuite(string $filename)
+    public function iHaveSubmittedTheSuite(string $filename, string $username)
     {
         $path = __DIR__ . '/../Fixtures/' . $filename;
-        $this->suiteUuid = $this->importerService->importFromFile($path);
+        $this->suiteUuid = $this->importerService->importFromFile($path, $username);
     }
 
     /**

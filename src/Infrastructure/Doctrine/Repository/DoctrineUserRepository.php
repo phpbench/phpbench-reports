@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\User\BenchUser;
 use Doctrine\ORM\NoResultException;
 use App\Domain\User\TokenGenerator;
+use RuntimeException;
 
 class DoctrineUserRepository implements BenchUserRepository
 {
@@ -54,6 +55,20 @@ class DoctrineUserRepository implements BenchUserRepository
         return null;
     }
 
+    public function findByUsernameOrExplode(string $username): BenchUser
+    {
+        $user = $this->findByUsername($username);
+
+        if ($user) {
+            return $user;
+        }
+
+        throw new RuntimeException(sprintf(
+            'Could not find user by username "%s"',
+            $username
+        ));
+    }
+
     public function findByUsername(string $username):? BenchUser
     {
         try {
@@ -68,6 +83,18 @@ class DoctrineUserRepository implements BenchUserRepository
         }
 
         return null;
+    }
+
+    public function findByApiKeyOrExplode($apiKey): BenchUser
+    {
+        if ($user = $this->findByApiKey($apiKey)) {
+            return $user;
+        }
+
+        throw new RuntimeException(sprintf(
+            'Could not find user with API key "%s"',
+            $apiKey
+        ));
     }
 
     public function findByApiKey($apiKey):? BenchUser

@@ -10,15 +10,17 @@ use PhpBench\Dom\Document;
 use App\Domain\Import\Importer;
 use Symfony\Component\Finder\Finder;
 use RuntimeException;
+use App\Service\ImporterService;
+use Symfony\Component\Console\Input\InputOption;
 
 class ImportCommand extends Command
 {
     /**
-     * @var Importer
+     * @var ImporterService
      */
     private $importer;
 
-    public function __construct(Importer $importer)
+    public function __construct(ImporterService $importer)
     {
         $this->importer = $importer;
         parent::__construct();
@@ -28,6 +30,7 @@ class ImportCommand extends Command
     {
         $this->setName('phpbench:import');
         $this->addArgument('path', InputArgument::REQUIRED, 'PHPBench XML file');
+        $this->addOption('username', 'u', InputOption::VALUE_REQUIRED, 'Username');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -52,18 +55,10 @@ class ImportCommand extends Command
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
-            $this->import($output, $file->getPathname());
+            $output->writeln(sprintf('<info>Importing</> <comment>"</>%s<comment>"</>', $file->getPathname()));
+            $this->importer->importFromFile($file->getPathname(), $input->getOption('username'));
         }
 
         $output->writeln('Done');
-    }
-
-    private function import(OutputInterface $output, string $path)
-    {
-        $output->writeln(sprintf('<info>Importing</> <comment>"</>%s<comment>"</>', $path));
-        $document = new Document();
-        $document->loadXML(file_get_contents($path));
-
-        $this->importer->import($document);
     }
 }

@@ -106,4 +106,9 @@ class User implements UserInterface, BenchUser
     {
         return $this->apiKey;
     }
+
+    public function id(): string
+    {
+        return $this->id;
+    }
 }
