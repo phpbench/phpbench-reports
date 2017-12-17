@@ -41,6 +41,14 @@ class OAuthController
     }
 
     /**
+     * @Route("/logout", name="disconnect")
+     */
+    public function disconnect(Request $request)
+    {
+        return new RedirectResponse('home');
+    }
+
+    /**
      * @Route("/connect/check", name="connect_check")
      */
     public function check(Request $request)

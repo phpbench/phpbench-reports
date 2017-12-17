@@ -4,7 +4,7 @@ namespace App\Domain\User;
 
 interface BenchUser
 {
-    const ROLE_USER = 'user';
+    const ROLE_USER = 'ROLE_USER';
 
     public function vendorId(): string;
 

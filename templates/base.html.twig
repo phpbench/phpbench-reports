@@ -11,7 +11,12 @@
     <body>
         <div class="ui container">
         <h1>PHPBench Reports</h1>
-        <a href="{{ path('connect') }}" class="button">Signin</a>
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('disconnect') }}" class="ui button">Disconnect</a>
+            Connected as {{ app.user.username }} 
+        {% else %}
+        <a href="{{ path('connect') }}" class="ui button"><i class="icon github"></i>Connect with Github</a>
+        {% endif %}
         <h2>{% block page_title %}{% endblock %}</h2>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
