@@ -8,17 +8,4 @@ security:
             security: false
         main:
             anonymous: ~
-
-            guard:
-                authenticators:
-                    - App\Auth\GithubGuardAuthenticator
-    access_control:
-        - { path: ^/profile, roles: ROLE_USER }
-
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # https://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            logout: ~
