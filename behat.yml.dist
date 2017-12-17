@@ -13,3 +13,4 @@ default:
             kernel:
                 bootstrap: vendor/autoload.php
                 class: App\Kernel
+                env: test

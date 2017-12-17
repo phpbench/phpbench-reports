@@ -38,7 +38,7 @@ class ElasticIterationStore implements IterationStore
             'size' => 1000,
             'body' => [
                 'sort' =>  [
-                    'index' => 'ASC',
+                    'iteration' => 'ASC',
                 ],
                 'query' => [
                     'bool' => [
