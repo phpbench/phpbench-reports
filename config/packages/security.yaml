@@ -4,7 +4,11 @@ security:
         database:
             entity:
                 class: App\Infrastructure\Doctrine\Entity\User
-                property: apiKey
+                property: username
+    encoders:
+        App\Infrastructure\Doctrine\Entity\User:
+            algorithm: bcrypt
+            cost: 12
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -12,6 +16,9 @@ security:
         main:
             anonymous: ~
             logout: ~
+            form_login:
+                login_path: login
+                check_path: login
             guard:
                 authenticators:
                     - App\Auth\GithubGuardAuthenticator

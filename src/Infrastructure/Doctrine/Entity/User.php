@@ -29,6 +29,11 @@ class User implements UserInterface, BenchUser
      */
     private $vendorId;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
     public function __construct(string $username, string $vendorId)
     {
         $this->username = $username;
@@ -48,8 +53,8 @@ class User implements UserInterface, BenchUser
      */
     public function getPassword()
     {
+        return $this->password;
     }
-
 
     /**
      * {@inheritDoc}

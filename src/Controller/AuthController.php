@@ -10,8 +10,10 @@ use App\Auth\ProviderFactory;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Auth\Provider;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Twig\Environment;
 
-class OAuthController
+class AuthController
 {
     /**
      * @var Provider
@@ -23,13 +25,41 @@ class OAuthController
      */
     private $urlGenerator;
 
+    /**
+     * @var AuthenticationUtils
+     */
+    private $authUtils;
+
+    /**
+     * @var Environment
+     */
+    private $twig;
+
     public function __construct(
         Provider $provider,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        AuthenticationUtils $authUtils,
+        Environment $twig
     )
     {
         $this->provider = $provider;
         $this->urlGenerator = $urlGenerator;
+        $this->authUtils = $authUtils;
+        $this->twig = $twig;
+    }
+
+    /**
+     * @Route("/login", name="login")
+     */
+    public function login()
+    {
+        $error = $this->authUtils->getLastAuthenticationError();
+        $lastUsername = $this->authUtils->getLastUsername();
+
+        return new Response($this->twig->render('user/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]));
     }
 
     /**
@@ -53,6 +83,5 @@ class OAuthController
      */
     public function check(Request $request)
     {
-        return new Response('Fuck', 200);
     }
 }

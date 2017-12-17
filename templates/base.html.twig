@@ -10,21 +10,30 @@
     </head>
     <body>
         <div class="ui container">
-        <h1>PHPBench Reports</h1>
-        {% if is_granted('ROLE_USER') %}
-            <a href="{{ path('disconnect') }}" class="ui button">Disconnect</a>
-            Connected as {{ app.user.username }} 
-        {% else %}
-        <a href="{{ path('connect') }}" class="ui button"><i class="icon github"></i>Connect with Github</a>
-        {% endif %}
-        <h2>{% block page_title %}{% endblock %}</h2>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-        </div>
+            <div class="ui top menu">
+                <div class="item">
+                    <a href="{{ path('home') }}"><img src="/phpbench.png" /></a>
+                </div>
+                <div class="item">
+                    <h1>PHPBench Reports</h1>
+                </div>
+                <div class="item right aligned">
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('disconnect') }}"  title="Connected as {{ app.user.username }}" class="ui button">Logout</a>
+                {% else %}
+                    <a href="{{ path('login') }}" class="ui button"><i class="icon github"></i>Login</a>
+                {% endif %}
+                </div>
+            </div>
+
+            <h2>{% block page_title %}{% endblock %}</h2>
+            {% block body %}{% endblock %}
+            {% block javascripts %}{% endblock %}
         <br/><br/><br/>
         <hr/>
         <center>
         Made badly by Daniel Leech in 2017
         </center>
+        </div>
     </body>
 </html>
