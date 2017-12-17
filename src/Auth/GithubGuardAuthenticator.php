@@ -19,6 +19,7 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Provider\GithubResourceOwner;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use App\Domain\User\BenchUserRepository;
+use App\Auth\Provider;
 
 class GithubGuardAuthenticator implements AuthenticatorInterface
 {
@@ -26,11 +27,6 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
      * @var UrlGeneratorInterface
      */
     private $urlGenerator;
-
-    /**
-     * @var ProviderFactory
-     */
-    private $providerFactory;
 
     /**
      * @var LoggerInterface
@@ -42,17 +38,22 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
      */
     private $userRepository;
 
+    /**
+     * @var Provider
+     */
+    private $provider;
+
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         LoggerInterface $logger,
-        ProviderFactory $providerFactory,
+        Provider $provider,
         BenchUserRepository $userRepository
     )
     {
         $this->urlGenerator = $urlGenerator;
-        $this->providerFactory = $providerFactory;
         $this->logger = $logger;
         $this->userRepository = $userRepository;
+        $this->provider = $provider;
     }
 
     /**
@@ -81,11 +82,7 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
      */
     public function getCredentials(Request $request)
     {
-        $provider = $this->providerFactory->githubProvider();
-
-        $token = $provider->getAccessToken('authorization_code', [
-            'code' => $request->query->get('code')
-        ]);
+        $token = $this->provider->accessToken($request->query->get('code'));
 
         return $token;
     }
@@ -95,8 +92,7 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
      */
     public function getUser($token, UserProviderInterface $userProvider)
     {
-        $provider = $this->providerFactory->githubProvider();
-        $owner = $provider->getResourceOwner($token);
+        $owner = $this->provider->resourceOwner($token);
         $githubId = $owner->getId();
         $user = $this->userRepository->findByVendorId($githubId);
 

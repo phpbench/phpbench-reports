@@ -9,35 +9,35 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Auth\ProviderFactory;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
+use App\Auth\Provider;
 
 class OAuthController
 {
     /**
-     * @var ProviderFactory
+     * @var Provider
      */
-    private $providerFactory;
+    private $provider;
 
     /**
      * @var UrlGeneratorInterface
      */
     private $urlGenerator;
 
-
     public function __construct(
-        ProviderFactory $providerFactory,
+        Provider $provider,
         UrlGeneratorInterface $urlGenerator
     )
     {
-        $this->providerFactory = $providerFactory;
+        $this->provider = $provider;
         $this->urlGenerator = $urlGenerator;
     }
 
     /**
      * @Route("/connect", name="connect")
      */
-    public function connect(Request $request)
+    public function connect()
     {
-        return new RedirectResponse($this->providerFactory->githubProvider()->getAuthorizationUrl());
+        return new RedirectResponse($this->provider->authorizationUrl());
     }
 
     /**

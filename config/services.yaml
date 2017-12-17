@@ -42,8 +42,7 @@ services:
     App\Service\ImporterService:
         public: true
 
-    App\Auth\ProviderFactory:
+    App\Auth\Provider\GithubProvider:
         arguments:
-            - "@Symfony\\Component\\Routing\\Generator\\UrlGeneratorInterface"
             - "%github_client_id%"
             - "%github_client_secret%"
