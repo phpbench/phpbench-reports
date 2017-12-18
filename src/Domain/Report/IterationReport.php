@@ -12,9 +12,15 @@ class IterationReport
      */
     private $iterationStore;
 
-    public function __construct(IterationStore $iterationStore)
+    /**
+     * @var IterationTabulator
+     */
+    private $tabulator;
+
+    public function __construct(IterationStore $iterationStore, IterationTabulator $tabulator)
     {
         $this->iterationStore = $iterationStore;
+        $this->tabulator = $tabulator;
     }
 
     public function iterationsForUuidClassSubjectAndVariant(
@@ -24,21 +30,19 @@ class IterationReport
         string $variant
     ): array
     {
-        return IterationTabulator::iterations(
-            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
-        );
+        return $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant);
     }
 
     public function chartForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant)
     {
-        return IterationTabulator::chart(
+        return $this->tabulator->chart(
             $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
         );
     }
 
     public function histogramForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant)
     {
-        return IterationTabulator::histogram(
+        return $this->tabulator->histogram(
             $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
         );
 

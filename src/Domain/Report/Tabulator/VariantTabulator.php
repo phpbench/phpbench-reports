@@ -6,7 +6,7 @@ use Functional as F;
 
 class VariantTabulator
 {
-    public static function aggregate(array $dataSet)
+    public function aggregate(array $dataSet)
     {
         $config = array_merge([
             'groups' => [ 'benchmark-class' ],

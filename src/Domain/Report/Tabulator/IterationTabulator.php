@@ -7,12 +7,7 @@ use App\Domain\Math\Statistics;
 
 class IterationTabulator
 {
-    public static function iterations(array $dataSet)
-    {
-        return $dataSet;
-    }
-
-    public static function chart(array $dataSet)
+    public function chart(array $dataSet)
     {
         $data = [];
         $labels = array_map(function (array $data) {
@@ -30,7 +25,7 @@ class IterationTabulator
         ];
     }
 
-    public static function histogram(array $dataSet)
+    public function histogram(array $dataSet)
     {
         $series = array_map(function (array $data) {
             return $data['time-net'];
