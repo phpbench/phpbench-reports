@@ -39,7 +39,7 @@ class ElasticVariantStore implements VariantStore
             'body' => [
                 'query' => [
                     'match' => [
-                        'suite-uuid' => $uuid,
+                        'suite-uuid.keyword' => $uuid,
                     ],
                 ],
             ],
@@ -59,7 +59,7 @@ class ElasticVariantStore implements VariantStore
                 'query' => [
                     'bool' => [
                         'must' => [
-                            [ 'term' => [ 'suite-uuid' => $uuid, ] ],
+                            [ 'term' => [ 'suite-uuid.keyword' => $uuid, ] ],
                             [ 'term' => [ 'benchmark-class.keyword' => $class, ] ],
                         ],
                     ],

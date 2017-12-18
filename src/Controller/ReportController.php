@@ -12,6 +12,8 @@ use App\Domain\Store\SuiteStore;
 use App\Domain\Report\EnvReport;
 use App\Domain\Report\IterationReport;
 use App\Domain\Store\IterationStore;
+use App\Domain\User\BenchUserRepository;
+use App\Domain\Report\UserReport;
 
 class ReportController
 {
@@ -35,17 +37,52 @@ class ReportController
      */
     private $iterationStore;
 
+    /**
+     * @var BenchUserRepository
+     */
+    private $userRepository;
+
     public function __construct(
         VariantStore $variantStore,
         Environment $twig,
         SuiteStore $suiteStore,
-        IterationStore $iterationStore
+        IterationStore $iterationStore,
+        BenchUserRepository $userRepository
     )
     {
         $this->variantStore = $variantStore;
         $this->twig = $twig;
         $this->suiteStore = $suiteStore;
         $this->iterationStore = $iterationStore;
+        $this->userRepository = $userRepository;
+    }
+
+    /**
+     * @Route("/", name="home")
+     */
+    public function allSuites(Request $request)
+    {
+        // TODO: Rename user report => suites report (or remove completely)
+        $suitesReport = UserReport::list($this->suiteStore->all());
+
+        return new Response($this->twig->render('report/report_all_suites.html.twig', [
+            'suitesReport' => $suitesReport,
+        ]));
+    }
+
+    /**
+     * @Route("/user/{username}", name="report_user")
+     */
+    public function user(Request $request)
+    {
+        $username = $request->attributes->get('username');
+        $user = $this->userRepository->findByUsernameOrExplode($username);
+        $suitesReport = UserReport::list($this->suiteStore->forUserId($user->id()));
+
+        return new Response($this->twig->render('report/report_user.html.twig', [
+            'username' => $username,
+            'suitesReport' => $suitesReport,
+        ]));
     }
 
     /**

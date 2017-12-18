@@ -1,0 +1,6 @@
+{% extends "base.html.twig" %}
+{% block title %}Suite{% endblock %}
+{% block page_title %}{{ username }}{% endblock %}
+{% block body %}
+{% include "report/table/user_suites.html.twig" with { table: suitesReport } %}
+{% endblock %}

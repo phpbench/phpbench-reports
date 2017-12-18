@@ -9,6 +9,7 @@ default:
                     kernel: '@kernel'
                 - App\Tests\Acceptance\UserContext:
                     kernel: '@kernel'
+                - Behat\MinkExtension\Context\MinkContext
 
     extensions:
         Behat\Symfony2Extension:

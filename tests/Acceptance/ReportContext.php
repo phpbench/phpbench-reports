@@ -9,8 +9,9 @@ use App\Service\ImporterService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use PHPUnit\Framework\Assert;
+use Behat\MinkExtension\Context\RawMinkContext;
 
-class ReportContext implements Context
+class ReportContext extends RawMinkContext implements Context
 {
     /**
      * @var KernelInterface
@@ -44,20 +45,11 @@ class ReportContext implements Context
     }
 
     /**
-     * @When I view the resulting report
-     * @When am viewing the resulting report
-     */
-    public function iViewTheResultingReport()
-    {
-        $this->lastResponse = $this->kernel->handle(Request::create('/report/suite/' . $this->suiteUuid));
-    }
-
-    /**
      * @Then I should see the results for :subject
      */
     public function iShouldSeeTheResultsFor(string $subject)
     {
-        Assert::assertContains($subject, $this->lastResponse->getContent());
+        Assert::assertContains($subject, $this->getSession()->getPage()->getContent());
     }
 
     /**
@@ -65,19 +57,15 @@ class ReportContext implements Context
      */
     public function iClickBenchmark($class)
     {
-        $this->lastResponse = $this->kernel->handle(Request::create(
-            '/report/suite/' . $this->suiteUuid . '/benchmark/' . $class
-        ));
+        $this->getSession()->getPage()->clickLink($class);
     }
 
     /**
-     * @When I click variant :variant of subject :subject of benchmark :benchmark
+     * @When I click variant :variant
      */
-    public function iClickVariant($variant, $subject, $class)
+    public function iClickVariant($variant)
     {
-        $this->lastResponse = $this->kernel->handle(Request::create(
-            '/report/suite/' . $this->suiteUuid . '/benchmark/' . urlencode($class) . '/subject/' . $subject . '/variant/' . $variant
-        ));
+        $this->getSession()->getPage()->clickLink($variant);
     }
 
     /**
@@ -85,6 +73,31 @@ class ReportContext implements Context
      */
     public function iShouldSeeTheIterationsReport()
     {
-        Assert::assertContains('Mem Peak', $this->lastResponse->getContent());
+        Assert::assertNotNull($this->getSession()->getPage()->find(
+            'css',
+            'table.ac-iterations'
+        ), 'Iterations table is present');
+    }
+
+    /**
+     * @Then the suite with UUID :arg1 should be listed
+     */
+    public function theSuiteWithUuidShouldBeListed($arg1)
+    {
+        Assert::assertNotNull($this->getSession()->getPage()->find(
+            'xpath',
+            '//td[contains(., \'' . $arg1 . '\')]'
+        ), 'Suite UUID is present');
+    }
+
+    /**
+     * @Then all suites should be listed
+     */
+    public function allSitesAreListed()
+    {
+        Assert::assertNotNull($this->getSession()->getPage()->find(
+            'css',
+            'table.ac-suites'
+        ), 'Suites table is present');
     }
 }

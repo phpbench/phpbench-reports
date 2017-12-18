@@ -28,6 +28,7 @@
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <a class="item" href="{{ path('profile') }}"><i class="icon user"></i> Profile</a>
+                            <a class="item" href="{{ path('report_user', { 'username': app.user.username }) }}"><i class="icon bar chart"></i> My Benchmarks</a>
                             <a class="item" href="{{ path('disconnect') }}"><i class="icon sign out"></i> Logout</a>
                         </div>
                     </div>

@@ -1,0 +1,6 @@
+{% extends "base.html.twig" %}
+{% block title %}Suite{% endblock %}
+{% block page_title %}Latest Suites{% endblock %}
+{% block body %}
+{% include "report/table/suites.html.twig" with { table: suitesReport } %}
+{% endblock %}

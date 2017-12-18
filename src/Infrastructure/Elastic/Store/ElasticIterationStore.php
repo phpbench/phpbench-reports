@@ -19,13 +19,16 @@ class ElasticIterationStore implements IterationStore
         $this->client = $client;
     }
 
+    /**
+     * TODO: ID is redundant here
+     */
     public function store(string $id, array $data): void
     {
         foreach ($data as $id => $document) {
             $this->client->index([
                 'index' => self::INDEX_NAME,
                 'type' => self::INDEX_NAME,
-                'id' => $id,
+                'id' => is_string($id) ? $id : null,
                 'body' => $document,
             ]);
         }
@@ -43,10 +46,9 @@ class ElasticIterationStore implements IterationStore
                 'query' => [
                     'bool' => [
                         'must' => [
-                            [ 'term' => [ 'suite-uuid' => $uuid, ] ],
+                            [ 'term' => [ 'suite-uuid.keyword' => $uuid, ] ],
                             [ 'term' => [ 'benchmark-class.keyword' => $class, ] ],
                             [ 'term' => [ 'subject-name.keyword' => $subject, ] ],
-                            [ 'term' => [ 'variant-index' => $variant, ] ],
                         ],
                     ],
                 ],

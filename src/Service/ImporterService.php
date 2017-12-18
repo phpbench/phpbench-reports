@@ -72,6 +72,7 @@ class ImporterService
         $document = new Document();
         $document->loadXML($payload);
         $userId = $document->firstChild->getAttribute('user-id');
+        $username = $document->firstChild->getAttribute('username');
 
         if (null === $apiKey && empty($userId)) {
             throw new ImportException(sprintf(
@@ -79,9 +80,10 @@ class ImporterService
             ));
         }
 
-        if (empty($userId)) {
+        if (empty($userId) || empty($username)) {
             $user = $this->userRepository->findByApiKeyOrExplode($apiKey);
             $document->firstChild->setAttribute('user-id', $user->id());
+            $document->firstChild->setAttribute('username', $user->username());
         }
 
         return $document;
