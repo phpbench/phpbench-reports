@@ -14,35 +14,42 @@ class VariantReport
      */
     private $variantStore;
 
+    /**
+     * @var VariantTabulator
+     */
+    private $tabulator;
+
     public function __construct(
-        VariantStore $variantStore
+        VariantStore $variantStore,
+        VariantTabulator $tabulator
     )
     {
         $this->variantStore = $variantStore;
+        $this->tabulator = $tabulator;
     }
 
     public function aggregatesForUuid(string $uuid): array
     {
-        return VariantTabulator::aggregate($this->variantStore->forSuiteUuid($uuid));
+        return $this->tabulator->aggregate($this->variantStore->forSuiteUuid($uuid));
     }
 
     public function chartForUuid(string $uuid): array
     {
-        return VariantTabulator::chart(
+        return $this->tabulator->chart(
             $this->variantStore->forSuiteUuid($uuid)
         );
     }
 
     public function aggregatesForUuidAndClass(string $uuid, string $class)
     {
-        return VariantTabulator::aggregate(
+        return $this->tabulator->aggregate(
             $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
         );
     }
 
     public function chartForUuidAndClass(string $uuid, string $class): array
     {
-        return VariantTabulator::chart(
+        return $this->tabulator->chart(
             $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
         );
     }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Unit\Domain\Report;
+namespace App\Tests\Unit\Domain\Report\Tabulator;
 
 use PHPUnit\Framework\TestCase;
 use App\Domain\Report\Tabulator\VariantTabulator;
 
-class VariantReportTest extends TestCase
+class VariantTabulatorTest extends TestCase
 {
     public function testAggregate()
     {
@@ -55,7 +55,8 @@ class VariantReportTest extends TestCase
             ],
         ];
 
-        $report = VariantTabulator::aggregate($dataSet);
+        $tabulator = new VariantTabulator();
+        $report = $tabulator->aggregate($dataSet);
         $this->assertEquals($expected, $report);
     }
 }

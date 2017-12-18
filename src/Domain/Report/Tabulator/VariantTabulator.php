@@ -12,20 +12,17 @@ class VariantTabulator
             'groups' => [ 'benchmark-class' ],
         ], []);
 
-        $report = new self();
-        $dataSet = $report->sort($dataSet);
-        $tables = $report->groupBy($dataSet, $config['groups']);
+        $dataSet = $this->sort($dataSet);
+        $tables = $this->groupBy($dataSet, $config['groups']);
         $tables = F\map($tables, (function ($table) {
             return $this->sort($table);
-        })->bindTo($report));
+        })->bindTo($this));
 
         return $tables;
     }
 
-    public static function chart(array $dataSet)
+    public function chart(array $dataSet)
     {
-        $report = new self();
-
         $labels = array_map(function (array $data) {
             return $data['subject-name'];
         }, $dataSet);
