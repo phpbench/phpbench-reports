@@ -1,0 +1,15 @@
+sudo: required
+services:
+    - docker
+
+before_script:
+    - docker-compose pull
+    - docker-compose build
+    - docker-compose create
+    - docker-compose start
+    - docker-compose ps
+    - docker-compose run -w /project php sh ./bin/build.sh
+
+script:
+    - docker-compose run -w /project php ./vendor/bin/phpunit
+    - docker-compose run -w /project php ./vendor/bin/behat
