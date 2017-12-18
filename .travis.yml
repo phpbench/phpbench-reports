@@ -1,3 +1,8 @@
+language: php
+
+php:
+  - 7.2
+
 sudo: required
 services:
     - docker
@@ -8,8 +13,8 @@ before_script:
     - docker-compose create
     - docker-compose start
     - docker-compose ps
-    - curl --silent --show-error https://getcomposer.org/installer | php
-    - php composer.phar install
+    - cp .env.travis env
+    - composer install
     - env ENV=test docker-compose run php ./bin/build.sh
 
 script:
