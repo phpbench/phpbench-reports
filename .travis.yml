@@ -1,3 +1,7 @@
+language: php
+php:
+  - 7.2
+
 sudo: required
 services:
     - docker
@@ -8,6 +12,7 @@ before_script:
     - docker-compose create
     - docker-compose start
     - docker-compose ps
+    - composer install
     - docker-compose run -w /project php sh ./bin/build.sh
 
 script:
