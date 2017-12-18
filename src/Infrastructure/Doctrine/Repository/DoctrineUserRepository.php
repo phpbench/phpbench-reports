@@ -10,6 +10,7 @@ use App\Domain\User\BenchUser;
 use Doctrine\ORM\NoResultException;
 use App\Domain\User\TokenGenerator;
 use RuntimeException;
+use App\Domain\User\UserNotFoundException;
 
 class DoctrineUserRepository implements BenchUserRepository
 {
@@ -63,7 +64,7 @@ class DoctrineUserRepository implements BenchUserRepository
             return $user;
         }
 
-        throw new RuntimeException(sprintf(
+        throw new UserNotFoundException(sprintf(
             'Could not find user by username "%s"',
             $username
         ));
@@ -91,7 +92,7 @@ class DoctrineUserRepository implements BenchUserRepository
             return $user;
         }
 
-        throw new RuntimeException(sprintf(
+        throw new UserNotFoundException(sprintf(
             'Could not find user with API key "%s"',
             $apiKey
         ));

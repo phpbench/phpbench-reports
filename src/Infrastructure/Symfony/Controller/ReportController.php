@@ -17,6 +17,8 @@ use App\Domain\Report\Tabulator\UserTabulator;
 use App\Domain\Report\SuiteReport;
 use App\Domain\Report\VariantReport;
 use App\Domain\Report\IterationReport;
+use App\Domain\User\UserNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ReportController
 {
@@ -71,7 +73,12 @@ class ReportController
      */
     public function user(Request $request)
     {
-        $suitesReport = $this->suiteReport->suitesForUser($request->attributes->get('username'));
+        $username = $request->attributes->get('username');
+        try {
+            $suitesReport = $this->suiteReport->suitesForUser($username);
+        } catch (UserNotFoundException $e) {
+            throw new NotFoundHttpException('User not found', $e);
+        }
 
         return new Response($this->twig->render('report/report_user.html.twig', [
             'username' => $username,
