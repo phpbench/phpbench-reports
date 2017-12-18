@@ -8,6 +8,8 @@ before_script:
     - docker-compose create
     - docker-compose start
     - docker-compose ps
+    - curl --silent --show-error https://getcomposer.org/installer | php
+    - php composer.phar install
     - docker-compose run php ./bin/build.sh
 
 script:
