@@ -23,7 +23,7 @@ class FilesystemSuiteStorage implements SuiteStorage
         $path = sprintf('%s/%s.xml', $this->storagePath, $id);
 
         if (false === file_exists(dirname($path))) {
-            $filesystem->mkdir($path);
+            $filesystem->mkdir(dirname($path));
         }
 
         $filesystem->dumpFile($path, $xmlContents);

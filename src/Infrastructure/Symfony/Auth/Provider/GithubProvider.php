@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Auth\Provider;
+namespace App\Infrastructure\Symfony\Auth\Provider;
 
 use League\OAuth2\Client\Provider\Github;
-use App\Auth\Provider;
+use App\Infrastructure\Symfony\Auth\Provider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
 

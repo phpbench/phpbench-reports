@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Infrastructure\Symfony\Controller;
 
 use App\Domain\Import\Importer;
 use Symfony\Component\HttpFoundation\Request;

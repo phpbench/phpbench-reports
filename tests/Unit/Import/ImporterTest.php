@@ -53,6 +53,7 @@ class ImporterTest extends TestCase
                     'env-uname-host' => 'dtlx1',
                     'env-php-version' => '7.1',
                     'user-id' => '1234-user-1234',
+                    'username' => 'userdan',
                 ]
             )
         )->shouldBeCalled();

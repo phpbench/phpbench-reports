@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Infrastructure\Symfony\Controller;
 
 use League\OAuth2\Client\Provider\Github;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Auth\ProviderFactory;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
-use App\Auth\Provider;
+use App\Infrastructure\Symfony\Auth\Provider;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
 

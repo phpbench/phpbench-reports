@@ -15,7 +15,7 @@ default:
         Behat\Symfony2Extension:
             kernel:
                 bootstrap: vendor/autoload.php
-                class: App\Kernel
+                class: App\Infrastructure\Symfony\Kernel
                 env: test
         Behat\MinkExtension:
             sessions:

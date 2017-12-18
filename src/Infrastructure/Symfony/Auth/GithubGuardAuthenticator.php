@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth;
+namespace App\Infrastructure\Symfony\Auth;
 
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +19,7 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Provider\GithubResourceOwner;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use App\Domain\User\BenchUserRepository;
-use App\Auth\Provider;
+use App\Infrastructure\Symfony\Auth\Provider;
 
 class GithubGuardAuthenticator implements AuthenticatorInterface
 {

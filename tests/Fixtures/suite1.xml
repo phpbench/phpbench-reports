@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<phpbench version="0.15-dev (@git_version@)" user-id="1234-user-1234">
+<phpbench version="0.15-dev (@git_version@)" user-id="1234-user-1234" username="userdan">
   <suite uuid="1234">
     <env>
       <uname os="Linux" host="dtlx1"/>
