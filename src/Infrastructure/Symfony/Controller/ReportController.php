@@ -82,9 +82,7 @@ class ReportController
      */
     public function user(Request $request)
     {
-        $username = $request->attributes->get('username');
-        $user = $this->userRepository->findByUsernameOrExplode($username);
-        $suitesReport = UserTabulator::list($this->suiteStore->forUserId($user->id()));
+        $suitesReport = $this->suiteReport->suitesForUser($request->attributes->get('username'));
 
         return new Response($this->twig->render('report/report_user.html.twig', [
             'username' => $username,
