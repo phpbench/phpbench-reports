@@ -13,6 +13,7 @@ before_script:
     - docker-compose create
     - docker-compose start
     - docker-compose ps
+    - cp env.travis env
     - composer install
     - docker-compose run php ./bin/build.sh
 
