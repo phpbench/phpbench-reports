@@ -4,6 +4,7 @@ namespace App\Domain\Report;
 
 use App\Domain\Store\SuiteStore;
 use App\Domain\User\BenchUserRepository;
+use App\Domain\Report\Tabulator\SuiteTabulator;
 
 class SuiteReport
 {
@@ -36,5 +37,10 @@ class SuiteReport
         $user = $this->userRepository->findByUsernameOrExplode($username);
 
         return $this->suiteStore->forUserId($user->id());
+    }
+
+    public function environmentFor($uuid)
+    {
+        return $this->suiteStore->forSuiteUuid($uuid);
     }
 }

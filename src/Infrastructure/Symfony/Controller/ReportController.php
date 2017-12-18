@@ -15,13 +15,11 @@ use App\Domain\Store\IterationStore;
 use App\Domain\User\BenchUserRepository;
 use App\Domain\Report\Tabulator\UserTabulator;
 use App\Domain\Report\SuiteReport;
+use App\Domain\Report\VariantReport;
+use App\Domain\Report\IterationReport;
 
 class ReportController
 {
-    /**
-     * @var VariantStore
-     */
-    private $variantStore;
 
     /**
      * @var Environment
@@ -29,40 +27,31 @@ class ReportController
     private $twig;
 
     /**
-     * @var SuiteStore
-     */
-    private $suiteStore;
-
-    /**
-     * @var IterationStore
-     */
-    private $iterationStore;
-
-    /**
-     * @var BenchUserRepository
-     */
-    private $userRepository;
-
-    /**
      * @var SuiteReport
      */
     private $suiteReport;
 
+    /**
+     * @var VariantReport
+     */
+    private $variantReport;
+
+    /**
+     * @var IterationReport
+     */
+    private $iterationReport;
+
     public function __construct(
-        VariantStore $variantStore,
         Environment $twig,
-        SuiteStore $suiteStore,
-        IterationStore $iterationStore,
-        BenchUserRepository $userRepository,
-        SuiteReport $suiteReport
+        SuiteReport $suiteReport,
+        VariantReport $variantReport,
+        IterationReport $iterationReport
     )
     {
-        $this->variantStore = $variantStore;
         $this->twig = $twig;
-        $this->suiteStore = $suiteStore;
-        $this->iterationStore = $iterationStore;
-        $this->userRepository = $userRepository;
         $this->suiteReport = $suiteReport;
+        $this->variantReport = $variantReport;
+        $this->iterationReport = $iterationReport;
     }
 
     /**
@@ -96,17 +85,12 @@ class ReportController
     public function suite(Request $request)
     {
         $uuid = $request->attributes->get('uuid');
-        $suiteReport = SuiteTabulator::env($this->suiteStore->forSuiteUuid($uuid));
-        $variantTables = VariantTabulator::aggregate($this->variantStore->forSuiteUuid($uuid));
-        $suiteChart = VariantTabulator::chart(
-            $this->variantStore->forSuiteUuid($uuid)
-        );
 
         return new Response($this->twig->render('report/report_suite.html.twig', [
             'uuid' => $uuid,
-            'suiteReport' => $suiteReport,
-            'suiteChart' => $suiteChart,
-            'variantTables' => $variantTables,
+            'suiteReport' => $this->suiteReport->environmentFor($uuid),
+            'suiteChart' => $this->variantReport->chartForUuid($uuid),
+            'variantTables' => $this->variantReport->aggregatesForUuid($uuid),
         ]));
     }
 
@@ -117,18 +101,12 @@ class ReportController
     {
         $uuid = $request->attributes->get('uuid');
         $class = $request->attributes->get('class');
-        $variantTables = VariantTabulator::aggregate(
-            $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
-        );
-        $variantChart = VariantTabulator::chart(
-            $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
-        );
 
         return new Response($this->twig->render('report/report_benchmark.html.twig', [
             'uuid' => $uuid,
             'class' => $class,
-            'variantTables' => $variantTables,
-            'variantChart' => $variantChart,
+            'variantTables' => $this->variantReport->aggregatesForUuidAndClass($uuid, $class),
+            'variantChart' => $this->variantReport->chartForUuidAndClass($uuid, $class),
         ]));
     }
 
@@ -142,24 +120,14 @@ class ReportController
         $subject = $request->attributes->get('subject');
         $variant = $request->attributes->get('variant');
 
-        $iterationTable = IterationTabulator::iterations(
-            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
-        );
-        $iterationChart = IterationTabulator::chart(
-            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
-        );
-        $histogramChart = IterationTabulator::histogram(
-            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
-        );
-
         return new Response($this->twig->render('report/report_variant.html.twig', [
             'uuid' => $uuid,
             'class' => $class,
             'subject' => $subject,
             'variant' => $variant,
-            'iterationTable' => $iterationTable,
-            'iterationChart' => $iterationChart,
-            'histogramChart' => $histogramChart,
+            'iterationTable' => $this->iterationReport->iterationsForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant),
+            'iterationChart' => $this->iterationReport->chartForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant),
+            'histogramChart' => $this->iterationReport->histogramForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant),
         ]));
     }
 }
