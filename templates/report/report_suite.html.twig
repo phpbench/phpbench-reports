@@ -1,13 +1,18 @@
 {% extends "base.html.twig" %}
 {% block title %}Suite{% endblock %}
-{% block page_title %}Suite: {{ uuid }}{% endblock %}
+{% block subtitle %}This was an amazing suite{% endblock %}
+{% block breadcrumb %}
+    <div class="active section">
+        {{ uuid }}
+    </div>
+{% endblock %}
 {% block body %}
     <table class="ui table">
         {% for cells in suiteReport|batch(2) %}
             <tr>
             {% for field, value in cells %}
-            <td class="selected"><b>{{ field|replace({'env-': ''}) }}</b></td>
-            <td title="{{ value }}">{{ value|truncate(50) }}</td>
+                <td class="selected"><b>{{ field|replace({'env-': ''}) }}</b></td>
+                <td title="{{ value }}">{{ value|truncate(50) }}</td>
             {% endfor %}
             </tr>
         {% endfor %}
@@ -20,7 +25,9 @@
     } %}
 
     {% for subTitle, table in variantTables %}
-        <h3><a href="{{ path('report_benchmark', { "uuid": uuid, "class": subTitle }) }}">{{ subTitle }}</a></h3>
+        <h3>
+            <a href="{{ path('report_benchmark', { "uuid": uuid, "class": subTitle }) }}">{{ subTitle }}</a>
+        </h3>
         {% include "report/table/benchmark.html.twig" %}
     {% endfor %}
 

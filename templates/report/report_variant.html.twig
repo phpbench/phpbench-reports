@@ -1,8 +1,14 @@
 {% extends "base.html.twig" %}
-{% block title %}Suite{% endblock %}
-{% block page_title %}Suite: <a href="{{ path('report_suite', { "uuid": uuid }) }}">{{ uuid }}</a>{% endblock %}
+{% block title %}Variant{% endblock %}
+{% block subtitle %}So many datas{% endblock %}
+{% block breadcrumb %}
+    <a class="section" href="{{ path('report_suite', { "uuid": uuid }) }}">{{ uuid }}</a>
+    <div class="divider"> / </div>
+    <a class="section" href="{{ path('report_benchmark', {'uuid': uuid, 'class': class}) }}">{{ class|short_class }}</a>
+    <div class="divider"> / </div>
+     <div class="active section">{{ subject }}#{{ variant }}</div>
+{% endblock %}
 {% block body %}
-    <h3><a href="{{ path('report_benchmark', {'uuid': uuid, 'class': class}) }}">{{ class }}</a>::{{ subject }}#{{ variant }}</h3>
 
     {% include "report/chart/iterations_chart.html.twig" with {
         chartName: "iterationChart",

@@ -1,0 +1,26 @@
+<div class="ui menu">
+    <div class="header item">
+        <a href="{{ path('home') }}"><img src="/phpbench.png" /></a>
+    </div>
+
+    <a class="item" href="{{ path('home') }}"><i class="time icon"></i> Latest</a>
+
+    {% if is_granted('ROLE_USER') %}
+        <a class="item" href="{{ path('report_user', { 'username': app.user.username }) }}">
+            <i class="icon bar chart"></i> My Benchmarks
+        </a>
+
+        <div class="ui dropdown item right">
+            {{ app.user.username }}
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item" href="{{ path('profile') }}"><i class="icon user"></i> Profile</a>
+                <a class="item" href="{{ path('disconnect') }}"><i class="icon sign out"></i> Logout</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="item right aligned">
+            <a href="{{ path('login') }}" class="ui button"><i class="icon github"></i>Login</a>
+        </div>
+    {% endif %}
+</div>

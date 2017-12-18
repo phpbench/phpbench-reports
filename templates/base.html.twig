@@ -12,46 +12,36 @@
     </head>
     <body>
         <div class="ui container">
-            <div class="ui top menu">
-                <div class="item">
-                    <a href="{{ path('home') }}"><img src="/phpbench.png" /></a>
-                </div>
+            {% include "header.html.twig" %}
 
-                <div class="item">
-                    <h2>{% block page_title %}PHPBench Reports{% endblock %}</h2>
-                </div>
-
-                {% if is_granted('ROLE_USER') %}
-
-                    <div class="ui dropdown item right">
-                        {{ app.user.username }}
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <a class="item" href="{{ path('profile') }}"><i class="icon user"></i> Profile</a>
-                            <a class="item" href="{{ path('report_user', { 'username': app.user.username }) }}"><i class="icon bar chart"></i> My Benchmarks</a>
-                            <a class="item" href="{{ path('disconnect') }}"><i class="icon sign out"></i> Logout</a>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="item right aligned">
-                        <a href="{{ path('login') }}" class="ui button"><i class="icon github"></i>Login</a>
-                    </div>
-                {% endif %}
+            <div class="ui breadcrumb">
+                <a class="section" href="{{ path('home') }}"><i class="home icon"></i></a>
+                <div class="divider"> / </div>
+                {% block breadcrumb %} {%endblock %}
             </div>
 
+            <h2 class="ui header">
+                {{ block('title') }}
+                <div class="sub header">{% block subtitle %}{% endblock %}</div>
+            </h2>
+
             {% block body %}{% endblock %}
+
             {% block javascripts %}
-                <script>
-        $(document).ready(function () {
-            $('.ui.dropdown').dropdown();
-        })
+                <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.ui.dropdown').dropdown();
+                })
                 </script>
             {% endblock %}
-        <br/><br/><br/>
-        <hr/>
-        <center>
-        Made badly by Daniel Leech in 2017
-        </center>
+
+            <br/><br/><br/>
+
+            <hr/>
+
+            <center>
+                Made badly by Daniel Leech in 2017
+            </center>
         </div>
     </body>
 </html>

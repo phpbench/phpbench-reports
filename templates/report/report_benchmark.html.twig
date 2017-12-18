@@ -1,8 +1,12 @@
 {% extends "base.html.twig" %}
-{% block title %}Suite{% endblock %}
-{% block page_title %}Suite: <a href="{{ path('report_suite', { "uuid": uuid }) }}">{{ uuid }}</a>{% endblock %}
+{% block title %}Benchmark{% endblock %}
+{% block subtitle %}Wow, this benchmark was awesome{% endblock %}
+{% block breadcrumb %}
+    <a class="section" href="{{ path('report_suite', { "uuid": uuid }) }}">{{ uuid }}</a>
+    <div class="divider"> / </div>
+    <div class="active section">{{ class | short_class }}</div>
+{% endblock %}
 {% block body %}
-    <h3>{{ class }}</h3>
     {% include "report/chart/variant_chart.html.twig" with {
         chartName: "benchmarkChart",
         chart: variantChart,

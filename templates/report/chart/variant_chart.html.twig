@@ -1,5 +1,5 @@
-    <canvas height="100" id="{{ chartName }}" ></canvas>
-    <script>
+<canvas height="100" id="{{ chartName }}" ></canvas>
+<script type="text/javascript">
     var ctx = document.getElementById("{{ chartName }}").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -16,5 +16,4 @@
             ]
         }
     });
-    </script>
-
+</script>
