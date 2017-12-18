@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Domain\Report;
 use PHPUnit\Framework\TestCase;
 use App\Domain\Report\VariantReport;
 
-class ReportTest extends TestCase
+class VariantReportTest extends TestCase
 {
     public function testAggregate()
     {

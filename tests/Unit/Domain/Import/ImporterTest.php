@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Import;
+namespace App\Tests\Unit\Domain\Import;
 
 use PHPUnit\Framework\TestCase;
 use App\Domain\Store\VariantStore;
@@ -42,7 +42,7 @@ class ImporterTest extends TestCase
     public function testImport()
     {
         $document = new Document();
-        $document->loadXML(file_get_contents(__DIR__ . '/../../Fixtures/suite1.xml'));
+        $document->loadXML(file_get_contents(__DIR__ . '/../../../Fixtures/suite1.xml'));
 
         $this->suiteStore->store(
             '1234',
