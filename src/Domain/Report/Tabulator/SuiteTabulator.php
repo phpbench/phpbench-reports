@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Report;
+namespace App\Domain\Report\Tabulator;
 
 use Functional as F;
 
-class EnvReport
+class SuiteTabulator
 {
     public static function env(array $dataSet, $cols = 3)
     {

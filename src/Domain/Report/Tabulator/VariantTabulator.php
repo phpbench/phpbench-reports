@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Report;
+namespace App\Domain\Report\Tabulator;
 
 use Functional as F;
 
-class VariantReport
+class VariantTabulator
 {
     public static function aggregate(array $dataSet)
     {

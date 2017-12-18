@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Domain\Report;
+namespace App\Domain\Report\Tabulator;
+
+use App\Domain\Report\Tabulator\Tables;
 
 final class Tables implements \IteratorAggregate
 {

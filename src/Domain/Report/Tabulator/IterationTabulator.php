@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Domain\Report;
+namespace App\Domain\Report\Tabulator;
 
 use MathPHP\Statistics\Average;
 use App\Domain\Math\Statistics;
 
-class IterationReport
+class IterationTabulator
 {
     public static function iterations(array $dataSet)
     {
         return $dataSet;
     }
-
 
     public static function chart(array $dataSet)
     {

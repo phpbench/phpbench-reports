@@ -3,7 +3,7 @@
 namespace App\Tests\Unit\Domain\Report;
 
 use PHPUnit\Framework\TestCase;
-use App\Domain\Report\VariantReport;
+use App\Domain\Report\Tabulator\VariantTabulator;
 
 class VariantReportTest extends TestCase
 {
@@ -55,7 +55,7 @@ class VariantReportTest extends TestCase
             ],
         ];
 
-        $report = VariantReport::aggregate($dataSet);
+        $report = VariantTabulator::aggregate($dataSet);
         $this->assertEquals($expected, $report);
     }
 }

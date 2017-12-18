@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Report;
+namespace App\Domain\Report\Tabulator;
 
-class UserReport
+class UserTabulator
 {
     public function list(array $dataSet)
     {

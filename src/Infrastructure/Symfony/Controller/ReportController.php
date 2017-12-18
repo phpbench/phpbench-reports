@@ -7,13 +7,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Domain\Store\VariantStore;
 use Twig\Environment;
-use App\Domain\Report\VariantReport;
+use App\Domain\Report\Tabulator\VariantTabulator;
 use App\Domain\Store\SuiteStore;
-use App\Domain\Report\EnvReport;
-use App\Domain\Report\IterationReport;
+use App\Domain\Report\Tabulator\SuiteTabulator;
+use App\Domain\Report\Tabulator\IterationTabulator;
 use App\Domain\Store\IterationStore;
 use App\Domain\User\BenchUserRepository;
-use App\Domain\Report\UserReport;
+use App\Domain\Report\Tabulator\UserTabulator;
+use App\Domain\Report\SuiteReport;
 
 class ReportController
 {
@@ -42,12 +43,18 @@ class ReportController
      */
     private $userRepository;
 
+    /**
+     * @var SuiteReport
+     */
+    private $suiteReport;
+
     public function __construct(
         VariantStore $variantStore,
         Environment $twig,
         SuiteStore $suiteStore,
         IterationStore $iterationStore,
-        BenchUserRepository $userRepository
+        BenchUserRepository $userRepository,
+        SuiteReport $suiteReport
     )
     {
         $this->variantStore = $variantStore;
@@ -55,6 +62,7 @@ class ReportController
         $this->suiteStore = $suiteStore;
         $this->iterationStore = $iterationStore;
         $this->userRepository = $userRepository;
+        $this->suiteReport = $suiteReport;
     }
 
     /**
@@ -62,8 +70,7 @@ class ReportController
      */
     public function allSuites(Request $request)
     {
-        // TODO: Rename user report => suites report (or remove completely)
-        $suitesReport = UserReport::list($this->suiteStore->all());
+        $suitesReport = $this->suiteReport->allSuites();
 
         return new Response($this->twig->render('report/report_all_suites.html.twig', [
             'suitesReport' => $suitesReport,
@@ -77,7 +84,7 @@ class ReportController
     {
         $username = $request->attributes->get('username');
         $user = $this->userRepository->findByUsernameOrExplode($username);
-        $suitesReport = UserReport::list($this->suiteStore->forUserId($user->id()));
+        $suitesReport = UserTabulator::list($this->suiteStore->forUserId($user->id()));
 
         return new Response($this->twig->render('report/report_user.html.twig', [
             'username' => $username,
@@ -91,9 +98,9 @@ class ReportController
     public function suite(Request $request)
     {
         $uuid = $request->attributes->get('uuid');
-        $suiteReport = EnvReport::env($this->suiteStore->forSuiteUuid($uuid));
-        $variantTables = VariantReport::aggregate($this->variantStore->forSuiteUuid($uuid));
-        $suiteChart = VariantReport::chart(
+        $suiteReport = SuiteTabulator::env($this->suiteStore->forSuiteUuid($uuid));
+        $variantTables = VariantTabulator::aggregate($this->variantStore->forSuiteUuid($uuid));
+        $suiteChart = VariantTabulator::chart(
             $this->variantStore->forSuiteUuid($uuid)
         );
 
@@ -112,10 +119,10 @@ class ReportController
     {
         $uuid = $request->attributes->get('uuid');
         $class = $request->attributes->get('class');
-        $variantTables = VariantReport::aggregate(
+        $variantTables = VariantTabulator::aggregate(
             $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
         );
-        $variantChart = VariantReport::chart(
+        $variantChart = VariantTabulator::chart(
             $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
         );
 
@@ -137,13 +144,13 @@ class ReportController
         $subject = $request->attributes->get('subject');
         $variant = $request->attributes->get('variant');
 
-        $iterationTable = IterationReport::iterations(
+        $iterationTable = IterationTabulator::iterations(
             $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
         );
-        $iterationChart = IterationReport::chart(
+        $iterationChart = IterationTabulator::chart(
             $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
         );
-        $histogramChart = IterationReport::histogram(
+        $histogramChart = IterationTabulator::histogram(
             $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
         );
 
