@@ -20,12 +20,8 @@ mysql:
     image: mysql:latest
     environment:
         MYSQL_ROOT_PASSWORD: root
-    ports:
-        - "3307:3306"
 
 elasticsearch:
     image: elasticsearch:latest
     environment: []
-    ports:
-        - "9201:9200"
 
