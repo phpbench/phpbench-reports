@@ -18,4 +18,6 @@ interface ProjectRepository
     public function updateProject(BenchUser $benchUser, Project $project): void;
 
     public function findByApiKey(string $apiKey):? Project;
+
+    public function findByProjectName(ProjectName $projectName): Project;
 }

@@ -10,7 +10,5 @@ interface BenchUser
 
     public function username(): string;
 
-    public function apiKey(): string;
-
     public function id(): string;
 }

@@ -9,6 +9,7 @@ use App\Domain\User\BenchUserRepository;
 use RuntimeException;
 use App\Service\Exception\ImportException;
 use App\Domain\Project\ProjectRepository;
+use App\Domain\Project\ProjectName;
 
 class ImporterService
 {
@@ -55,7 +56,7 @@ class ImporterService
         return $id;
     }
 
-    public function importFromFile(string $filename, string $username = null)
+    public function importFromFile(string $filename, ProjectName $projectName = null)
     {
         if (!file_exists($filename)) {
             throw new RuntimeException(sprintf(
@@ -66,9 +67,9 @@ class ImporterService
 
         $apiKey = null;
 
-        if ($username) {
-            $user = $this->userRepository->findByUsernameOrExplode($username);
-            $apiKey = $user->apiKey();
+        if ($projectName) {
+            $project = $this->projectRepository->findByProjectName($projectName);
+            $apiKey = $project->apiKey();
         }
 
         return $this->importFromPayload(file_get_contents($filename), $apiKey);
@@ -78,18 +79,21 @@ class ImporterService
     {
         $document = new Document();
         $document->loadXML($payload);
-        $userId = $document->firstChild->getAttribute('user-id');
+        $projectId = $document->firstChild->getAttribute('project-id');
         $username = $document->firstChild->getAttribute('username');
 
-        if (null === $apiKey && empty($userId)) {
+        if (null === $apiKey && empty($projectId)) {
             throw new ImportException(sprintf(
-                'No API Key given and document has no user-id'
+                'No API Key given and document has no project-id'
             ));
         }
 
-        if (empty($userId) || empty($username)) {
+        if (empty($projectId) || empty($username)) {
             $project = $this->projectRepository->findByApiKey($apiKey);
             $user = $project->user();
+            $document->firstChild->setAttribute('project-id', $project->id());
+            $document->firstChild->setAttribute('project-namespace', $project->namespace());
+            $document->firstChild->setAttribute('project-name', $project->name());
             $document->firstChild->setAttribute('user-id', $user->id());
             $document->firstChild->setAttribute('username', $user->username());
         }

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use PHPUnit\Framework\Assert;
 use Behat\MinkExtension\Context\RawMinkContext;
+use App\Domain\Project\ProjectName;
 
 class ReportContext extends RawMinkContext implements Context
 {
@@ -36,12 +37,12 @@ class ReportContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Given I have submitted the suite :filename as :username
+     * @Given I have submitted the suite :filename for project :projectName
      */
-    public function iHaveSubmittedTheSuite(string $filename, string $username)
+    public function iHaveSubmittedTheSuite(string $filename, string $projectName)
     {
         $path = __DIR__ . '/../Fixtures/' . $filename;
-        $this->suiteUuid = $this->importerService->importFromFile($path, $username);
+        $this->suiteUuid = $this->importerService->importFromFile($path, ProjectName::fromComposite($projectName));
         // let elastic settle down (race condition issues)
         usleep(500000);
     }

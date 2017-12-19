@@ -56,22 +56,6 @@ class UserContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Given I am on the API key page
-     */
-    public function iAmOnTheApiKeyPage()
-    {
-        $this->getSession()->visit('/login');
-    }
-
-    /**
-     * @Then I should see my API key
-     */
-    public function iShouldSeeMyApiKey()
-    {
-        Assert::assertContains($this->user->apiKey(), $this->getSession()->getPage()->getContent());
-    }
-
-    /**
      * @Given I am on the profile page
      */
     public function iAmOnTheProfilePage()

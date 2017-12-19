@@ -10,6 +10,7 @@ use App\Infrastructure\Doctrine\Entity\DoctrineProject;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\User\TokenGenerator;
+use App\Domain\Project\ProjectName;
 
 class DoctrineProjectRepository implements ProjectRepository
 {
@@ -84,5 +85,16 @@ class DoctrineProjectRepository implements ProjectRepository
             ->setParameter('apiKey', $apiKey)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findByProjectName(ProjectName $projectName): Project
+    {
+        return $this->queryBuilder('p')
+            ->where('p.namespace = :namespace')
+            ->andWhere('p.name = :name')
+            ->setParameter('namespace', $projectName->namespace())
+            ->setParameter('name', $projectName->name())
+            ->getQuery()
+            ->getSingleResult();
     }
 }

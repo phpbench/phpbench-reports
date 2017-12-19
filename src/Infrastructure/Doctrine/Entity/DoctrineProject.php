@@ -82,4 +82,9 @@ class DoctrineProject implements Project
     {
         return $this->user;
     }
+
+    public function id(): string
+    {
+        return $this->id;
+    }
 }

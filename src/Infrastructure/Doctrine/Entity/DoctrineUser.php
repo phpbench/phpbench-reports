@@ -36,22 +36,11 @@ class DoctrineUser implements UserInterface, BenchUser
      */
     private $password;
 
-    /**
-     * @ORM\Column(type="string", unique=true)
-     */
-    private $apiKey;
-
     public function __construct(string $username, string $vendorId, string $apiKey, string $password = null)
     {
         $this->username = $username;
         $this->vendorId = $vendorId;
         $this->password = $password;
-        $this->apiKey = $apiKey;
-    }
-
-    public function updateApiKey(string $apiKey)
-    {
-        $this->apiKey = $apiKey;
     }
 
     /**
@@ -100,11 +89,6 @@ class DoctrineUser implements UserInterface, BenchUser
     public function username(): string
     {
         return $this->username;
-    }
-
-    public function apiKey(): string
-    {
-        return $this->apiKey;
     }
 
     public function id(): string
