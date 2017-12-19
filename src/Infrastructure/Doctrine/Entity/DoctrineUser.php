@@ -10,7 +10,7 @@ use App\Domain\User\BenchUser;
  * @ORM\Entity
  * @ORM\Table(name="user")
  */
-class User implements UserInterface, BenchUser
+class DoctrineUser implements UserInterface, BenchUser
 {
     /**
      * @ORM\Id

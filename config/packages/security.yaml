@@ -3,10 +3,10 @@ security:
     providers:
         database:
             entity:
-                class: App\Infrastructure\Doctrine\Entity\User
+                class: App\Infrastructure\Doctrine\Entity\DoctrineUser
                 property: username
     encoders:
-        App\Infrastructure\Doctrine\Entity\User:
+        App\Infrastructure\Doctrine\Entity\DoctrineUser:
             algorithm: bcrypt
             cost: 12
 

@@ -9,6 +9,8 @@ default:
                     kernel: '@kernel'
                 - App\Tests\Acceptance\UserContext:
                     kernel: '@kernel'
+                - App\Tests\Acceptance\ProjectContext:
+                    kernel: '@kernel'
                 - Behat\MinkExtension\Context\MinkContext
 
     extensions:

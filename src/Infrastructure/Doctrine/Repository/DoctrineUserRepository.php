@@ -4,7 +4,7 @@ namespace App\Infrastructure\Doctrine\Repository;
 
 use App\Domain\User\BenchUserRepository;
 use Doctrine\ORM\EntityManager;
-use App\Infrastructure\Doctrine\Entity\User;
+use App\Infrastructure\Doctrine\Entity\DoctrineUser;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\User\BenchUser;
 use Doctrine\ORM\NoResultException;
@@ -32,7 +32,7 @@ class DoctrineUserRepository implements BenchUserRepository
     public function create(string $username, string $vendorId, string $password = null, $apiKey = null): BenchUser
     {
         $apiKey = $apiKey ?: $this->tokenGenerator->generate();
-        $user = new User($username, $vendorId, $apiKey, $password);
+        $user = new DoctrineUser($username, $vendorId, $apiKey, $password);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
@@ -44,7 +44,7 @@ class DoctrineUserRepository implements BenchUserRepository
         try {
             return $user = $this->entityManager->createQueryBuilder()
                 ->select('u')
-                ->from(User::class, 'u')
+                ->from(DoctrineUser::class, 'u')
                 ->where('u.vendorId = :vendorId')
                 ->setParameter('vendorId', $githubId)
                 ->getQuery()
@@ -74,7 +74,7 @@ class DoctrineUserRepository implements BenchUserRepository
         try {
             return $user = $this->entityManager->createQueryBuilder()
                 ->select('u')
-                ->from(User::class, 'u')
+                ->from(DoctrineUser::class, 'u')
                 ->where('u.username = :username')
                 ->setParameter('username', $username)
                 ->getQuery()
@@ -102,7 +102,7 @@ class DoctrineUserRepository implements BenchUserRepository
         try {
             return $this->entityManager->createQueryBuilder()
                 ->select('u')
-                ->from(User::class, 'u')
+                ->from(DoctrineUser::class, 'u')
                 ->where('u.apiKey = :apiKey')
                 ->setParameter('apiKey', $apiKey)
                 ->getQuery()
