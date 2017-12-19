@@ -9,7 +9,7 @@ use App\Domain\Project\Project;
 use App\Infrastructure\Doctrine\Entity\DoctrineProject;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Domain\User\TokenGenerator;
+use App\Domain\Project\TokenGenerator;
 use App\Domain\Project\ProjectName;
 
 class DoctrineProjectRepository implements ProjectRepository
