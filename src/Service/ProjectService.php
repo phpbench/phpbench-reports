@@ -39,9 +39,9 @@ class ProjectService
         return $this->projectRepository->projectExists($this->user($username), $namespace, $name);
     }
 
-    public function createProject(string $username, string $namespace, string $name): Project
+    public function createProject(string $username, string $namespace, string $name, string $apiKey = null): Project
     {
-        return $this->projectRepository->createProject($this->user($username), $namespace, $name);
+        return $this->projectRepository->createProject($this->user($username), $namespace, $name, $apiKey);
     }
 
     public function project(string $username, string $namespace, string $name): Project

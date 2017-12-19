@@ -23,10 +23,11 @@ class ProjectContext extends RawMinkContext implements Context
 
     /**
      * @Given user :user has project :namespace :name
+     * @Given user :user has project :namespace :name with API key :apiKey
      */
-    public function iHaveAProject($user, $namespace, $name)
+    public function iHaveAProject($user, $namespace, $name, $apiKey = null)
     {
-        $this->projectService->createProject($user, $namespace, $name);
+        $this->projectService->createProject($user, $namespace, $name, $apiKey);
     }
 
     /**

@@ -4,7 +4,8 @@ Feature: Upload suite results
     In order that I can archive them
 
     Background:
-        Given the user "test_api_user" exists with api key "1234"
+        Given the user "daniel" exists
+        And user "daniel" has project "daniel" "leech" with API key "1234"
 
     Scenario: Upload suite result with valid API key
         When I post the suite "worse_reflection.xml" with API key "1234"

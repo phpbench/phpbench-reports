@@ -40,9 +40,9 @@ class DoctrineProjectRepository implements ProjectRepository
         return Projects::fromProjects($projects);
     }
 
-    public function createProject(BenchUser $benchUser, string $namespace, string $name): Project
+    public function createProject(BenchUser $benchUser, string $namespace, string $name, string $apiKey = null): Project
     {
-        $apiKey = $this->tokenGenerator->generate();
+        $apiKey = $apiKey ?: $this->tokenGenerator->generate();
             
         $project = new DoctrineProject($benchUser, $namespace, $name, $apiKey);
         $this->entityManager->persist($project);
@@ -67,6 +67,7 @@ class DoctrineProjectRepository implements ProjectRepository
     public function updateProject(BenchUser $benchUser, Project $project): void
     {
     }
+
     private function queryBuilder(): QueryBuilder
     {
         return $this->entityManager->getRepository(DoctrineProject::class)->createQueryBuilder('p');
@@ -74,5 +75,14 @@ class DoctrineProjectRepository implements ProjectRepository
 
     public function projectExists(BenchUser $benchUser, string $namespace, string $name): bool
     {
+    }
+
+    public function findByApiKey(string $apiKey):? Project
+    {
+        return $this->queryBuilder('p')
+            ->where('p.apiKey = :apiKey')
+            ->setParameter('apiKey', $apiKey)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

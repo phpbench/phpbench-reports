@@ -4,6 +4,7 @@ namespace App\Infrastructure\Doctrine\Entity;
 
 use App\Domain\Project\Project;
 use Doctrine\ORM\Mapping as ORM;
+use App\Domain\User\BenchUser;
 
 /**
  * @ORM\Entity
@@ -75,5 +76,10 @@ class DoctrineProject implements Project
     public function active(): bool
     {
         return $this->active;
+    }
+
+    public function user(): BenchUser
+    {
+        return $this->user;
     }
 }

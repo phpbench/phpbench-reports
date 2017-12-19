@@ -4,7 +4,6 @@ namespace App\Infrastructure\Symfony\Auth;
 
 use Symfony\Component\Security\Guard\AuthenticatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use App\Domain\User\BenchUserRepository;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -12,20 +11,21 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
+use App\Domain\Project\ProjectRepository;
 
 class ApiKeyAuthenticator implements AuthenticatorInterface
 {
     const HEADER_API_KEY = 'X-API-Key';
 
     /**
-     * @var BenchUserRepository
+     * @var ProjectRepository
      */
-    private $userRepository;
+    private $projectRepository;
 
     public function __construct(
-        BenchUserRepository $userRepository
+        ProjectRepository $projectRepository
     ) {
-        $this->userRepository = $userRepository;
+        $this->projectRepository = $projectRepository;
     }
 
     /**
@@ -63,8 +63,13 @@ class ApiKeyAuthenticator implements AuthenticatorInterface
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $user = $this->userRepository->findByApiKey($credentials);
-        return $user;
+        $project = $this->projectRepository->findByApiKey($credentials);
+
+        if (null === $project) {
+            return null;
+        }
+
+        return $project->user();
     }
 
     /**

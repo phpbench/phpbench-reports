@@ -8,6 +8,7 @@ use App\Domain\SuiteStorage;
 use App\Domain\User\BenchUserRepository;
 use RuntimeException;
 use App\Service\Exception\ImportException;
+use App\Domain\Project\ProjectRepository;
 
 class ImporterService
 {
@@ -26,14 +27,21 @@ class ImporterService
      */
     private $userRepository;
 
+    /**
+     * @var ProjectRepository
+     */
+    private $projectRepository;
+
     public function __construct(
         Importer $importer,
         SuiteStorage $storage,
-        BenchUserRepository $userRepository
+        BenchUserRepository $userRepository,
+        ProjectRepository $projectRepository
     ) {
         $this->importer = $importer;
         $this->storage = $storage;
         $this->userRepository = $userRepository;
+        $this->projectRepository = $projectRepository;
     }
 
     public function importFromPayload(string $payload, string $apiKey = null): string
@@ -80,7 +88,8 @@ class ImporterService
         }
 
         if (empty($userId) || empty($username)) {
-            $user = $this->userRepository->findByApiKeyOrExplode($apiKey);
+            $project = $this->projectRepository->findByApiKey($apiKey);
+            $user = $project->user();
             $document->firstChild->setAttribute('user-id', $user->id());
             $document->firstChild->setAttribute('username', $user->username());
         }

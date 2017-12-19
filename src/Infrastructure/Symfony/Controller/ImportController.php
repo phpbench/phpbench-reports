@@ -31,7 +31,10 @@ class ImportController
      */
     public function import(Request $request)
     {
-        $id = $this->importer->importFromPayload($request->getContent(), $request->headers->get('X-API-Key'));
+        $id = $this->importer->importFromPayload(
+            $request->getContent(),
+            $request->headers->get('X-API-Key')
+        );
 
         return new JsonResponse([
             'suite_url' => $this->generator->generate('report_suite', [
