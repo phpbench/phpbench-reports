@@ -12,7 +12,6 @@ use App\Domain\Store\SuiteStore;
 use App\Domain\Report\Tabulator\SuiteTabulator;
 use App\Domain\Report\Tabulator\IterationTabulator;
 use App\Domain\Store\IterationStore;
-use App\Domain\User\BenchUserRepository;
 use App\Domain\Report\Tabulator\UserTabulator;
 use App\Domain\Report\SuiteReport;
 use App\Domain\Report\VariantReport;
@@ -77,7 +76,7 @@ class ReportController
         try {
             $suitesReport = $this->suiteReport->suitesForUser($username);
         } catch (UserNotFoundException $e) {
-            throw new NotFoundHttpException('User not found', $e);
+            throw new NotFoundHttpException
         }
 
         return new Response($this->twig->render('report/report_user.html.twig', [

@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\User\BenchUser;
 use Doctrine\ORM\NoResultException;
 use App\Domain\User\TokenGenerator;
-use RuntimeException;
 use App\Domain\User\UserNotFoundException;
 
 class DoctrineUserRepository implements BenchUserRepository

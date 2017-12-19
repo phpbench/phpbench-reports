@@ -28,8 +28,7 @@ class IterationReport
         string $class,
         string $subject,
         string $variant
-    ): array
-    {
+    ): array {
         return $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant);
     }
 
@@ -45,6 +44,5 @@ class IterationReport
         return $this->tabulator->histogram(
             $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
         );
-
     }
 }

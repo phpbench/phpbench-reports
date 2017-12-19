@@ -3,7 +3,6 @@
 namespace App\Domain\Import;
 
 use PhpBench\Dom\Document;
-use Elasticsearch\Client;
 use App\Domain\Store\VariantStore;
 use PhpBench\Dom\Element;
 use App\Domain\Store\SuiteStore;

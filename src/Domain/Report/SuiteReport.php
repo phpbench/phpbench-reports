@@ -4,7 +4,6 @@ namespace App\Domain\Report;
 
 use App\Domain\Store\SuiteStore;
 use App\Domain\User\BenchUserRepository;
-use App\Domain\Report\Tabulator\SuiteTabulator;
 
 class SuiteReport
 {
@@ -21,8 +20,7 @@ class SuiteReport
     public function __construct(
         SuiteStore $suiteStore,
         BenchUserRepository $userRepository
-    )
-    {
+    ) {
         $this->suiteStore = $suiteStore;
         $this->userRepository = $userRepository;
     }

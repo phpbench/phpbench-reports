@@ -2,8 +2,6 @@
 
 namespace App\Domain\Report;
 
-use App\Domain\Store\SuiteStore;
-use App\Domain\User\BenchUserRepository;
 use App\Domain\Store\VariantStore;
 use App\Domain\Report\Tabulator\VariantTabulator;
 
@@ -22,8 +20,7 @@ class VariantReport
     public function __construct(
         VariantStore $variantStore,
         VariantTabulator $tabulator
-    )
-    {
+    ) {
         $this->variantStore = $variantStore;
         $this->tabulator = $tabulator;
     }

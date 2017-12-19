@@ -2,12 +2,9 @@
 
 namespace App\Infrastructure\Symfony\Controller;
 
-use App\Domain\Import\Importer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use PhpBench\Dom\Document;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Domain\SuiteStorage;
 use App\Service\ImporterService;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

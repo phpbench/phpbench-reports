@@ -24,8 +24,7 @@ class ApiKeyAuthenticator implements AuthenticatorInterface
 
     public function __construct(
         BenchUserRepository $userRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
     }
 
@@ -35,8 +34,7 @@ class ApiKeyAuthenticator implements AuthenticatorInterface
     public function start(
         Request $request,
         AuthenticationException $authException = null
-    )
-    {
+    ) {
         $data = array(
             'message' => 'Authentication Required'
         );

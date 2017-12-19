@@ -6,7 +6,6 @@ use App\Domain\Import\Importer;
 use PhpBench\Dom\Document;
 use App\Domain\SuiteStorage;
 use App\Domain\User\BenchUserRepository;
-use App\Domain\User\BenchUser;
 use RuntimeException;
 use App\Service\Exception\ImportException;
 
@@ -31,8 +30,7 @@ class ImporterService
         Importer $importer,
         SuiteStorage $storage,
         BenchUserRepository $userRepository
-    )
-    {
+    ) {
         $this->importer = $importer;
         $this->storage = $storage;
         $this->userRepository = $userRepository;
@@ -53,7 +51,8 @@ class ImporterService
     {
         if (!file_exists($filename)) {
             throw new RuntimeException(sprintf(
-                'File "%s" not found', $filename
+                'File "%s" not found',
+                $filename
             ));
         }
 

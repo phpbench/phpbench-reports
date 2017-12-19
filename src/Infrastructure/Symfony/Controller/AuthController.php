@@ -2,11 +2,9 @@
 
 namespace App\Infrastructure\Symfony\Controller;
 
-use League\OAuth2\Client\Provider\Github;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Auth\ProviderFactory;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Infrastructure\Symfony\Auth\Provider;
@@ -40,8 +38,7 @@ class AuthController
         UrlGeneratorInterface $urlGenerator,
         AuthenticationUtils $authUtils,
         Environment $twig
-    )
-    {
+    ) {
         $this->provider = $provider;
         $this->urlGenerator = $urlGenerator;
         $this->authUtils = $authUtils;

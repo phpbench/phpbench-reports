@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Elastic\Store;
 
-use App\Domain\Store\VariantStore;
 use Elasticsearch\Client;
 use App\Domain\Store\SuiteStore;
 

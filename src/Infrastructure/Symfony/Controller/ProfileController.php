@@ -16,8 +16,7 @@ class ProfileController
 
     public function __construct(
         Environment $twig
-    )
-    {
+    ) {
         $this->twig = $twig;
     }
 
