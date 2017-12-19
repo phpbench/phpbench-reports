@@ -15,17 +15,10 @@ class ProfileController
      */
     private $twig;
 
-    /**
-     * @var TokenStorage
-     */
-    private $tokenStorage;
-
     public function __construct(
-        Environment $twig,
-        TokenStorage $tokenStorage
+        Environment $twig
     ) {
         $this->twig = $twig;
-        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -33,9 +26,6 @@ class ProfileController
      */
     public function profile(Request $request)
     {
-        $user = $this->tokenStorage->getToken()->getUser();
-        $projects = $this->profileService->projects($user);
-
         return new Response($this->twig->render('user/profile.html.twig'));
     }
 }
