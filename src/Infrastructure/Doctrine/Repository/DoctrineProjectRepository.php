@@ -32,12 +32,12 @@ class DoctrineProjectRepository implements ProjectRepository
     public function findForUser(BenchUser $benchUser): Projects
     {
         $projects = $this->queryBuilder('p')
-            ->where('p.user', ':userId')
+            ->where('p.user = :userId')
             ->setParameter('userId', $benchUser->id())
             ->getQuery()
             ->execute();
 
-        return Projects::fromProjects(iterator_to_array($projects));
+        return Projects::fromProjects($projects);
     }
 
     public function projectExists(BenchUser $benchUser, string $namespace, string $name): bool

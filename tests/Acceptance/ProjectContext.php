@@ -7,6 +7,7 @@ use Behat\MinkExtension\Context\RawMinkContext;
 use Symfony\Component\HttpKernel\KernelInterface;
 use App\Service\ProjectService;
 use Behat\Behat\Tester\Exception\PendingException;
+use PHPUnit\Framework\Assert;
 
 class ProjectContext extends RawMinkContext implements Context
 {
@@ -33,6 +34,7 @@ class ProjectContext extends RawMinkContext implements Context
      */
     public function iShouldSeeTheProject($arg1)
     {
-        throw new PendingException();
+        $element = $this->getSession()->getPage()->find('xpath', '//td[contains(., "' . $arg1 . '")]');
+        Assert::assertNotNull($element, 'Project cell was found');
     }
 }

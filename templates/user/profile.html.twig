@@ -2,17 +2,36 @@
 {% block page_title %}Profile{% endblock %}
 {% block body %}
     <div class="ui grid">
+        <h3>Details</h3>
         <div class="centered six wide column">
-                <table class="ui definition table">
-                    <tr>
-                        <td>Username</td>
-                        <td>{{ app.user.username }}</td>
-                    </tr>
-                    <tr>
-                        <td>API Key</td>
-                        <td>{{ app.user.apiKey }}</td>
-                    </tr>
-                </table>
+            <table class="ui definition table">
+                <tr>
+                    <td>Username</td>
+                    <td>{{ app.user.username }}</td>
+                </tr>
+                <tr>
+                    <td>API Key</td>
+                    <td>{{ app.user.apiKey }}</td>
+                </tr>
+            </table>
         </div>
+        <h3>Projects</h3>
+        <div class="centered six wide column">
+            <table class="ui table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <td>{{ project.namespace }}/{{ project.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
     </div>
-{% endblock %}
+    {% endblock %}
