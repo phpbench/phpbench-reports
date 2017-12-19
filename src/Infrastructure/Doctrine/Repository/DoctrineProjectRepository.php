@@ -40,10 +40,6 @@ class DoctrineProjectRepository implements ProjectRepository
         return Projects::fromProjects($projects);
     }
 
-    public function projectExists(BenchUser $benchUser, string $namespace, string $name): bool
-    {
-    }
-
     public function createProject(BenchUser $benchUser, string $namespace, string $name): Project
     {
         $apiKey = $this->tokenGenerator->generate();
@@ -57,6 +53,15 @@ class DoctrineProjectRepository implements ProjectRepository
 
     public function findProject(BenchUser $benchUser, string $namespace, string $name): Project
     {
+        return $this->queryBuilder('p')
+            ->where('p.user = :userId')
+            ->andWhere('p.namespace = :namespace')
+            ->andWhere('p.name = :name')
+            ->setParameter('userId', $benchUser->id())
+            ->setParameter('namespace', $namespace)
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getSingleResult();
     }
 
     public function updateProject(BenchUser $benchUser, Project $project): void
@@ -65,5 +70,9 @@ class DoctrineProjectRepository implements ProjectRepository
     private function queryBuilder(): QueryBuilder
     {
         return $this->entityManager->getRepository(DoctrineProject::class)->createQueryBuilder('p');
+    }
+
+    public function projectExists(BenchUser $benchUser, string $namespace, string $name): bool
+    {
     }
 }

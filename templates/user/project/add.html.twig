@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+{% block title %}Add Project{% endblock %}
+{% block breadcrumb %}
+    <a class="section" href="{{ path('profile') }}">Profile</a>
+    <div class="divider"> / </div>
+    <div class="active section">Add Project</div>
+{% endblock %}
+{% block body %}
+    <form class="ui form" method="POST">
+        {{ form_widget(form) }}
+    </form>
+{% endblock %}
+
