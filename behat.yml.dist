@@ -12,6 +12,8 @@ default:
                 - App\Tests\Acceptance\ProjectContext:
                     kernel: '@kernel'
                 - Behat\MinkExtension\Context\MinkContext
+                - App\Tests\Acceptance\DoctrineContext:
+                    kernel: '@kernel'
 
     extensions:
         Behat\Symfony2Extension:
