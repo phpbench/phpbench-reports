@@ -5,19 +5,19 @@ namespace App\Tests\Acceptance;
 use Behat\Behat\Context\Context;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Symfony\Component\HttpKernel\KernelInterface;
-use App\Service\ProfileService;
+use App\Service\ProjectService;
 use Behat\Behat\Tester\Exception\PendingException;
 
 class ProjectContext extends RawMinkContext implements Context
 {
     /**
-     * @var ProfileService
+     * @var ProjectService
      */
     private $projectService;
 
     public function __construct(KernelInterface $kernel)
     {
-        $this->projectService = $kernel->getContainer()->get(ProfileService::class);
+        $this->projectService = $kernel->getContainer()->get(ProjectService::class);
     }
 
     /**

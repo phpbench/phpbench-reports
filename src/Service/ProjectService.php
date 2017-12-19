@@ -8,7 +8,7 @@ use App\Domain\User\BenchUser;
 use App\Domain\Project\Project;
 use App\Domain\User\BenchUserRepository;
 
-class ProfileService
+class ProjectService
 {
     /**
      * @var ProjectRepository

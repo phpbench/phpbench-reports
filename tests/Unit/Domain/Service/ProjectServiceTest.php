@@ -3,19 +3,18 @@
 namespace App\Tests\Unit\Domain\Service;
 
 use PHPUnit\Framework\TestCase;
-use App\Service\ProfileService;
+use App\Service\ProjectService;
 use App\Domain\Project\Project;
 use App\Domain\Project\ProjectRepository;
 use App\Domain\User\BenchUser;
 use App\Domain\Project\Projects;
 use App\Domain\User\BenchUserRepository;
 
-class ProfileServiceTest extends TestCase
+class ProjectServiceTest extends TestCase
 {
     const USERNAME = 'dantleech';
     const PROJECT_NAMESPACE = 'project_namespace';
     const PROJECT_NAME = 'project_name';
-
 
     /**
      * @var ProfileService
@@ -48,7 +47,7 @@ class ProfileServiceTest extends TestCase
         $this->userRepository = $this->prophesize(BenchUserRepository::class);
         $this->user = $this->prophesize(BenchUser::class);
         $this->project1 = $this->prophesize(Project::class);
-        $this->profileService = new ProfileService(
+        $this->profileService = new ProjectService(
             $this->projectRepository->reveal(),
             $this->userRepository->reveal()
         );
