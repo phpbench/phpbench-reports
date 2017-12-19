@@ -84,32 +84,4 @@ class DoctrineUserRepository implements BenchUserRepository
 
         return null;
     }
-
-    public function findByApiKeyOrExplode($apiKey): BenchUser
-    {
-        if ($user = $this->findByApiKey($apiKey)) {
-            return $user;
-        }
-
-        throw new UserNotFoundException(sprintf(
-            'Could not find user with API key "%s"',
-            $apiKey
-        ));
-    }
-
-    public function findByApiKey($apiKey):? BenchUser
-    {
-        try {
-            return $this->entityManager->createQueryBuilder()
-                ->select('u')
-                ->from(DoctrineUser::class, 'u')
-                ->where('u.apiKey = :apiKey')
-                ->setParameter('apiKey', $apiKey)
-                ->getQuery()
-                ->getSingleResult();
-        } catch (NoResultException $e) {
-        }
-
-        return null;
-    }
 }

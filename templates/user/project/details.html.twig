@@ -3,9 +3,9 @@
 {% block breadcrumb %}
     <a class="section" href="{{ path('profile') }}">Profile</a>
     <div class="divider"> / </div>
-    <div class="active section">{{ project.namespace }}</div>
+    <div class="active section">{{ project.name.namespace }}</div>
     <div class="divider"> / </div>
-    <div class="active section">{{ project.name }}</div>
+    <div class="active section">{{ project.name.name }}</div>
 {% endblock %}
 {% block body %}
         <h3>Details</h3>

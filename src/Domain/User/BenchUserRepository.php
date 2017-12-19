@@ -11,8 +11,4 @@ interface BenchUserRepository
     public function findByUsername(string $username):? BenchUser;
 
     public function findByUsernameOrExplode(string $username): BenchUser;
-
-    public function findByApiKey(string $apiKey):? BenchUser;
-
-    public function findByApiKeyOrExplode(string $apiKey): BenchUser;
 }
