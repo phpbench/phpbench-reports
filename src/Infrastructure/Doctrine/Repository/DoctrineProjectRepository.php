@@ -74,10 +74,6 @@ class DoctrineProjectRepository implements ProjectRepository
         return $this->entityManager->getRepository(DoctrineProject::class)->createQueryBuilder('p');
     }
 
-    public function projectExists(BenchUser $benchUser, string $namespace, string $name): bool
-    {
-    }
-
     public function findByApiKey(string $apiKey):? Project
     {
         return $this->queryBuilder('p')

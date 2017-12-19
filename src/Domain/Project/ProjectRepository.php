@@ -9,8 +9,6 @@ interface ProjectRepository
 {
     public function findForUser(BenchUser $benchUser): Projects;
 
-    public function projectExists(BenchUser $benchUser, string $namespace, string $name): bool;
-
     public function createProject(BenchUser $benchUser, string $namespace, string $name, string $apiKey): Project;
 
     public function findProject(BenchUser $benchUser, string $namespace, string $name): Project;
