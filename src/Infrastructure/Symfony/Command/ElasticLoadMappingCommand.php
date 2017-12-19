@@ -6,17 +6,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Elasticsearch\Client;
+use App\Infrastructure\Elastic\MappingLoader;
 
 class ElasticLoadMappingCommand extends Command
 {
     /**
-     * @var Client
+     * @var MappingLoader
      */
-    private $client;
+    private $mappingLoader;
 
-    public function __construct(Client $client)
+    public function __construct(MappingLoader $mappingLoader)
     {
-        $this->client = $client;
+        $this->mappingLoader = $mappingLoader;
         parent::__construct();
     }
 
@@ -27,15 +28,7 @@ class ElasticLoadMappingCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $allMappings = json_decode(file_get_contents(__DIR__ . '/../../../../config/elastic/mapping.json'), true);
-
-        foreach ($allMappings as $indexName => $mappings) {
-            $output->writeln('<info>Loading mapping for</>: ' . $indexName);
-            $params = [
-                'index' => $indexName,
-                'body' => $mappings,
-            ];
-            $this->client->indices()->create($params);
-        }
+        $this->mappingLoader->loadMappings();
+        $output->writeln('Done');
     }
 }

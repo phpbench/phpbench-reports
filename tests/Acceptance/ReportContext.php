@@ -42,6 +42,8 @@ class ReportContext extends RawMinkContext implements Context
     {
         $path = __DIR__ . '/../Fixtures/' . $filename;
         $this->suiteUuid = $this->importerService->importFromFile($path, $username);
+        // let elastic settle down (race condition issues)
+        usleep(500000);
     }
 
     /**

@@ -37,15 +37,12 @@ class UserContext extends RawMinkContext implements Context
 
         /** @var DoctrineUserRepository $userRepository */
         $userRepository = $this->kernel->getContainer()->get(DoctrineUserRepository::class);
-
-        if (null === $user = $userRepository->findByUsername($username)) {
-            $user = $userRepository->create(
-                $username,
-                uniqid(),
-                '$2y$12$C8sHO2VzPQG0igceHzAG/eYwGmFFciJXq4VMa3BnFDUjsLnGwrYaK', // "test"
-                $apiKey
-            );
-        }
+        $user = $userRepository->create(
+            $username,
+            uniqid(),
+            '$2y$12$C8sHO2VzPQG0igceHzAG/eYwGmFFciJXq4VMa3BnFDUjsLnGwrYaK', // "test"
+            $apiKey
+        );
         $this->user = $user;
     }
 

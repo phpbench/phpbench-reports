@@ -39,6 +39,7 @@ services:
     Elasticsearch\Client:
         factory: "Elasticsearch\\ClientBuilder:fromConfig"
         arguments: [ '%elastic_config%' ]
+        public: true
 
     App\Infrastructure\Filesystem\SuiteStorage\FilesystemSuiteStorage:
         arguments: [ '%kernel.root_dir%/../../../suites' ]
