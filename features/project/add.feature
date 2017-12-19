@@ -12,7 +12,7 @@ Feature: Add project
         And I follow "Add project"
         When I fill in "project_add_form[name]" with "new-project"
         And I press "Add project"
-        Then I should be on "/account/project/daniel/new-project"
+        Then I should be on "/profile/project/details/daniel/new-project"
 
     Scenario: Trying to add existing project
         Given user "daniel" has project "daniel" "phpbench-reports"

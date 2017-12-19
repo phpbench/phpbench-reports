@@ -26,7 +26,7 @@
         <tbody>
             {% for project in projects %}
             <tr>
-                <td>{{ project.namespace }}/{{ project.name }}</td>
+                <td><a href="{{ path('profile_project_details', { namespace: project.namespace, name:project.name }) }}">{{ project.namespace }}/{{ project.name }}</a></td>
             </tr>
             {% endfor %}
         </tbody>

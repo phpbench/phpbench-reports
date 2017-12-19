@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+{% block title %}Add Project{% endblock %}
+{% block breadcrumb %}
+    <a class="section" href="{{ path('profile') }}">Profile</a>
+    <div class="divider"> / </div>
+    <div class="active section">{{ project.namespace }}</div>
+    <div class="divider"> / </div>
+    <div class="active section">{{ project.name }}</div>
+{% endblock %}
+{% block body %}
+        <h3>Details</h3>
+        <table class="ui definition table">
+            <tr>
+                <td>Project</td>
+                <td>{{ project.namespace }}/{{ project.name }}</td>
+            </tr>
+            <tr>
+                <td>API Key</td>
+                <td>{{ project.apiKey }}</td>
+            </tr>
+        </table>
+        <h3>Configuration</h3>
+        <ul>
+            <li>
+                <a href="http://phpbench.readthedocs.io/en/latest/installing.html">Install and configure PHPBench</a> if you havn't done so already
+            </li>
+            <li>
+                Configure PHPBench to send data to this server, modify or create the <code>phpbench.json</code> file in the root of your project:
+        <pre>
+{
+    "storage": "reports",
+    "storage.reports.api_key": "{{ project.apiKey }}"
+}
+        </pre>
+{% endblock %}
+
+
