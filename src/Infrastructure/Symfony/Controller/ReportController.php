@@ -76,7 +76,7 @@ class ReportController
         try {
             $suitesReport = $this->suiteReport->suitesForUser($username);
         } catch (UserNotFoundException $e) {
-            throw new NotFoundHttpException
+            throw new NotFoundHttpException('User not found', $e);
         }
 
         return new Response($this->twig->render('report/report_user.html.twig', [
