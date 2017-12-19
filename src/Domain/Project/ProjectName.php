@@ -49,4 +49,9 @@ final class ProjectName
     {
         return $this->name;
     }
+
+    public function __toString()
+    {
+        return $this->namespace . '/' . $this->name;
+    }
 }

@@ -7,6 +7,7 @@ use App\Domain\Project\ProjectRepository;
 use App\Domain\User\BenchUser;
 use App\Domain\Project\Project;
 use App\Domain\User\BenchUserRepository;
+use App\Domain\Project\ProjectName;
 
 class ProjectService
 {
@@ -41,7 +42,11 @@ class ProjectService
 
     public function createProject(string $username, string $namespace, string $name, string $apiKey = null): Project
     {
-        return $this->projectRepository->createProject($this->user($username), $namespace, $name, $apiKey);
+        return $this->projectRepository->createProject(
+            $this->user($username),
+            ProjectName::fromNamespaceAndName($namespace, $name),
+            $apiKey
+        );
     }
 
     public function project(string $username, string $namespace, string $name): Project

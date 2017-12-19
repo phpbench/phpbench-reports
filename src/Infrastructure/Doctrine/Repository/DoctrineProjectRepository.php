@@ -41,11 +41,11 @@ class DoctrineProjectRepository implements ProjectRepository
         return Projects::fromProjects($projects);
     }
 
-    public function createProject(BenchUser $benchUser, string $namespace, string $name, string $apiKey = null): Project
+    public function createProject(BenchUser $benchUser, ProjectName $projectName, string $apiKey = null): Project
     {
         $apiKey = $apiKey ?: $this->tokenGenerator->generate();
             
-        $project = new DoctrineProject($benchUser, $namespace, $name, $apiKey);
+        $project = new DoctrineProject($benchUser, $projectName, $apiKey);
         $this->entityManager->persist($project);
         $this->entityManager->flush();
 

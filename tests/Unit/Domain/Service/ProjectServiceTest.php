@@ -9,6 +9,7 @@ use App\Domain\Project\ProjectRepository;
 use App\Domain\User\BenchUser;
 use App\Domain\Project\Projects;
 use App\Domain\User\BenchUserRepository;
+use App\Domain\Project\ProjectName;
 
 class ProjectServiceTest extends TestCase
 {
@@ -69,25 +70,15 @@ class ProjectServiceTest extends TestCase
         $this->assertEquals($projects, $result);
     }
 
-    public function testProjectExists()
-    {
-        $this->projectRepository->projectExists($this->user->reveal(), self::PROJECT_NAMESPACE, self::PROJECT_NAME)->willReturn(true);
-
-        $result = $this->profileService->projectExists(
-            self::USERNAME,
-            self::PROJECT_NAMESPACE,
-            self::PROJECT_NAME
-        );
-
-        $this->assertTrue($result);
-    }
-
     public function testCreateProject()
     {
         $this->projectRepository->createProject(
             $this->user->reveal(),
-            self::PROJECT_NAMESPACE,
-            self::PROJECT_NAME
+            ProjectName::fromNamespaceAndName(
+                self::PROJECT_NAMESPACE,
+                self::PROJECT_NAME
+            ),
+            null
         )->willReturn($this->project1->reveal());
 
         $result = $this->profileService->createProject(

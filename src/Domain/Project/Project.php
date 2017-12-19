@@ -9,9 +9,7 @@ use DateTimeImmutable;
  */
 interface Project
 {
-    public function namespace(): string;
-
-    public function name(): string;
+    public function name(): ProjectName;
 
     public function apiKey(): string;
 

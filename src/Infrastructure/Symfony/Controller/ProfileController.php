@@ -80,8 +80,8 @@ class ProfileController
             return new RedirectResponse($this->urlGenerator->generate(
                 'profile_project_details',
                 [
-                    'namespace' => $project->namespace(),
-                    'name' => $project->name(),
+                    'namespace' => $project->name()->namespace(),
+                    'name' => $project->name()->name(),
                 ]
             ));
         }

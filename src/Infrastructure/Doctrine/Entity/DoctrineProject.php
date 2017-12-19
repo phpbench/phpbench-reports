@@ -5,6 +5,7 @@ namespace App\Infrastructure\Doctrine\Entity;
 use App\Domain\Project\Project;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\User\BenchUser;
+use App\Domain\Project\ProjectName;
 
 /**
  * @ORM\Entity
@@ -50,22 +51,17 @@ class DoctrineProject implements Project
      */
     private $active = true;
 
-    public function __construct(DoctrineUser $user, string $namespace, string $name, string $apiKey)
+    public function __construct(DoctrineUser $user, ProjectName $projectName, string $apiKey)
     {
         $this->user = $user;
-        $this->namespace = $namespace;
-        $this->name = $name;
+        $this->namespace = $projectName->namespace();
+        $this->name = $projectName->name();
         $this->apiKey = $apiKey;
     }
 
-    public function namespace(): string
+    public function name(): ProjectName
     {
-        return $this->namespace;
-    }
-
-    public function name(): string
-    {
-        return $this->name;
+        return ProjectName::fromNamespaceAndName($this->namespace, $this->name);
     }
 
     public function apiKey(): string
