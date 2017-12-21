@@ -27,6 +27,8 @@ class VariantTabulator
             return isset($data['stats-mode']);
         });
 
+        $dataSet = array_values($dataSet);
+
         $labels = array_map(function (array $data) {
             return $data['subject-name'];
         }, $dataSet);

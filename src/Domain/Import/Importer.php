@@ -71,27 +71,27 @@ class Importer
         $this->suiteStore->store($identifier, [ $document ]);
     }
 
-    private function storeVariants($suiteDocument)
+    private function storeVariants(Element $suiteElement)
     {
-        $document = $this->flattenDocument($suiteDocument);
-        foreach ($suiteDocument->query('.//env/*') as $envDocument) {
-            $document = array_merge($document, $this->flattenDocument($envDocument, 'env'));
+        $document = $this->flattenDocument($suiteElement);
+        foreach ($suiteElement->query('.//env/*') as $envElement) {
+            $document = array_merge($document, $this->flattenDocument($envElement, 'env'));
         }
-        foreach ($suiteDocument->query('.//benchmark') as $benchmarkDocument) {
-            $document = array_merge($document, $this->flattenDocument($benchmarkDocument));
-            foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
-                $document = array_merge($document, $this->flattenDocument($subjectDocument));
+        foreach ($suiteElement->query('.//benchmark') as $benchmarkElement) {
+            $benchDocument = array_merge($document, $this->flattenDocument($benchmarkElement));
+            foreach ($benchmarkElement->query('.//subject') as $subjectElement) {
+                $subjectDocument = array_merge($benchDocument, $this->flattenDocument($subjectElement));
                 /** @var Element $variantDocument */
-                foreach ($subjectDocument->query('.//variant') as $index => $variantDocument) {
-                    $document = array_merge($document, $this->flattenDocument($variantDocument));
-                    $document['variant-index'] = $index;
-                    foreach ($variantDocument->query('.//stats') as $statsDocument) {
-                        $document = array_merge($document, $this->flattenDocument($statsDocument));
+                foreach ($subjectElement->query('.//variant') as $index => $variantElement) {
+                    $variantDocument = array_merge($subjectDocument, $this->flattenDocument($variantElement));
+                    $variantDocument['variant-index'] = $index;
+                    foreach ($variantElement->query('.//stats') as $statsElement) {
+                        $variantDocument = array_merge($variantDocument, $this->flattenDocument($statsElement));
                     }
-                    $document['variant-iterations'] = $variantDocument->query('.//iteration')->length;
+                    $variantDocument['variant-iterations'] = $variantElement->query('.//iteration')->length;
 
                     $identifier = $this->generateId($document);
-                    $documents[$identifier] = $document;
+                    $documents[] = $variantDocument;
                 }
             }
         }
@@ -99,26 +99,28 @@ class Importer
         $this->variantStore->storeMany($documents);
     }
 
-    private function storeIterations(Element $suiteDocument)
+    private function storeIterations(Element $suiteElement)
     {
         $documents = [];
         $document = [
-            'suite-uuid' => $suiteDocument->getAttribute('uuid'),
+            'suite-uuid' => $suiteElement->getAttribute('uuid'),
         ];
-        foreach ($suiteDocument->query('.//benchmark') as $benchmarkDocument) {
-            $document = array_merge($document, $this->flattenDocument($benchmarkDocument));
-            foreach ($benchmarkDocument->query('.//subject') as $subjectDocument) {
-                $document = array_merge($document, $this->flattenDocument($subjectDocument));
-                foreach ($subjectDocument->query('.//variant') as $index => $variantDocument) {
-                    $document['variant-index'] = $index;
+        foreach ($suiteElement->query('.//benchmark') as $benchmarkElement) {
+            $benchDocument = array_merge($document, $this->flattenDocument($benchmarkElement));
+            foreach ($benchmarkElement->query('.//subject') as $subjectElement) {
+                $subjectDocument = array_merge($benchDocument, $this->flattenDocument($subjectElement));
+                foreach ($subjectElement->query('.//variant') as $index => $variantElement) {
+                    $variantDocument = $subjectDocument;
+                    $variantDocument['variant-index'] = $index;
                     $iterationNb = 0;
-                    foreach ($variantDocument->query('.//iteration') as $iterationDocument) {
-                        foreach ($iterationDocument->attributes as $attrName => $attrElement) {
-                            $document[$attrName] = $attrElement->nodeValue;
+                    foreach ($variantElement->query('.//iteration') as $iterationElement) {
+                        $iterationDocument = $variantDocument;
+                        foreach ($iterationElement->attributes as $attrName => $attrElement) {
+                            $iterationDocument[$attrName] = $attrElement->nodeValue;
                         }
-                        $document['iteration'] = $iterationNb++;
+                        $iterationDocument['iteration'] = $iterationNb++;
 
-                        $documents[] = $document;
+                        $documents[] = $iterationDocument;
                     }
                 }
             }

@@ -24,12 +24,12 @@
                     variant: variant['variant-index']
                 }) }}">{{ variant['subject-name'] }}{% if variant['variant-index'] != 0 %} # {{ variant['variant-index'] }}{% endif %}</a></td>
             <td>{{ variant['variant-revs'] ~ ' * ' ~ variant['variant-iterations'] }}</td>
-            <td>{{ variant['stats-min'] | number_format('2') }}µs</td>
-            <td>{{ variant['stats-max'] | number_format('2') }}µs</td>
-            <td>{{ variant['stats-mean'] | number_format('2') }}µs</td>
-            <td>{{ variant['stats-mode'] | number_format('2') }}µs</td>
-            <td>{{ variant['stats-stdev'] | number_format('2') }}µs</td>
-            <td>{{ variant['stats-rstdev'] | number_format('2') }}%</td>
+            <td>{{ variant['stats-min'] | default(0) | number_format('2') }}µs</td>
+            <td>{{ variant['stats-max'] | default(0) | number_format('2') }}µs</td>
+            <td>{{ variant['stats-mean'] | default(0) | number_format('2') }}µs</td>
+            <td>{{ variant['stats-mode'] | default(0) | number_format('2') }}µs</td>
+            <td>{{ variant['stats-stdev'] | default(0) | number_format('2') }}µs</td>
+            <td>{{ variant['stats-rstdev'] | default(0) | number_format('2') }}%</td>
         </tr>
         {% endfor %}
     </tbody>
