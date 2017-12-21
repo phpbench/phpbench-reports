@@ -9,10 +9,9 @@ class Statistics
     public static function histogram(array $values, $steps = 10, $lowerBound = null, $upperBound = null)
     {
         if (empty($values)) {
-            throw new OutOfBoundsException(
-                'Cannot generate histogram from an empty set'
-            );
+            return [];
         }
+
         $min = $lowerBound ?: min($values);
         $max = $upperBound ?: max($values);
 

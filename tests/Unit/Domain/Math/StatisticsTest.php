@@ -10,7 +10,7 @@ class StatisticsTest extends TestCase
 {
     public function testExceptionNoValues()
     {
-        $this->expectException(OutOfBoundsException::class);
-        Statistics::histogram([]);
+        $values = Statistics::histogram([]);
+        $this->assertEmpty($values);
     }
 }
