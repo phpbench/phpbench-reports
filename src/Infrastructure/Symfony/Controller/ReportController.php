@@ -56,9 +56,9 @@ class ReportController
     }
 
     /**
-     * @Route("/", name="home")
+     * @Route("/latest", name="latest")
      */
-    public function allSuites(Request $request)
+    public function latestSuites(Request $request)
     {
         $suitesReport = $this->suiteReport->allSuites();
 
