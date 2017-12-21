@@ -5,45 +5,18 @@ namespace App\Infrastructure\Elastic\Store;
 use App\Domain\Store\VariantStore;
 use Elasticsearch\Client;
 
-class ElasticVariantStore implements VariantStore
+class ElasticVariantStore extends AbstractElasticStore implements VariantStore
 {
     const INDEX_NAME = 'phpbench_variant';
 
-    /**
-     * @var Client
-     */
-    private $client;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
-
     public function storeMany(array $documents): void
     {
-        $params = [
-            'body' => [],
-        ];
-        foreach ($documents as $id => $document) {
-            $params['body'][] = [
-                'index' => [
-                    '_index' => self::INDEX_NAME,
-                    '_type' => self::INDEX_NAME,
-                    '_id' => $id,
-                ]
-            ];
-
-            $params['body'][] = $document;
-        }
-
-        $this->client->bulk($params);
+        $this->doStoreMany(self::INDEX_NAME, $documents);
     }
 
     public function forSuiteUuid(string $uuid): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'query' => [
                     'match' => [
@@ -53,16 +26,12 @@ class ElasticVariantStore implements VariantStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 
     public function forSuiteUuidAndBenchmark(string $uuid, string $class): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'query' => [
                     'bool' => [
@@ -75,8 +44,6 @@ class ElasticVariantStore implements VariantStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 }

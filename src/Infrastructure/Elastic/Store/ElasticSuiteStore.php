@@ -6,22 +6,9 @@ use Elasticsearch\Client;
 use App\Domain\Store\SuiteStore;
 use App\Domain\Project\ProjectName;
 
-/**
- * TODO: Refactor the "stores" to use an abstract class for e.g. extracting the results.
- */
-class ElasticSuiteStore implements SuiteStore
+class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
 {
     const INDEX_NAME = 'phpbench_suite';
-
-    /**
-     * @var Client
-     */
-    private $client;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
 
     public function store(string $uuid, array $data): void
     {
@@ -48,10 +35,7 @@ class ElasticSuiteStore implements SuiteStore
 
     public function forUserId(string $userId): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',
@@ -64,17 +48,12 @@ class ElasticSuiteStore implements SuiteStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 
     public function forNamespace(string $namespace): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',
@@ -87,17 +66,12 @@ class ElasticSuiteStore implements SuiteStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 
     public function all(): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',
@@ -105,17 +79,12 @@ class ElasticSuiteStore implements SuiteStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 
     public function forProject(ProjectName $project): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',
@@ -131,8 +100,6 @@ class ElasticSuiteStore implements SuiteStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 }

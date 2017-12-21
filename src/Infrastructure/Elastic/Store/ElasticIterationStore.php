@@ -5,44 +5,18 @@ namespace App\Infrastructure\Elastic\Store;
 use Elasticsearch\Client;
 use App\Domain\Store\IterationStore;
 
-class ElasticIterationStore implements IterationStore
+class ElasticIterationStore extends AbstractElasticStore implements IterationStore
 {
     const INDEX_NAME = 'phpbench_iteration';
 
-    /**
-     * @var Client
-     */
-    private $client;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
-
     public function storeMany(array $documents): void
     {
-        $params = [
-            'body' => [],
-        ];
-        foreach ($documents as $document) {
-            $params['body'][] = [
-                'index' => [
-                    '_index' => self::INDEX_NAME,
-                    '_type' => self::INDEX_NAME,
-                ]
-            ];
-
-            $params['body'][] = $document;
-        }
-
-        $this->client->bulk($params);
+        $this->doStoreMany(self::INDEX_NAME, $documents);
     }
 
     public function forSuiteUuidBenchmarkSubjectAndVariant(string $uuid, string $class, string $subject, string $variant)
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'iteration' => 'ASC',
@@ -59,8 +33,6 @@ class ElasticIterationStore implements IterationStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 }
