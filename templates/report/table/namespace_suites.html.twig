@@ -1,19 +1,19 @@
 <table class="ui table ac-suites">
     <thead>
         <tr>
+            <th>Date</th>
             <th>Project</th>
             <th>Suite</th>
-            <th>Date</th>
         </tr>
     </thead>
     <tbody>
         {% for suite in table %}
         <tr>
+            <td title="{{ suite['suite-date'] }}">{{ suite['suite-date']|time_diff }}</td>
             <td>
                 <a href="{{ path('report_project', { namespace: suite['project-namespace'], project: suite['project-name'] }) }}">{{ suite['project-name'] }}</a>
             </td>
             <td><a href="{{ path('report_suite', { namespace: suite['project-namespace'], project: suite['project-name'], uuid: suite['suite-uuid'] }) }}">{{ suite['suite-uuid'] }}</a></td>
-            <td>{{ suite['suite-date'] }}</td>
         </tr>
         {% endfor %}
     </tbody>

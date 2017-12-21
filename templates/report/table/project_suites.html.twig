@@ -10,7 +10,7 @@
     <tbody>
         {% for suite in table %}
         <tr>
-            <td>{{ suite['suite-date'] }}</td>
+            <td title="{{ suite['suite-date'] }}">{{ suite['suite-date']|time_diff }}</td>
             <td><a href="{{ path('report_suite', { 
                     namespace: suite['project-namespace'],
                     project: suite['project-name'],
