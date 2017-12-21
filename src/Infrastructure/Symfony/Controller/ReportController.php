@@ -18,6 +18,7 @@ use App\Domain\Report\VariantReport;
 use App\Domain\Report\IterationReport;
 use App\Domain\User\UserNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Domain\Project\ProjectName;
 
 class ReportController
 {
@@ -82,19 +83,18 @@ class ReportController
     }
 
     /**
-     * @Route("/user/{username}", name="report_user")
+     * @Route("/p/{namespace}/{name}", name="report_project")
      */
-    public function user(Request $request)
+    public function project(Request $request)
     {
-        $username = $request->attributes->get('username');
-        try {
-            $suitesReport = $this->suiteReport->suitesForUser($username);
-        } catch (UserNotFoundException $e) {
-            throw new NotFoundHttpException('User not found', $e);
-        }
+        $namespace = $request->attributes->get('namespace');
+        $name = $request->attributes->get('name');
 
-        return new Response($this->twig->render('report/report_user.html.twig', [
-            'username' => $username,
+        $projectName = ProjectName::fromNamespaceAndName($namespace, $name);
+        $suitesReport = $this->suiteReport->suitesForProject($projectName);
+
+        return new Response($this->twig->render('report/report_project.html.twig', [
+            'project' => $projectName,
             'suitesReport' => $suitesReport,
         ]));
     }

@@ -4,6 +4,7 @@ namespace App\Infrastructure\Elastic\Store;
 
 use Elasticsearch\Client;
 use App\Domain\Store\SuiteStore;
+use App\Domain\Project\ProjectName;
 
 /**
  * TODO: Refactor the "stores" to use an abstract class for e.g. extracting the results.
@@ -100,6 +101,32 @@ class ElasticSuiteStore implements SuiteStore
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',
+                ],
+            ],
+        ]);
+
+        return array_map(function ($hit) {
+            return $hit['_source'];
+        }, $result['hits']['hits']);
+    }
+
+    public function forProject(ProjectName $project): array
+    {
+        $result = $this->client->search([
+            'index' => self::INDEX_NAME,
+            'type' => self::INDEX_NAME,
+            'size' => 1000,
+            'body' => [
+                'sort' =>  [
+                    'suite-date.keyword' => 'DESC',
+                ],
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            [ 'term' => [ 'project-namespace.keyword' => $project->namespace(), ] ],
+                            [ 'term' => [ 'project-name.keyword' => $project->name(), ] ],
+                        ],
+                    ],
                 ],
             ],
         ]);
