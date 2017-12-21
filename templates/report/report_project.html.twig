@@ -2,9 +2,18 @@
 {% block title %}Project{% endblock %}
 {% block subtitle %}Benchmarks from {{ project }}{% endblock %}
 {% block breadcrumb %}
-<div class="active section"><a href="{{ path('report_namespace', { namespace: project.namespace }) }}">{{ project.namespace }}</a></div>
-<div class="divider"> / </div>
-<div class="active section">{{ project.name }}</div>
+    {{ breadcrumb([
+        {
+            "label": project.namespace,
+            "route": "report_namespace",
+            "params": {
+                namespace: project.namespace
+            }
+        },
+        {
+            "label": project.name,
+        },
+    ]) }}
 {% endblock %}
 {% block body %}
 {% include "report/table/project_suites.html.twig" with { table: suitesReport } %}

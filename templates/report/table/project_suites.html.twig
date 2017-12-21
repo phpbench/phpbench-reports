@@ -16,8 +16,8 @@
                     project: suite['project-name'],
                     uuid: suite['suite-uuid'],
                 }) }}">{{ suite['suite-uuid'] }}</a></td>
-            <td>{{ suite['env-uname-host'] }}</td>
-            <td>{{ suite['env-vcs-branch'] }}</td>
+            <td>{{ suite['env-uname-host'] | default('') }}</td>
+            <td>{{ suite['env-vcs-branch'] | default('') }}</td>
         </tr>
         {% endfor %}
     </tbody>
