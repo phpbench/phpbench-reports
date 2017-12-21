@@ -1,9 +1,0 @@
-{% extends "base.html.twig" %}
-{% block title %}User benchmarks{% endblock %}
-{% block subtitle %}Benchmarks from {{ username }}{% endblock %}
-{% block breadcrumb %}
-<div class="active section">{{ username }}</div>
-{% endblock %}
-{% block body %}
-{% include "report/table/user_suites.html.twig" with { table: suitesReport } %}
-{% endblock %}

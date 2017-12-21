@@ -2,6 +2,8 @@
 
 namespace App\Domain\Store;
 
+use App\Domain\Project\ProjectName;
+
 interface SuiteStore
 {
     public function store(string $id, array $data): void;
@@ -10,5 +12,9 @@ interface SuiteStore
 
     public function forUserId(string $uuid): array;
 
+    public function forProject(ProjectName $project): array;
+
     public function all(): array;
+
+    public function forNamespace(string $namespace);
 }

@@ -15,7 +15,14 @@
         {% for variant in table %}
         <tr>
             <td>
-                <a href="{{ path('report_variant', { uuid: uuid, class: subTitle, subject: variant['subject-name'], variant: variant['variant-index']}) }}">{{ variant['subject-name'] }}{% if variant['variant-index'] != 0 %} # {{ variant['variant-index'] }}{% endif %}</a></td>
+                <a href="{{ path('report_variant', { 
+                    namespace: project.namespace,
+                    project: project.name,
+                    uuid: uuid, 
+                    class: subTitle, 
+                    subject: variant['subject-name'], 
+                    variant: variant['variant-index']
+                }) }}">{{ variant['subject-name'] }}{% if variant['variant-index'] != 0 %} # {{ variant['variant-index'] }}{% endif %}</a></td>
             <td>{{ variant['variant-revs'] ~ ' * ' ~ variant['variant-iterations'] }}</td>
             <td>{{ variant['stats-min'] | number_format('2') }}µs</td>
             <td>{{ variant['stats-max'] | number_format('2') }}µs</td>

@@ -1,0 +1,24 @@
+<table class="ui table ac-suites">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Suite</th>
+            <th>Host</th>
+            <th>VCS Branch</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for suite in table %}
+        <tr>
+            <td title="{{ suite['suite-date'] }}">{{ suite['suite-date']|time_diff }}</td>
+            <td><a href="{{ path('report_suite', { 
+                    namespace: suite['project-namespace'],
+                    project: suite['project-name'],
+                    uuid: suite['suite-uuid'],
+                }) }}">{{ suite['suite-uuid'] }}</a></td>
+            <td>{{ suite['env-uname-host'] }}</td>
+            <td>{{ suite['env-vcs-branch'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

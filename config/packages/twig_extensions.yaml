@@ -5,6 +5,8 @@ services:
         autoconfigure: true
 
     #Twig\Extensions\ArrayExtension: ~
-    #Twig\Extensions\DateExtension: ~
+    Twig\Extensions\DateExtension:
+        arguments:
+            - ~
     #Twig\Extensions\IntlExtension: ~
     Twig\Extensions\TextExtension: ~
