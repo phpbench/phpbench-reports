@@ -35,10 +35,7 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
 
     public function forUserId(string $userId): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',
@@ -56,10 +53,7 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
 
     public function forNamespace(string $namespace): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',
@@ -77,10 +71,7 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
 
     public function all(): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',
@@ -93,10 +84,7 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
 
     public function forProject(ProjectName $project): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'suite-date.keyword' => 'DESC',

@@ -16,9 +16,7 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
 
     public function forSuiteUuid(string $uuid): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'query' => [
                     'match' => [
@@ -33,9 +31,7 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
 
     public function forSuiteUuidAndBenchmark(string $uuid, string $class): array
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'type' => self::INDEX_NAME,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'query' => [
                     'bool' => [

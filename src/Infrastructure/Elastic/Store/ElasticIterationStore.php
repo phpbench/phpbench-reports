@@ -16,9 +16,7 @@ class ElasticIterationStore extends AbstractElasticStore implements IterationSto
 
     public function forSuiteUuidBenchmarkSubjectAndVariant(string $uuid, string $class, string $subject, string $variant)
     {
-        $result = $this->client->search([
-            'index' => self::INDEX_NAME,
-            'size' => 1000,
+        $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
                     'iteration' => 'ASC',
@@ -35,8 +33,6 @@ class ElasticIterationStore extends AbstractElasticStore implements IterationSto
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 }

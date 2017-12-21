@@ -41,4 +41,15 @@ abstract class AbstractElasticStore
             return $hit['_source'];
         }, $result['hits']['hits']);
     }
+
+    protected function search(string $indexName, $params)
+    {
+        $params = array_merge([
+            'index' => $indexName,
+            'type' => $indexName,
+            'size' => 1000,
+        ], $params);
+
+        return $this->client->search($params);
+    }
 }
