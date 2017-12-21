@@ -2,11 +2,48 @@
 {% block title %}Variant{% endblock %}
 {% block subtitle %}So many datas{% endblock %}
 {% block breadcrumb %}
-    <a class="section" href="{{ path('report_suite', { "uuid": uuid }) }}">{{ uuid }}</a>
-    <div class="divider"> / </div>
-    <a class="section" href="{{ path('report_benchmark', {'uuid': uuid, 'class': class}) }}">{{ class|short_class }}</a>
-    <div class="divider"> / </div>
-     <div class="active section">{{ subject }}#{{ variant }}</div>
+    {{ breadcrumb([
+        {
+            "label": project.namespace,
+            "route": "report_namespace",
+            "params": {
+                namespace: project.namespace
+            }
+        },
+        {
+            "label": project.name,
+            "route": "report_project",
+            "params": {
+                namespace: project.namespace,
+                project: project.name,
+            }
+        },
+        {
+            "label": uuid,
+            "route": "report_suite",
+            "params": {
+                namespace: project.namespace,
+                project: project.name,
+                uuid: uuid 
+            }
+        },
+        {
+            "label": class,
+            "route": "report_benchmark",
+            "params": {
+                namespace: project.namespace,
+                project: project.name,
+                class: class,
+                uuid: uuid 
+            }
+        },
+        {
+            "label": subject,
+        },
+        {
+            "label": variant,
+        },
+    ]) }}
 {% endblock %}
 {% block body %}
 

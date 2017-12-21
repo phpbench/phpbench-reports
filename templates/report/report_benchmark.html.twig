@@ -2,9 +2,35 @@
 {% block title %}Benchmark{% endblock %}
 {% block subtitle %}Wow, this benchmark was awesome{% endblock %}
 {% block breadcrumb %}
-    <a class="section" href="{{ path('report_suite', { "uuid": uuid }) }}">{{ uuid }}</a>
-    <div class="divider"> / </div>
-    <div class="active section">{{ class | short_class }}</div>
+    {{ breadcrumb([
+        {
+            "label": project.namespace,
+            "route": "report_namespace",
+            "params": {
+                namespace: project.namespace
+            }
+        },
+        {
+            "label": project.name,
+            "route": "report_project",
+            "params": {
+                namespace: project.namespace,
+                project: project.name,
+            }
+        },
+        {
+            "label": uuid,
+            "route": "report_suite",
+            "params": {
+                namespace: project.namespace,
+                project: project.name,
+                uuid: uuid 
+            }
+        },
+        {
+            "label": class
+        },
+    ]) }}
 {% endblock %}
 {% block body %}
     {% include "report/chart/variant_chart.html.twig" with {

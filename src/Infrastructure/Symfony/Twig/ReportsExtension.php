@@ -49,10 +49,11 @@ class ReportsExtension extends AbstractExtension
     {
         $breadcrumb = [];
         $total = count($segments) - 1;
+
         foreach ($segments as $index => $segment) {
-            if ($total == $index) {
+            if (!isset($segment['route']) || $total == $index) {
                 $breadcrumb[] = $segment['label'];
-                break;
+                continue;
             }
 
             $breadcrumb[] = sprintf(

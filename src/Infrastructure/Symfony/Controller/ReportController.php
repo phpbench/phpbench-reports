@@ -105,6 +105,7 @@ class ReportController
         $uuid = $request->attributes->get('uuid');
 
         return new Response($this->twig->render('report/report_suite.html.twig', [
+            'project' => $projectName,
             'uuid' => $uuid,
             'suiteReport' => $this->suiteReport->environmentFor($uuid),
             'suiteChart' => $this->variantReport->chartForUuid($uuid),
@@ -113,14 +114,16 @@ class ReportController
     }
 
     /**
-     * @Route("/report/suite/{uuid}/benchmark/{class}", name="report_benchmark")
+     * @Route("/p/{namespace}/{project}/{uuid}/{class}", name="report_benchmark")
      */
     public function benchmark(Request $request)
     {
-        $uuid = $request->attributes->get('uuid');
+        $projectName = $this->projectName($request);
         $class = $request->attributes->get('class');
+        $uuid = $request->attributes->get('uuid');
 
         return new Response($this->twig->render('report/report_benchmark.html.twig', [
+            'project' => $projectName,
             'uuid' => $uuid,
             'class' => $class,
             'variantTables' => $this->variantReport->aggregatesForUuidAndClass($uuid, $class),
@@ -129,16 +132,18 @@ class ReportController
     }
 
     /**
-     * @Route("/report/suite/{uuid}/benchmark/{class}/subject/{subject}/variant/{variant}", name="report_variant")
+     * @Route("/p/{namespace}/{project}/{uuid}/{class}/{subject}/{variant}", name="report_variant")
      */
     public function variant(Request $request)
     {
+        $projectName = $this->projectName($request);
         $uuid = $request->attributes->get('uuid');
         $class = $request->attributes->get('class');
         $subject = $request->attributes->get('subject');
         $variant = $request->attributes->get('variant');
 
         return new Response($this->twig->render('report/report_variant.html.twig', [
+            'project' => $projectName,
             'uuid' => $uuid,
             'class' => $class,
             'subject' => $subject,
