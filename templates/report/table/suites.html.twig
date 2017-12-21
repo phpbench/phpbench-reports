@@ -14,7 +14,7 @@
                 <a href="{{ path('report_project', {namespace: suite['project-namespace'], project: suite['project-name']}) }}">{{ suite['project-name'] }}</a>
             </td>
             <td><a href="{{ path('report_suite', { namespace: suite['project-namespace'], project: suite['project-name'], uuid: suite['suite-uuid'] }) }}">{{ suite['suite-uuid'] }}</a></td>
-            <td>{{ suite['suite-date'] }}</td>
+            <td>{{ suite['suite-date']|time_diff }}</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -54,7 +54,7 @@
                 project: project.name,
                 uuid: uuid, 
                 class: subTitle 
-            }) }}">{{ subTitle }}</a>
+            }) }}">{{ subTitle|short_class }}</a>
         </h3>
         {% include "report/table/benchmark.html.twig" %}
     {% endfor %}
