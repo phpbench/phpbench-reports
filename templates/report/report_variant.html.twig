@@ -28,7 +28,7 @@
             }
         },
         {
-            "label": class,
+            "label": class | short_class,
             "route": "report_benchmark",
             "params": {
                 namespace: project.namespace,
@@ -41,7 +41,7 @@
             "label": subject,
         },
         {
-            "label": variant,
+            "label": "#" ~ variant,
         },
     ]) }}
 {% endblock %}

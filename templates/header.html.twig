@@ -6,10 +6,6 @@
     <a class="item" href="{{ path('home') }}"><i class="time icon"></i> Latest</a>
 
     {% if is_granted('ROLE_USER') %}
-        <a class="item" href="{{ path('report_user', { 'username': app.user.username }) }}">
-            <i class="icon bar chart"></i> My Benchmarks
-        </a>
-
         <div class="ui dropdown item right">
             {{ app.user.username }}
             <i class="dropdown icon"></i>

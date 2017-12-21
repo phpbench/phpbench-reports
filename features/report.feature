@@ -29,11 +29,11 @@ Feature: Reports
     Scenario: View benchmark report
         Given I am on "/p/phpbench/phpbench/worse-uuid"
         When I click benchmark "ReflectMethodBench"
-        Then I should be on "/phpbench/phpbench/worse-uuid/ReflectMethodBench"
+        Then I should be on "/p/phpbench/phpbench/worse-uuid/ReflectMethodBench"
         And I should see the results for "method_return_type"
 
     Scenario: View variant report
         Given I am on "/p/phpbench/phpbench/worse-uuid/ReflectMethodBench"
         When I click variant "method_return_type"
-        Then I should be on "/phpbench/phpbench/worse-uuod/ReflectMethodBench/method_return_type
+        Then I should be on "/p/phpbench/phpbench/worse-uuid/ReflectMethodBench/method_return_type/0"
         And I should see the iterations report
