@@ -10,7 +10,7 @@ Feature: Upload suite results
     Scenario: Upload suite result with valid API key
         When I post the suite "worse_reflection.xml" with API key "1234"
         Then the HTTP status should be 200
-        And I receive confirmation with the URL "http://localhost/p/leech/daniel/worse-uuid"
+        And I receive confirmation with the URL "http://localhost/p/daniel/leech/worse-uuid"
 
     Scenario: Upload suite result with an invalid API key
         When I post the suite "worse_reflection.xml" with API key "4321"

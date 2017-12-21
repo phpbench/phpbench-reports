@@ -7,17 +7,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Infrastructure\Doctrine\Entity\DoctrineUser;
 use App\Infrastructure\Doctrine\Entity\DoctrineProject;
 use Behat\Behat\Context\Context;
+use App\Tests\Helper\DatabaseHelper;
 
 class DoctrineContext implements Context
 {
     /**
-     * @var EntityManagerInterface
+     * @var DatabaseHelper
      */
-    private $entityManager;
+    private $helper;
 
     public function __construct(KernelInterface $kernel)
     {
-        $this->entityManager = $kernel->getContainer()->get('doctrine')->getEntityManager();
+        $this->helper = new DatabaseHelper($kernel->getContainer());
     }
 
     /**
@@ -25,12 +26,6 @@ class DoctrineContext implements Context
      */
     public function purge()
     {
-        $connection = $this->entityManager->getConnection();
-        $classes = [ DoctrineProject::class, DoctrineUser::class ];
-
-        foreach ($classes as $class) {
-            $metadata = $this->entityManager->getClassMetadata($class);
-            $connection->exec('DELETE FROM ' . $metadata->getTableName() . ';');
-        }
+        $this->helper->purge();
     }
 }

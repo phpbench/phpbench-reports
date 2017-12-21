@@ -1,5 +1,9 @@
 language: php
 
+env:
+  global:
+    secure: XFtlrM+Q9o9AEpmowAakClj2sjWtXwPZ8AfOHGfk1LCMsQAV6hEom88jUkXKblcPkzA8+N+EsCqChdV1c0k62r81je4XWRU0KXs01tP5oGvfmLVblLUpxfxJyVnHBN1sqB/gHf5JnZR12z+bID8rZ5ttlPqvR+z8bg3mWwK1F4DSiwaRzgSC9OklXgYzCpRGTphoE1weV509+upX/50wFbPLDoaNsdZTwP7auV7uw9S5211DG1FxEjeoQFP9lskPkIVK7nhizOgC92pmRXOflWlc+ntziwj7K81BV+lOOG1PA/6U62gANCGs99w5zI0YSvuFi7jHwoENWUGkcGTF/MPnmZlRykVawgOC9KKlsgeLCYo+8js+2N7pXBBU648QBpwhl1LTfUEHDH5rQ0TRV3AOkmgDRpXK3Y3CDho21wZL5rnUYXTqxDO9ffe9wOvucRx/pct6KJBuDmdBdv+yk8wgbC0lSuR+5pjjl39tPj21KTW/G4nkLF9sDzCgQh3G/9oNcWjLV2NZhsai402c4A9tym6x5KeXlHO7CGX5WzqKkXs7+Z6FSOdsVK9CViInI7A5Ai3hW/rOczCIYpe73aYBT51JITE8QyYP8+5Wd6Ks2MX98+HX80K6PDYOtZHVoXD3NI74Ifi+Vn+7CsGotXTzziNiempT2Hy83lzo9Fk=
+
 php:
   - 7.2
 
@@ -18,5 +22,6 @@ before_script:
     - docker-compose run php env ENV=test ./bin/build.sh
 
 script:
-    - docker-compose run -w /project php ./vendor/bin/phpunit
-    - docker-compose run -w /project php ./vendor/bin/behat
+    - docker-compose run ./vendor/bin/phpunit
+    - docker-compose run ./vendor/bin/behat
+    - docker-compose run ./vendor/bin/phpbench run --store

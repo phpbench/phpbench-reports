@@ -51,8 +51,8 @@ class ImporterService
         $document = $this->createDocument($payload, $apiKey);
 
         $id = $this->importer->import($document);
-
         $this->storage->storePayload($id, $document->saveXML());
+
 
         return $this->importerResponse($id, $document);
     }
@@ -106,8 +106,8 @@ class ImporterService
     private function importerResponse($id, Document $document): ImporterResponse
     {
         $projectName = ProjectName::fromNamespaceAndName(
-            $document->firstChild->getAttribute('project-name'),
-            $document->firstChild->getAttribute('project-namespace')
+            $document->firstChild->getAttribute('project-namespace'),
+            $document->firstChild->getAttribute('project-name')
         );
 
         return ImporterResponse::create($projectName, $id);

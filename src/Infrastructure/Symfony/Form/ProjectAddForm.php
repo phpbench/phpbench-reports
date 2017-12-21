@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Infrastructure\Symfony\Form\ProjectDto;
 use App\Infrastructure\Symfony\Validator\Unique;
 use App\Infrastructure\Doctrine\Entity\DoctrineProject;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ProjectAddForm extends AbstractType
 {
@@ -31,6 +32,7 @@ class ProjectAddForm extends AbstractType
             'required' => true,
             'constraints' => [
                 new NotBlank(),
+                new Regex('{[a-zA-Z0-9]+}'),
             ],
         ]);
 
