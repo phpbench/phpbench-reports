@@ -23,6 +23,10 @@ class VariantTabulator
 
     public function chart(array $dataSet)
     {
+        $dataSet = array_filter($dataSet, function ($data) {
+            return isset($data['stats-mode']);
+        });
+
         $labels = array_map(function (array $data) {
             return $data['subject-name'];
         }, $dataSet);
