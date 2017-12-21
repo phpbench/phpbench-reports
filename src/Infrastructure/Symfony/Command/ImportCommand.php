@@ -10,6 +10,7 @@ use Symfony\Component\Finder\Finder;
 use RuntimeException;
 use App\Service\ImporterService;
 use Symfony\Component\Console\Input\InputOption;
+use App\Domain\Project\ProjectName;
 
 class ImportCommand extends Command
 {
@@ -28,7 +29,7 @@ class ImportCommand extends Command
     {
         $this->setName('phpbench:import');
         $this->addArgument('path', InputArgument::REQUIRED, 'PHPBench XML file');
-        $this->addOption('username', 'u', InputOption::VALUE_REQUIRED, 'Username');
+        $this->addOption('project', 'p', InputOption::VALUE_REQUIRED, 'Project name e.g. foobar/barfoo');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -54,7 +55,7 @@ class ImportCommand extends Command
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
             $output->writeln(sprintf('<info>Importing</> <comment>"</>%s<comment>"</>', $file->getPathname()));
-            $this->importer->importFromFile($file->getPathname(), $input->getOption('username'));
+            $this->importer->importFromFile($file->getPathname(), ProjectName::fromComposite($input->getOption('project')));
         }
 
         $output->writeln('Done');

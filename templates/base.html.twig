@@ -5,10 +5,10 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="stylesheet"  href="/assets/semantic.min.css">
-        <script src="/assets/jquery.min.js"></script>
-        <script src="/assets/semantic.min.js"></script>
-        <script src="/assets/Chart.min.js"></script>
-        <script src="/assets/chartjs-plugin-annotation.min.js"></script>
+        <script src="{{ asset('/assets/jquery.min.js') }}"></script>
+        <script src="{{ asset('/assets/semantic.min.js') }}"></script>
+        <script src="{{ asset('/assets/Chart.min.js') }}"></script>
+        <script src="{{ asset('/assets/chartjs-plugin-annotation.min.js') }}"></script>
     </head>
     <body>
         <div class="ui container">

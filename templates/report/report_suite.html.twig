@@ -3,6 +3,14 @@
 {% block subtitle %}This was an amazing suite{% endblock %}
 {% block breadcrumb %}
     <div class="active section">
+        {{ suiteReport['project-namespace'] }}
+    </div>
+    <div class="divider"> / </div>
+    <div class="active section">
+        {{ suiteReport['project-name'] }}
+    </div>
+    <div class="divider"> / </div>
+    <div class="active section">
         {{ uuid }}
     </div>
 {% endblock %}

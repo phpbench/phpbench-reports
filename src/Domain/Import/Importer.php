@@ -62,6 +62,10 @@ class Importer
         $document = $this->flattenDocument($suiteDocument);
         $document['user-id'] = $suiteDocument->parentNode->getAttribute('user-id');
         $document['username'] = $suiteDocument->parentNode->getAttribute('username');
+        $document['project-id'] = $suiteDocument->parentNode->getAttribute('user-id');
+        $document['project'] = $suiteDocument->parentNode->getAttribute('project');
+        $document['project-namespace'] = $suiteDocument->parentNode->getAttribute('project-namespace');
+        $document['project-name'] = $suiteDocument->parentNode->getAttribute('project-name');
         foreach ($suiteDocument->query('.//env/*') as $envDocument) {
             $document = array_merge($document, $this->flattenDocument($envDocument, 'env'));
         }

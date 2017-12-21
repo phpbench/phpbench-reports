@@ -93,6 +93,7 @@ class ImporterService
             $user = $project->user();
             $document->firstChild->setAttribute('project-id', $project->id());
             $document->firstChild->setAttribute('project-namespace', $project->name()->namespace());
+            $document->firstChild->setAttribute('project', (string) $project->name());
             $document->firstChild->setAttribute('project-name', $project->name()->name());
             $document->firstChild->setAttribute('user-id', $user->id());
             $document->firstChild->setAttribute('username', $user->username());
