@@ -28,9 +28,7 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 
     public function forSuiteUuidAndBenchmark(string $uuid, string $class): array
@@ -50,8 +48,6 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
             ],
         ]);
 
-        return array_map(function ($hit) {
-            return $hit['_source'];
-        }, $result['hits']['hits']);
+        return $this->documentsFromResult($result);
     }
 }

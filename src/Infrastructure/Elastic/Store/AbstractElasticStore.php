@@ -34,4 +34,11 @@ abstract class AbstractElasticStore
 
         $this->client->bulk($params);
     }
+
+    protected function documentsFromResult(array $result)
+    {
+        return array_map(function ($hit) {
+            return $hit['_source'];
+        }, $result['hits']['hits']);
+    }
 }
