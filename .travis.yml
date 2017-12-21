@@ -20,6 +20,7 @@ before_script:
     - cp .env.travis .env
     - composer install
     - docker-compose run php env ENV=test ./bin/build.sh
+    - echo "REPORTS_API_KEY="$REPORTS_API_KEY >> .env
 
 script:
     - docker-compose run php ./vendor/bin/phpunit
