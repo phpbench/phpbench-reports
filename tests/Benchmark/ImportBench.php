@@ -8,11 +8,12 @@ use App\Domain\Project\ProjectName;
 use App\Service\ProjectService;
 use App\Service\UserService;
 use App\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
+use App\Tests\IntegrationTestCase;
 
 /**
  * @BeforeMethods({"init"})
  */
-class ImportBench extends BenchCase
+class ImportBench extends IntegrationTestCase
 {
     /**
      * @var ImporterService

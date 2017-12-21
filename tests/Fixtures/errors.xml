@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<phpbench version="0.15-dev (@git_version@)">
+  <suite context="" date="2017-12-21 21:28:43" config-path="/project/phpbench.json" uuid="133c9d5513af2248c895b4d30fed1240b7a78e5f">
+    <env>
+      <uname os="Linux" host="ea39d567a6e8" release="4.10.0-42-generic" version="#46-Ubuntu SMP Mon Dec 4 14:38:01 UTC 2017" machine="x86_64"/>
+      <php xdebug="" version="7.2.0" ini="" extensions="Core, date, libxml, openssl, pcre, sqlite3, zlib, ctype, curl, dom, fileinfo, filter, ftp, hash, iconv, json, mbstring, SPL, PDO, session, posix, readline, Reflection, standard, SimpleXML, pdo_sqlite, Phar, tokenizer, xml, xmlreader, xmlwriter, mysqlnd, pdo_mysql"/>
+      <opcache extension_loaded=""/>
+      <unix-sysload l1="0.19" l5="0.42" l15="0.36"/>
+      <vcs system="git" branch="master" version="1234f91ba0c3c2103c5e9c06ace274824c5ecc6b"/>
+      <baseline nothing="0.010967254638672" md5="0.16498565673828" file_rw="1.3711452484131"/>
+    </env>
+    <benchmark class="\App\Tests\Benchmark\ImportBench">
+      <subject name="benchImport">
+        <variant sleep="0" output-time-unit="microseconds" output-time-precision="" output-mode="time" revs="1" warmup="0" retry-threshold="">
+          <errors>
+            <error exception-class="PhpBench\Benchmark\Remote\Exception\ScriptErrorException" code="0" file="/project/vendor/phpbench/phpbench/lib/Benchmark/Remote/Payload.php" line="119">
+Fatal error: Uncaught Symfony\Component\Debug\Exception\ClassNotFoundException: Attempted to load class "bar" from namespace "App\Tests\Benchmark".
+Did you forget a "use" statement for another namespace? in /project/tests/Benchmark/ImportBench.php:34
+Stack trace:
+#0 /tmp/PhpBenchngpzmS(80): App\Tests\Benchmark\ImportBench-&gt;benchImport()
+#1 /tmp/PhpBenchngpzmS(42): benchmark(Object(App\Tests\Benchmark\ImportBench), Array)
+#2 {main}
+  thrown in /project/tests/Benchmark/ImportBench.php on line 34
+</error>
+          </errors>
+        </variant>
+      </subject>
+    </benchmark>
+  </suite>
+</phpbench>

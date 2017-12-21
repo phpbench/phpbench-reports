@@ -101,6 +101,7 @@ class Importer
 
     private function storeIterations(Element $suiteDocument)
     {
+        $documents = [];
         $document = [
             'suite-uuid' => $suiteDocument->getAttribute('uuid'),
         ];

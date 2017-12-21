@@ -18,6 +18,10 @@ abstract class AbstractElasticStore
 
     protected function doStoreMany(string $indexName, array $documents): void
     {
+        if (empty($documents)) {
+            return;
+        }
+
         $params = [
             'body' => [],
         ];
