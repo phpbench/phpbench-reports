@@ -19,19 +19,23 @@ class ElasticIterationStore implements IterationStore
         $this->client = $client;
     }
 
-    /**
-     * TODO: ID is redundant here
-     */
     public function store(string $id, array $data): void
     {
+        $params = [
+            'body' => [],
+        ];
         foreach ($data as $id => $document) {
-            $this->client->index([
-                'index' => self::INDEX_NAME,
-                'type' => self::INDEX_NAME,
-                'id' => is_string($id) ? $id : null,
-                'body' => $document,
-            ]);
+            $params['body'][] = [
+                'index' => [
+                    '_index' => self::INDEX_NAME,
+                    '_type' => self::INDEX_NAME,
+                ]
+            ];
+
+            $params['body'][] = $document;
         }
+
+        $this->client->bulk($params);
     }
 
     public function forSuiteUuidBenchmarkSubjectAndVariant(string $uuid, string $class, string $subject, string $variant)

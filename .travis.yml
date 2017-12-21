@@ -22,6 +22,6 @@ before_script:
     - docker-compose run php env ENV=test ./bin/build.sh
 
 script:
-    - docker-compose run ./vendor/bin/phpunit
-    - docker-compose run ./vendor/bin/behat
-    - docker-compose run ./vendor/bin/phpbench run --store
+    - docker-compose run php ./vendor/bin/phpunit
+    - docker-compose run php ./vendor/bin/behat
+    - docker-compose run php ./vendor/bin/phpbench run --store
