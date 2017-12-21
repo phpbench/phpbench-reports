@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ca64b111360699e021fb286d52acd43",
+    "content-hash": "76aaa942894760884ed1ffe8c3df6a33",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -5077,16 +5077,16 @@
         },
         {
             "name": "phpbench/phpbench",
-            "version": "dev-master",
+            "version": "dev-phpbench_reports_2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbench/phpbench.git",
-                "reference": "b940ee37c0ab6773549ebfc6cdd86a585e7e7881"
+                "reference": "22afe78fa3a5410693711aabac5b6c0ad23eeb38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/b940ee37c0ab6773549ebfc6cdd86a585e7e7881",
-                "reference": "b940ee37c0ab6773549ebfc6cdd86a585e7e7881",
+                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/22afe78fa3a5410693711aabac5b6c0ad23eeb38",
+                "reference": "22afe78fa3a5410693711aabac5b6c0ad23eeb38",
                 "shasum": ""
             },
             "require": {
@@ -5107,7 +5107,8 @@
                 "symfony/filesystem": "^2.4|^3.0|^4.0",
                 "symfony/finder": "^2.4|^3.0|^4.0",
                 "symfony/options-resolver": "^2.6|^3.0|^4.0",
-                "symfony/process": "^2.1|^3.0|^4.0"
+                "symfony/process": "^2.1|^3.0|^4.0",
+                "symfony/web-profiler-bundle": "^4.0"
             },
             "require-dev": {
                 "doctrine/dbal": "^2.4",
@@ -5146,7 +5147,7 @@
                 }
             ],
             "description": "PHP Benchmarking Framework",
-            "time": "2017-12-18T18:00:18+00:00"
+            "time": "2017-12-18T10:45:46+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
