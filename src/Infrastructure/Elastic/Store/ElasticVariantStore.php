@@ -19,12 +19,12 @@ class ElasticVariantStore implements VariantStore
         $this->client = $client;
     }
 
-    public function store(string $id, array $data): void
+    public function storeMany(array $documents): void
     {
         $params = [
             'body' => [],
         ];
-        foreach ($data as $id => $document) {
+        foreach ($documents as $id => $document) {
             $params['body'][] = [
                 'index' => [
                     '_index' => self::INDEX_NAME,

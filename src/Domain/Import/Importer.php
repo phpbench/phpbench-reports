@@ -96,7 +96,7 @@ class Importer
             }
         }
 
-        $this->variantStore->store($identifier, $documents);
+        $this->variantStore->storeMany($documents);
     }
 
     private function storeIterations(Element $suiteDocument)
@@ -123,7 +123,7 @@ class Importer
             }
         }
 
-        $this->iterationStore->store(uniqid(), $documents);
+        $this->iterationStore->storeMany($documents);
     }
 
     private function flattenDocument(Element $element, string $basePrefix = '')

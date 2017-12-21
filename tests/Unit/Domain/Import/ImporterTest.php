@@ -60,8 +60,7 @@ class ImporterTest extends TestCase
             )
         )->shouldBeCalled();
 
-        $this->variantStore->store(
-            Argument::any(),
+        $this->variantStore->storeMany(
             Argument::containing(
                 [
                     'suite-uuid' => '1234',
@@ -78,8 +77,7 @@ class ImporterTest extends TestCase
             )
         )->shouldBeCalled();
 
-        $this->iterationStore->store(
-            Argument::any(),
+        $this->iterationStore->storeMany(
             Argument::containing([
                 'suite-uuid' => '1234',
                 'benchmark-class' => 'HashingBench',
