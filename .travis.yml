@@ -19,8 +19,6 @@ before_script:
     - docker-compose ps
     - cp .env.travis .env
     - composer install
-    - docker-compose run php env ENV=test ./bin/build.sh
-    - cat .env
 
 script:
     - docker-compose run php ./vendor/bin/phpunit
