@@ -1,11 +1,11 @@
 language: php
 
 env:
-  global:
-    secure: XFtlrM+Q9o9AEpmowAakClj2sjWtXwPZ8AfOHGfk1LCMsQAV6hEom88jUkXKblcPkzA8+N+EsCqChdV1c0k62r81je4XWRU0KXs01tP5oGvfmLVblLUpxfxJyVnHBN1sqB/gHf5JnZR12z+bID8rZ5ttlPqvR+z8bg3mWwK1F4DSiwaRzgSC9OklXgYzCpRGTphoE1weV509+upX/50wFbPLDoaNsdZTwP7auV7uw9S5211DG1FxEjeoQFP9lskPkIVK7nhizOgC92pmRXOflWlc+ntziwj7K81BV+lOOG1PA/6U62gANCGs99w5zI0YSvuFi7jHwoENWUGkcGTF/MPnmZlRykVawgOC9KKlsgeLCYo+8js+2N7pXBBU648QBpwhl1LTfUEHDH5rQ0TRV3AOkmgDRpXK3Y3CDho21wZL5rnUYXTqxDO9ffe9wOvucRx/pct6KJBuDmdBdv+yk8wgbC0lSuR+5pjjl39tPj21KTW/G4nkLF9sDzCgQh3G/9oNcWjLV2NZhsai402c4A9tym6x5KeXlHO7CGX5WzqKkXs7+Z6FSOdsVK9CViInI7A5Ai3hW/rOczCIYpe73aYBT51JITE8QyYP8+5Wd6Ks2MX98+HX80K6PDYOtZHVoXD3NI74Ifi+Vn+7CsGotXTzziNiempT2Hy83lzo9Fk=
+    global:
+        secure: "blzIkEKQt7IOUi1FREiuD90Mo/zMLxLrytyqOemFLSeV0OgosI+j7B2d4B5uOgMZesiXQ2Qbc/LlUD0cI9tzrSqaswvetenVezqj2HeZj/j/4mU8J9K3KQujss41AN2cG+04b9I52lnoSiiRVMYg+lfuTqsAVeLm36WiMr2l8+IPJ55CdZqb8oxSslukykTFo48Rvcu813HftRBnsZ4ljoeah/nkpaWU8i3tDAdASRWBvykSZyrP50OqJ3UtyV00Pa7+j5AdleQO0kBt+O51nE//u6z9WjuDsqDxm41HWl0gLmV6nHD9zWQJfnP3GKn8j0LuU54ehdg+i1gvDOqQwiCxSvyOm64El8o0SydzvBMle6jq/lKhMk5wTaw9oXHZZn5HoHq32SgPnpoXZ+/Prjz607VMCraDsVqOxEzJvEz6kLCUlTlNarOFazBDoOaJ17tDL24+3HBNGb1kKATk/DGeebI2jiTv6PEp89jozO8B6lfj6OVNvrGj1EG9LoYrSkycsSEcm56VaWAjDA1WEmz7rO0y2NV1QbXp1eBDuIdrctwAMy/PLlvdlOCgZZadl1BBs59EXIRZkgif9yXVXW+01CInRPOT+ocUP0YYYSl8XBinL82y3kIGvTGlQmstcFRcypLyp/rJahpmEk+YT56+blWa4akUxV/EVDHfOL4="
 
 php:
-  - 7.2
+    - 7.2
 
 sudo: required
 services:
@@ -19,9 +19,8 @@ before_script:
     - docker-compose ps
     - cp .env.travis .env
     - composer install
-    - docker-compose run php env ENV=test ./bin/build.sh
 
 script:
-    - docker-compose run ./vendor/bin/phpunit
-    - docker-compose run ./vendor/bin/behat
-    - docker-compose run ./vendor/bin/phpbench run --store
+    - docker-compose run php ./vendor/bin/phpunit
+    - docker-compose run php ./vendor/bin/behat
+    - docker-compose run php env REPORTS_API_KEY=$REPORTS_API_KEY ./vendor/bin/phpbench run --store
