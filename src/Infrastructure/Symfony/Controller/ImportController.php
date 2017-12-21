@@ -27,7 +27,7 @@ class ImportController
     }
 
     /**
-     * @Route("/import", name="import", methods={"POST"})
+     * @Route("/import", name="import", methods={"POST"}, defaults={"_format": "json"})
      */
     public function import(Request $request)
     {

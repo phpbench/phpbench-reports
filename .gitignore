@@ -1,6 +1,7 @@
 docker-compose.override.yml
 /suites
 /node_modules
+/phpbench.json
 
 ###> symfony/framework-bundle ###
 .env
