@@ -2,7 +2,15 @@
 {% block title %}Namespace{% endblock %}
 {% block subtitle %}{{ namespace }}{% endblock %}
 {% block breadcrumb %}
-<div class="active section">{{ namespace }}</div>
+    {{ breadcrumb([
+        {
+            "label": namespace,
+            "route": "report_namespace",
+            "params": {
+                namespace: namespace
+            }
+        }
+    ]) }}
 {% endblock %}
 {% block body %}
 {% include "report/table/namespace_suites.html.twig" with { table: suitesReport } %}

@@ -2,17 +2,32 @@
 {% block title %}Suite{% endblock %}
 {% block subtitle %}This was an amazing suite{% endblock %}
 {% block breadcrumb %}
-    <div class="active section">
-        {{ suiteReport['project-namespace'] }}
-    </div>
-    <div class="divider"> / </div>
-    <div class="active section">
-        {{ suiteReport['project-name'] }}
-    </div>
-    <div class="divider"> / </div>
-    <div class="active section">
-        {{ uuid }}
-    </div>
+    {{ breadcrumb([
+        {
+            "label": suiteReport['project-namespace'],
+            "route": "report_namespace",
+            "params": {
+                namespace: suiteReport['project-namespace']
+            }
+        },
+        {
+            "label": suiteReport['project-name'],
+            "route": "report_project",
+            "params": {
+                namespace: suiteReport['project-namespace'],
+                project: suiteReport['project-name'],
+            }
+        },
+        {
+            "label": suiteReport['suite-uuid'],
+            "route": "report_suite",
+            "params": {
+                namespace: suiteReport['project-namespace'],
+                project: suiteReport['project-name'],
+                uuid: suiteReport['suite-uuid']
+            }
+        },
+    ]) }}
 {% endblock %}
 {% block body %}
     <table class="ui table">

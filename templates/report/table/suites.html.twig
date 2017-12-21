@@ -11,9 +11,9 @@
         <tr>
             <td>
                 <a href="{{ path('report_namespace', {namespace: suite['project-namespace']}) }}">{{ suite['project-namespace'] }}</a> /
-                {{ suite['project-name'] }}
+                <a href="{{ path('report_project', {namespace: suite['project-namespace'], project: suite['project-name']}) }}">{{ suite['project-name'] }}</a>
             </td>
-            <td><a href="{{ path('report_suite', { uuid: suite['suite-uuid'] }) }}">{{ suite['suite-uuid'] }}</a></td>
+            <td><a href="{{ path('report_suite', { namespace: suite['project-namespace'], project: suite['project-name'], uuid: suite['suite-uuid'] }) }}">{{ suite['suite-uuid'] }}</a></td>
             <td>{{ suite['suite-date'] }}</td>
         </tr>
         {% endfor %}

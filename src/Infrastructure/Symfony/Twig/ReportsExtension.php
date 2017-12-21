@@ -4,13 +4,34 @@ namespace App\Infrastructure\Symfony\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\TwigFunction;
 
 class ReportsExtension extends AbstractExtension
 {
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    public function __construct(UrlGeneratorInterface $urlGenerator)
+    {
+        $this->urlGenerator = $urlGenerator;
+    }
+
     public function getFilters()
     {
         return array(
-            new TwigFilter('short_class', array($this, 'shortClass')),
+            new TwigFilter('short_class', [$this, 'shortClass']),
+        );
+    }
+
+    public function getFunctions()
+    {
+        return array(
+            new TwigFunction('breadcrumb', [ $this, 'breadcrumb' ], [
+                'is_safe' => [ 'html' ],
+            ]),
         );
     }
 
@@ -22,5 +43,30 @@ class ReportsExtension extends AbstractExtension
         }
 
         return end($parts);
+    }
+
+    public function breadcrumb(array $segments)
+    {
+        $breadcrumb = [];
+        $total = count($segments) - 1;
+        foreach ($segments as $index => $segment) {
+            if ($total == $index) {
+                $breadcrumb[] = $segment['label'];
+                break;
+            }
+
+            $breadcrumb[] = sprintf(
+                '<a href="%s">%s</a>',
+                $this->urlGenerator->generate(
+                    $segment['route'],
+                    $segment['params']
+                ),
+                $segment['label']
+            );
+        }
+
+        $divider = '<div class="divider"> / </div>';
+
+        return implode($divider, $breadcrumb);
     }
 }

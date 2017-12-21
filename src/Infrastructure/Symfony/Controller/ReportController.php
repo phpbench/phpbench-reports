@@ -83,14 +83,11 @@ class ReportController
     }
 
     /**
-     * @Route("/p/{namespace}/{name}", name="report_project")
+     * @Route("/p/{namespace}/{project}", name="report_project")
      */
     public function project(Request $request)
     {
-        $namespace = $request->attributes->get('namespace');
-        $name = $request->attributes->get('name');
-
-        $projectName = ProjectName::fromNamespaceAndName($namespace, $name);
+        $projectName = $this->projectName($request);
         $suitesReport = $this->suiteReport->suitesForProject($projectName);
 
         return new Response($this->twig->render('report/report_project.html.twig', [
@@ -100,10 +97,11 @@ class ReportController
     }
 
     /**
-     * @Route("/report/suite/{uuid}", name="report_suite")
+     * @Route("/p/{namespace}/{project}/{uuid}", name="report_suite")
      */
     public function suite(Request $request)
     {
+        $projectName = $this->projectName($request);
         $uuid = $request->attributes->get('uuid');
 
         return new Response($this->twig->render('report/report_suite.html.twig', [
@@ -149,5 +147,12 @@ class ReportController
             'iterationChart' => $this->iterationReport->chartForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant),
             'histogramChart' => $this->iterationReport->histogramForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant),
         ]));
+    }
+
+    private function projectName(Request $request)
+    {
+        $namespace = $request->attributes->get('namespace');
+        $name = $request->attributes->get('project');
+        return ProjectName::fromNamespaceAndName($namespace, $name);
     }
 }
