@@ -68,6 +68,20 @@ class ReportController
     }
 
     /**
+     * @Route("/p/{namespace}", name="report_namespace")
+     */
+    public function namespace(Request $request)
+    {
+        $namespace = $request->attributes->get('namespace');
+        $suitesReport = $this->suiteReport->suitesForNamespace($namespace);
+
+        return new Response($this->twig->render('report/report_namespace.html.twig', [
+            'namespace' => $namespace,
+            'suitesReport' => $suitesReport,
+        ]));
+    }
+
+    /**
      * @Route("/user/{username}", name="report_user")
      */
     public function user(Request $request)

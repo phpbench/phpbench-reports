@@ -37,6 +37,11 @@ class SuiteReport
         return $this->suiteStore->forUserId($user->id());
     }
 
+    public function suitesForNamespace(string $namespace): array
+    {
+        return $this->suiteStore->forNamespace($namespace);
+    }
+
     public function environmentFor($uuid)
     {
         return $this->suiteStore->forSuiteUuid($uuid);

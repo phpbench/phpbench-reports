@@ -11,4 +11,6 @@ interface SuiteStore
     public function forUserId(string $uuid): array;
 
     public function all(): array;
+
+    public function forNamespace(string $namespace);
 }

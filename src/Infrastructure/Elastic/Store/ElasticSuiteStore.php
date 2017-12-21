@@ -68,6 +68,29 @@ class ElasticSuiteStore implements SuiteStore
         }, $result['hits']['hits']);
     }
 
+    public function forNamespace(string $namespace): array
+    {
+        $result = $this->client->search([
+            'index' => self::INDEX_NAME,
+            'type' => self::INDEX_NAME,
+            'size' => 1000,
+            'body' => [
+                'sort' =>  [
+                    'suite-date.keyword' => 'DESC',
+                ],
+                'query' => [
+                    'match' => [
+                        'project-namespace.keyword' => $namespace,
+                    ],
+                ],
+            ],
+        ]);
+
+        return array_map(function ($hit) {
+            return $hit['_source'];
+        }, $result['hits']['hits']);
+    }
+
     public function all(): array
     {
         $result = $this->client->search([
