@@ -52,8 +52,10 @@ class ImporterTest extends TestCase
                     'env-uname-os' => 'Linux',
                     'env-uname-host' => 'dtlx1',
                     'env-php-version' => '7.1',
-                    'user-id' => '1234-user-1234',
-                    'username' => 'userdan',
+                    'project' => 'foo/bar',
+                    'project-id' => '1234',
+                    'project-name' => 'dan',
+                    'project-namespace' => 'leech',
                 ]
             )
         )->shouldBeCalled();

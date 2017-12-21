@@ -60,9 +60,7 @@ class Importer
     private function storeSuite(string $identifier, Element $suiteDocument)
     {
         $document = $this->flattenDocument($suiteDocument);
-        $document['user-id'] = $suiteDocument->parentNode->getAttribute('user-id');
-        $document['username'] = $suiteDocument->parentNode->getAttribute('username');
-        $document['project-id'] = $suiteDocument->parentNode->getAttribute('user-id');
+        $document['project-id'] = $suiteDocument->parentNode->getAttribute('project-id');
         $document['project'] = $suiteDocument->parentNode->getAttribute('project');
         $document['project-namespace'] = $suiteDocument->parentNode->getAttribute('project-namespace');
         $document['project-name'] = $suiteDocument->parentNode->getAttribute('project-name');
