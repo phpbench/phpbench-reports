@@ -58,6 +58,7 @@ class VariantTabulator
         $chart = [];
         $labels = [];
         foreach ($grouped as $variantName => $data) {
+            $data = array_reverse($data);
             if (empty($labels)) {
                 $labels = array_values(array_map(function (array $data) {
                     return $data['suite-date'];
@@ -74,6 +75,7 @@ class VariantTabulator
             ];
             $chart[] = $series;
         }
+
 
         return [
             'dataSets' => $chart,
