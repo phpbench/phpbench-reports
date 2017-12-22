@@ -13,6 +13,9 @@ class VariantTabulator
         ], $config);
 
         $tables = $this->groupBy($dataSet, $config['groups']);
+        foreach ($tables as &$table) {
+            $table = array_values($table);
+        }
 
         return $tables;
     }
