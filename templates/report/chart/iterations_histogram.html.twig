@@ -1,36 +1,21 @@
-<canvas height="100" id="{{ chartName }}" ></canvas>
+<div height="100" id="{{ chartName }}" ></div>
+{{ chart.mean }}
 <script>
-var histogramCtx = document.getElementById("{{ chartName }}").getContext('2d');
-var histogramChart = new Chart(histogramCtx, {
-    type: 'bar',
+var chart = c3.generate({
+    bindto: '#{{ chartName }}',
     data: {
-        labels: {{ chart.labels | json_encode | raw }},
-        datasets: [
-            {
-                fill: false,
-                borderColor: "rgb(1,123,123)",
-                borderWidth: 2,
-                label: '# microseconds',
-                data: {{ chart.series | json_encode | raw }},
-            }
+        type: "bar",
+        x: 'x',
+        columns: [
+            ['x'].concat({{ chart.labels | json_encode | raw }}),
+            ['# µs'].concat({{ chart.series | json_encode | raw }}),
         ],
     },
-    options: {
-        annotation: {
-            annotations: [
-                {
-                    type: "line",
-                    mode: "vertical",
-                    value: {{ chart.mean | json_encode | raw }},
-                    borderColor: "purple",
-                    label: {
-                        content: "Mean {{ chart.mean }}",
-                        enabled: true,
-                        position: "top",
-                    }
-                },
-            ]
-        }
+    axis: {
+        x: {
+            type: 'category'
+        },
     }
 });
+
 </script>
