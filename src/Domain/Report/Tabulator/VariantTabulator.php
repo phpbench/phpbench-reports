@@ -6,27 +6,25 @@ use Functional as F;
 
 class VariantTabulator
 {
-    public function aggregate(array $dataSet)
+    public function aggregate(array $dataSet, array $config = [])
     {
         $config = array_merge([
             'groups' => [ 'benchmark-class' ],
-        ], []);
+        ], $config);
 
-        $dataSet = $this->sort($dataSet);
         $tables = $this->groupBy($dataSet, $config['groups']);
-        $tables = F\map($tables, (function ($table) {
-            return $this->sort($table);
-        })->bindTo($this));
 
         return $tables;
     }
 
     public function chart(array $dataSet)
     {
+        // remove data rows without a mode
         $dataSet = array_filter($dataSet, function ($data) {
             return isset($data['stats-mode']);
         });
 
+        // reindex the keys
         $dataSet = array_values($dataSet);
 
         $labels = array_map(function (array $data) {
@@ -43,14 +41,6 @@ class VariantTabulator
                 'mode' => $dataMode,
             ],
         ];
-    }
-
-    private function sort(array $dataSet): array
-    {
-        $dataSet = F\sort($dataSet, function ($a, $b) {
-            return $a['subject-name'] > $b['subject-name'];
-        });
-        return $dataSet;
     }
 
     private function groupBy(array $dataSet, $groupBy): array

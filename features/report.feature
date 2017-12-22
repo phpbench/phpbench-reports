@@ -50,5 +50,5 @@ Feature: Reports
         Given I have submitted the suite "hashing1.xml" for project "phpbench/phpbench"
         And I have submitted the suite "hashing2.xml" for project "phpbench/phpbench"
         And I have submitted the suite "hashing3.xml" for project "phpbench/phpbench"
-        When I am on "/p/phpbench/phpbench/bench/HashingBench"
+        When I am on "/p/phpbench/phpbench/bench/\PhpBench\Benchmarks\Micro\HashingBench"
         And I should see the results for "benchMd5"

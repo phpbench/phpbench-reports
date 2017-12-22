@@ -77,6 +77,8 @@ class Importer
         foreach ($suiteElement->query('.//env/*') as $envElement) {
             $document = array_merge($document, $this->flattenDocument($envElement, 'env'));
         }
+        $document['project-name'] = $suiteElement->parentNode->getAttribute('project-name');
+        $document['project-namespace'] = $suiteElement->parentNode->getAttribute('project-namespace');
         foreach ($suiteElement->query('.//benchmark') as $benchmarkElement) {
             $benchDocument = array_merge($document, $this->flattenDocument($benchmarkElement));
             foreach ($benchmarkElement->query('.//subject') as $subjectElement) {
