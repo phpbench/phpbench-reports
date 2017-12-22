@@ -47,15 +47,19 @@
 {% endblock %}
 {% block body %}
 
+    <h3>Iterations</h3>
     {% include "report/chart/iterations_chart.html.twig" with {
         chartName: "iterationChart",
         chart: iterationChart,
     } %}
 
-    {% include "report/table/iterations.html.twig" %}
-
+    <h3>Distribution</h3>
     {% include "report/chart/iterations_histogram.html.twig" with {
         chartName: "histogramChart",
         chart: histogramChart,
     } %}
+
+    <h3>Table</h3>
+    {% include "report/table/iterations.html.twig" %}
+
 {% endblock %}
