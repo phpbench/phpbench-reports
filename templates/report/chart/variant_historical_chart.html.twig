@@ -1,30 +1,32 @@
-<canvas height="100" id="{{ chartName }}" ></canvas>
-<script type="text/javascript">
-    var ctx = document.getElementById("{{ chartName }}").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        options: {
-            tooltips: {
-                mode: "index",
-                intersect: false,
-            },
-        },
-        data: {
-            labels: {{ chart.labels | json_encode | raw }},
-            datasets: [
-                {% for series in chart.dataSets %}
-                {% set color = 'rgb(' ~  random(255) ~ ', ' ~ random(255) ~ ', ' ~ random(255) ~ ')' %}
-                {
-                    fill: false,
-                    borderColor: "rgb(1,123,123)",
-                    borderWidth: 2,
-                    label: '{{ series.label }}',
-                    borderColor: "{{ color }}",
-                    backgroundColor: "{{ color }}",
-                    data: {{ series.mode | json_encode | raw }},
-                },
-                {% endfor %}
-            ]
+<div height="100" id="{{ chartName }}" ></div>
+<script>
+var data = {{ chart.context | json_encode | raw }};
+var chart = c3.generate({
+    bindto: '#{{ chartName }}',
+    tooltip: {
+        contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+            var html = '<table class="ui small very compact table" style="opacity: 0.75">';
+            for (index in d) {
+                var pointInfo = d[index];
+                var context = data[pointInfo.id][pointInfo.index];
+                for (var key in context) {
+                    html += '<tr>';
+                    html += '<td>' + key + '</td>';
+                    html += '<td>' + context[key].substring(0, 50) + '</td>';
+                };
+                break;
+            };
+            html += '</table>';
+            return html;
         }
-    });
+    },
+    data: {
+        columns: [
+            {% for i, series in chart.dataSets %}
+            ['{{ series.label }}'].concat({{ series.mode | json_encode | raw }}),
+            {% endfor %}
+        ],
+    }
+});
+
 </script>

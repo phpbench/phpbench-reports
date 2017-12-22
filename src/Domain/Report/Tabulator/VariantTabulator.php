@@ -56,9 +56,16 @@ class VariantTabulator
         $grouped = $this->groupBy($dataSet, [ 'subject-name', 'variant-index' ]);
 
         $chart = [];
+        $context = [];
         $labels = [];
         foreach ($grouped as $variantName => $data) {
             $data = array_reverse($data);
+            $context[$variantName] = array_map(function ($suite) {
+                return array_filter(array_filter($suite, function ($key) {
+                    return substr($key, 0, 3) === 'env' || substr($key, 0, 5) === 'suite';
+                }, ARRAY_FILTER_USE_KEY));
+            }, $data);
+
             if (empty($labels)) {
                 $labels = array_values(array_map(function (array $data) {
                     return $data['suite-date'];
@@ -78,6 +85,7 @@ class VariantTabulator
 
 
         return [
+            'context' => $context,
             'dataSets' => $chart,
             'labels' => $labels
         ];

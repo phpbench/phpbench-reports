@@ -1,19 +1,20 @@
-<canvas height="100" id="{{ chartName }}" ></canvas>
-<script type="text/javascript">
-    var ctx = document.getElementById("{{ chartName }}").getContext('2d');
-    var myChart = new Chart(ctx, {
+<div height="100" id="{{ chartName }}" ></div>
+<script>
+var chart = c3.generate({
+    bindto: '#{{ chartName }}',
+    data: {
+        x: 'x',
+        columns: [
+            ['x'].concat({{ chart.labels | json_encode | raw }}),
+            ['mode µs'].concat({{ chart.series.mode | json_encode | raw }}),
+        ],
         type: 'bar',
-        data: {
-            labels: {{ chart.labels | json_encode | raw }},
-            datasets: [
-                {
-                    fill: false,
-                    borderColor: "rgb(1,123,123)",
-                    borderWidth: 2,
-                    label: 'mode µs',
-                    data: {{ chart.series.mode | json_encode | raw }},
-                }
-            ]
-        }
-    });
+    },
+    axis: {
+        x: {
+            type: 'category'
+        },
+    }
+});
+
 </script>
