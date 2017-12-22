@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <phpbench version="0.15-dev (@git_version@)">
-  <suite context="" date="2017-12-21 21:28:43" config-path="/project/phpbench.json" uuid="133c9d5513af2248c895b4d30fed1240b7a78e5f">
+  <suite context="" date="2017-12-21 21:28:43" config-path="/project/phpbench.json" uuid="1234">
     <env>
       <uname os="Linux" host="ea39d567a6e8" release="4.10.0-42-generic" version="#46-Ubuntu SMP Mon Dec 4 14:38:01 UTC 2017" machine="x86_64"/>
       <php xdebug="" version="7.2.0" ini="" extensions="Core, date, libxml, openssl, pcre, sqlite3, zlib, ctype, curl, dom, fileinfo, filter, ftp, hash, iconv, json, mbstring, SPL, PDO, session, posix, readline, Reflection, standard, SimpleXML, pdo_sqlite, Phar, tokenizer, xml, xmlreader, xmlwriter, mysqlnd, pdo_mysql"/>

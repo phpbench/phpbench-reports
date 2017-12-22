@@ -81,7 +81,7 @@ class Importer
             $benchDocument = array_merge($document, $this->flattenDocument($benchmarkElement));
             foreach ($benchmarkElement->query('.//subject') as $subjectElement) {
                 $subjectDocument = array_merge($benchDocument, $this->flattenDocument($subjectElement));
-                /** @var Element $variantDocument */
+                /** @var Element $variantElement */
                 foreach ($subjectElement->query('.//variant') as $index => $variantElement) {
                     $variantDocument = array_merge($subjectDocument, $this->flattenDocument($variantElement));
                     $variantDocument['variant-index'] = $index;
@@ -89,6 +89,14 @@ class Importer
                         $variantDocument = array_merge($variantDocument, $this->flattenDocument($statsElement));
                     }
                     $variantDocument['variant-iterations'] = $variantElement->query('.//iteration')->length;
+
+                    /** @var Element $errorElement */
+                    foreach ($variantElement->query('.//error') as $errorElement) {
+                        $variantDocument['error'] = $errorElement->nodeValue;
+                        $variantDocument['error-file'] = $errorElement->getAttribute('file');
+                        $variantDocument['error-exception-class'] = $errorElement->getAttribute('exception-class');
+                        $variantDocument['error-line'] = $errorElement->getAttribute('line');
+                    }
 
                     $identifier = $this->generateId($document);
                     $documents[] = $variantDocument;

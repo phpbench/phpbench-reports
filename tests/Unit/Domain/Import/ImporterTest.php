@@ -90,4 +90,19 @@ class ImporterTest extends TestCase
             0
         ));
     }
+
+    public function testImportErrors()
+    {
+        $document = new Document();
+        $document->loadXML(file_get_contents(__DIR__ . '/../../../Fixtures/errors.xml'));
+        $this->importer->import($document);
+
+        $variants = $this->variantStore->forSuiteUuid('1234');
+        $this->assertCount(1, $variants);
+        $variant = reset($variants);
+        $this->assertContains('Attempted to load class', $variant['error']);
+        $this->assertContains('ScriptErrorException', $variant['error-exception-class']);
+        $this->assertContains('Payload.php', $variant['error-file']);
+        $this->assertContains('119', $variant['error-line']);
+    }
 }
