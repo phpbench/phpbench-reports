@@ -35,6 +35,7 @@ class ImportCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $path = $input->getArgument('path');
+        $project = $input->getOption('project');
 
         if (is_file($path)) {
             return $this->import($output, $path);
@@ -55,7 +56,10 @@ class ImportCommand extends Command
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
             $output->writeln(sprintf('<info>Importing</> <comment>"</>%s<comment>"</>', $file->getPathname()));
-            $this->importer->importFromFile($file->getPathname(), ProjectName::fromComposite($input->getOption('project')));
+            if ($project) {
+                $project = ProjectName::fromComposite($project);
+            }
+            $this->importer->importFromFile($file->getPathname(), $project);
         }
 
         $output->writeln('Done');
