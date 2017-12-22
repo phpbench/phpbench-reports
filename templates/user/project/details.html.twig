@@ -1,10 +1,7 @@
 {% extends "base.html.twig" %}
-{% block title %}Add Project{% endblock %}
+{% block title %}Project Details{% endblock %}
 {% block breadcrumb %}
     <a class="section" href="{{ path('profile') }}">Profile</a>
-    <div class="divider"> / </div>
-    <div class="active section">{{ project.name.namespace }}</div>
-    <div class="divider"> / </div>
     <div class="active section">{{ project.name.name }}</div>
 {% endblock %}
 {% block body %}
@@ -29,7 +26,10 @@
         <pre>
 {
     "storage": "reports",
-    "storage.reports.api_key": "{{ project.apiKey }}"
+    "storage.reports.api_key": "{{ project.apiKey }}",
+    "extensions": [
+        "PhpBench\\Extension\\ReportsExtension"
+    ]
 }
         </pre>
 {% endblock %}
