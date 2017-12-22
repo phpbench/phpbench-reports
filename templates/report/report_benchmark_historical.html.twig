@@ -24,6 +24,11 @@
     ]) }}
 {% endblock %}
 {% block body %}
+    {% include "report/chart/variant_historical_chart.html.twig" with {
+        chartName: "benchmarkChart",
+        chart: variantHistoricalChart,
+    } %}
+
     {% for subTitle, table in variantTables %}
         <h3>{{ subTitle }}</h3>
         {% include "report/table/benchmark_historical.html.twig" %}

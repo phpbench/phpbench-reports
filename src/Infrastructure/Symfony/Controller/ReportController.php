@@ -108,6 +108,7 @@ class ReportController
             'project' => $projectName,
             'class' => $class,
             'variantTables' => $this->variantReport->aggregatesForProjectAndClassByVariant($projectName, $class),
+            'variantHistoricalChart' => $this->variantReport->historicalChart($projectName, $class),
         ]));
     }
 

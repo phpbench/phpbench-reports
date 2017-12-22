@@ -63,4 +63,16 @@ class VariantReport
             $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
         );
     }
+
+    public function historicalChart(ProjectName $projectName, string $class)
+    {
+        return $this->tabulator->historicalChart(
+            $this->variantStore->forProjectAndClass($projectName, $class),
+            [
+                'groups' => [
+                    'subject-name',
+                ],
+            ]
+        );
+    }
 }

@@ -43,6 +43,41 @@ class VariantTabulator
         ];
     }
 
+    public function historicalChart(array $dataSet)
+    {
+        $dataSet = array_filter($dataSet, function ($data) {
+            return isset($data['stats-mode']);
+        });
+        $dataSet = array_values($dataSet);
+
+        $grouped = $this->groupBy($dataSet, [ 'subject-name', 'variant-index' ]);
+
+        $chart = [];
+        $labels = [];
+        foreach ($grouped as $variantName => $data) {
+            if (empty($labels)) {
+                $labels = array_values(array_map(function (array $data) {
+                    return $data['suite-date'];
+                }, $data));
+            }
+
+            $dataMode = array_map(function (array $data) {
+                return $data['stats-mode'];
+            }, $data);
+
+            $series = [
+                'label' => $variantName,
+                'mode' => array_values($dataMode),
+            ];
+            $chart[] = $series;
+        }
+
+        return [
+            'dataSets' => $chart,
+            'labels' => $labels
+        ];
+    }
+
     private function groupBy(array $dataSet, $groupBy): array
     {
         if (empty($groupBy)) {
