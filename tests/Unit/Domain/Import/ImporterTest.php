@@ -59,7 +59,7 @@ class ImporterTest extends TestCase
             'project-id' => '1234',
             'project-name' => 'dan',
             'project-namespace' => 'leech',
-        ], $this->suiteStore->forSuiteUuid('1234'));
+        ], $data = $this->suiteStore->forSuiteUuid('1234'));
 
         $this->assertContains([
             'suite-uuid' => '1234',
@@ -71,6 +71,8 @@ class ImporterTest extends TestCase
             'variant-index' => 0,
             'variant-sleep' => 10,
             'variant-iterations' => 1,
+            'project-name' => 'dan',
+            'project-namespace' => 'leech',
             'stats-max' => '0.953',
         ], $this->variantStore->forSuiteUuid('1234'));
 

@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+{% block title %}Benchmark{% endblock %}
+{% block subtitle %}Results for {{ class | short_class }} over time{% endblock %}
+{% block breadcrumb %}
+    {{ breadcrumb([
+        {
+            "label": project.namespace,
+            "route": "report_namespace",
+            "params": {
+                namespace: project.namespace
+            }
+        },
+        {
+            "label": project.name,
+            "route": "report_project",
+            "params": {
+                namespace: project.namespace,
+                project: project.name,
+            }
+        },
+        {
+            "label": class | short_class,
+        },
+    ]) }}
+{% endblock %}
+{% block body %}
+    {% include "report/chart/variant_historical_chart.html.twig" with {
+        chartName: "benchmarkChart",
+        chart: variantHistoricalChart,
+    } %}
+
+    {% for subTitle, table in variantTables %}
+        <h3>{{ subTitle }}</h3>
+        {% include "report/table/benchmark_historical.html.twig" %}
+    {% endfor %}
+
+{% endblock %}

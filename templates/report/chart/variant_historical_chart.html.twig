@@ -1,0 +1,30 @@
+<canvas height="100" id="{{ chartName }}" ></canvas>
+<script type="text/javascript">
+    var ctx = document.getElementById("{{ chartName }}").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        options: {
+            tooltips: {
+                mode: "index",
+                intersect: false,
+            },
+        },
+        data: {
+            labels: {{ chart.labels | json_encode | raw }},
+            datasets: [
+                {% for series in chart.dataSets %}
+                {% set color = 'rgb(' ~  random(255) ~ ', ' ~ random(255) ~ ', ' ~ random(255) ~ ')' %}
+                {
+                    fill: false,
+                    borderColor: "rgb(1,123,123)",
+                    borderWidth: 2,
+                    label: '{{ series.label }}',
+                    borderColor: "{{ color }}",
+                    backgroundColor: "{{ color }}",
+                    data: {{ series.mode | json_encode | raw }},
+                },
+                {% endfor %}
+            ]
+        }
+    });
+</script>

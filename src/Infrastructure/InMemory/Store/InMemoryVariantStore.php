@@ -31,4 +31,13 @@ class InMemoryVariantStore implements VariantStore
                 $data['benchmark-class'] === $class;
         });
     }
+
+    public function forProjectAndClass(ProjectName $projectName, string $class): array
+    {
+        return array_filter($this->variants, function (array $data) use ($projectName, $class) {
+            return $data['project-name'] === $projectName->name() && 
+                $data['project-namespace'] === $projectName->namespace() && 
+                $data['benchmark-class'] === $class;
+        });
+    }
 }

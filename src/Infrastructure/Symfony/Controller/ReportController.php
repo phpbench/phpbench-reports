@@ -97,6 +97,22 @@ class ReportController
     }
 
     /**
+     * @Route("/p/{namespace}/{project}/bench/{class}", name="report_benchmark_historical")
+     */
+    public function benchmarkHistorical(Request $request)
+    {
+        $projectName = $this->projectName($request);
+        $class = $request->attributes->get('class');
+
+        return new Response($this->twig->render('report/report_benchmark_historical.html.twig', [
+            'project' => $projectName,
+            'class' => $class,
+            'variantTables' => $this->variantReport->aggregatesForProjectAndClassByVariant($projectName, $class),
+            'variantHistoricalChart' => $this->variantReport->historicalChart($projectName, $class),
+        ]));
+    }
+
+    /**
      * @Route("/p/{namespace}/{project}/{uuid}", name="report_suite")
      */
     public function suite(Request $request)
@@ -116,7 +132,7 @@ class ReportController
     /**
      * @Route("/p/{namespace}/{project}/{uuid}/{class}", name="report_benchmark")
      */
-    public function benchmark(Request $request)
+    public function suiteBenchmark(Request $request)
     {
         $projectName = $this->projectName($request);
         $class = $request->attributes->get('class');

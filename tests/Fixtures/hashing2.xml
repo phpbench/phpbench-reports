@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<phpbench version="0.15-dev (@git_version@)">
+  <suite context="" date="2017-12-22T13:47:42+01:00" config-path="/home/daniel/www/phpbench/phpbench/phpbench.json" uuid="133c9d6d378d7501442c8fe0c1061b80f60606e6">
+    <env>
+      <uname os="Linux" host="dtlx1" release="4.10.0-42-generic" version="#46-Ubuntu SMP Mon Dec 4 14:38:01 UTC 2017" machine="x86_64"/>
+      <php xdebug="" version="7.2.0-2+ubuntu17.04.1+deb.sury.org+2" ini="/etc/php/7.2/cli/php.ini" extensions="Core, date, libxml, openssl, pcre, zlib, filter, hash, pcntl, Reflection, SPL, sodium, session, standard, PDO, xml, calendar, ctype, curl, dom, mbstring, fileinfo, ftp, gettext, iconv, igbinary, json, exif, mongodb, Phar, posix, readline, redis, shmop, SimpleXML, sockets, sysvmsg, sysvsem, sysvshm, tokenizer, wddx, xmlreader, xmlwriter, xsl, Zend OPcache"/>
+      <opcache extension_loaded="1" enabled=""/>
+      <unix-sysload l1="0.38" l5="0.37" l15="0.43"/>
+      <vcs system="git" branch="phpbench_reports_2" version="11b7b801ac8a33a06ed98bbb62a300276491d29e"/>
+      <baseline nothing="0.01215934753418" md5="0.1680850982666" file_rw="0.91791152954102"/>
+    </env>
+    <benchmark class="\PhpBench\Benchmarks\Micro\HashingBench">
+      <subject name="benchMd5">
+        <variant sleep="0" output-time-unit="microseconds" output-time-precision="" output-mode="time" revs="1000" warmup="0" retry-threshold="">
+          <iteration time-net="180" mem-peak="1083752" mem-real="2097152" mem-final="1024088" comp-z-value="0" comp-deviation="0"/>
+          <iteration time-net="180" mem-peak="1083752" mem-real="2097152" mem-final="1024088" comp-z-value="0" comp-deviation="0"/>
+          <stats max="0.18" mean="0.18" min="0.18" mode="0.18" rstdev="0" stdev="0" sum="0.36" variance="0"/>
+        </variant>
+      </subject>
+      <subject name="benchSha1">
+        <variant sleep="0" output-time-unit="microseconds" output-time-precision="" output-mode="time" revs="1000" warmup="0" retry-threshold="">
+          <iteration time-net="247" mem-peak="1083752" mem-real="2097152" mem-final="1024088" comp-z-value="1" comp-deviation="3.5639412997904"/>
+          <iteration time-net="230" mem-peak="1083752" mem-real="2097152" mem-final="1024088" comp-z-value="-1" comp-deviation="-3.5639412997903"/>
+          <stats max="0.247" mean="0.2385" min="0.23" mode="0.23851663405088" rstdev="3.5639412997904" stdev="0.0085" sum="0.477" variance="7.225E-5"/>
+        </variant>
+      </subject>
+      <subject name="benchSha256">
+        <variant sleep="0" output-time-unit="microseconds" output-time-precision="" output-mode="time" revs="1000" warmup="0" retry-threshold="">
+          <iteration time-net="521" mem-peak="1083752" mem-real="2097152" mem-final="1024088" comp-z-value="-0.99999999999998" comp-deviation="-0.66730219256434"/>
+          <iteration time-net="528" mem-peak="1083752" mem-real="2097152" mem-final="1024088" comp-z-value="1" comp-deviation="0.66730219256436"/>
+          <stats max="0.528" mean="0.5245" min="0.521" mode="0.52449315068494" rstdev="0.66730219256435" stdev="0.0035" sum="1.049" variance="1.225E-5"/>
+        </variant>
+      </subject>
+    </benchmark>
+    <result key="time" class="PhpBench\Model\Result\TimeResult"/>
+    <result key="mem" class="PhpBench\Model\Result\MemoryResult"/>
+    <result key="comp" class="PhpBench\Model\Result\ComputedResult"/>
+  </suite>
+</phpbench>

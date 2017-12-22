@@ -27,21 +27,28 @@ Feature: Reports
         When I go to "/p/phpbench/phpbench/worse-uuid"
         Then I should see the results for "test_case_methods_and_properties"
 
-    Scenario: View benchmark report
+    Scenario: View suite benchmark report
         Given I have submitted the suite "worse_reflection.xml" for project "phpbench/phpbench"
         And I am on "/p/phpbench/phpbench/worse-uuid"
         When I click benchmark "ReflectMethodBench"
         Then I should be on "/p/phpbench/phpbench/worse-uuid/ReflectMethodBench"
         And I should see the results for "method_return_type"
 
-    Scenario: View variant report
+    Scenario: View suite variant report
         Given I have submitted the suite "worse_reflection.xml" for project "phpbench/phpbench"
         And I am on "/p/phpbench/phpbench/worse-uuid/ReflectMethodBench"
         When I click variant "method_return_type"
         Then I should be on "/p/phpbench/phpbench/worse-uuid/ReflectMethodBench/method_return_type/0"
         And I should see the iterations report
 
-    Scenario: View variant report that has errors
+    Scenario: View suite variant report that has errors
         Given I have submitted the suite "errors.xml" for project "phpbench/phpbench"
         And I am on "/p/phpbench/phpbench/1234/ImportBench"
         Then I should see an error row for "benchImport"
+
+    Scenario: View historical benchmark report
+        Given I have submitted the suite "hashing1.xml" for project "phpbench/phpbench"
+        And I have submitted the suite "hashing2.xml" for project "phpbench/phpbench"
+        And I have submitted the suite "hashing3.xml" for project "phpbench/phpbench"
+        When I am on "/p/phpbench/phpbench/bench/\PhpBench\Benchmarks\Micro\HashingBench"
+        And I should see the results for "benchMd5"

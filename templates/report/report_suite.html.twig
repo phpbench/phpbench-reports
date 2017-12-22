@@ -55,6 +55,11 @@
                 uuid: uuid, 
                 class: subTitle 
             }) }}">{{ subTitle|short_class }}</a>
+            [<a href="{{ path('report_benchmark_historical', { 
+                namespace: project.namespace,
+                project: project.name,
+                class: subTitle 
+            }) }}">historical</a>]
         </h3>
         {% include "report/table/benchmark.html.twig" %}
     {% endfor %}

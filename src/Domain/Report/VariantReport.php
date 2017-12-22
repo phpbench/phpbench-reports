@@ -4,6 +4,7 @@ namespace App\Domain\Report;
 
 use App\Domain\Store\VariantStore;
 use App\Domain\Report\Tabulator\VariantTabulator;
+use App\Domain\Project\ProjectName;
 
 class VariantReport
 {
@@ -29,6 +30,18 @@ class VariantReport
     {
         return $this->tabulator->aggregate($this->variantStore->forSuiteUuid($uuid));
     }
+    
+    public function aggregatesForProjectAndClassByVariant(ProjectName $projectName, string $class)
+    {
+        return $this->tabulator->aggregate(
+            $this->variantStore->forProjectAndClass($projectName, $class),
+            [
+                'groups' => [
+                    'subject-name',
+                ],
+            ]
+        );
+    }
 
     public function chartForUuid(string $uuid): array
     {
@@ -48,6 +61,18 @@ class VariantReport
     {
         return $this->tabulator->chart(
             $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
+        );
+    }
+
+    public function historicalChart(ProjectName $projectName, string $class)
+    {
+        return $this->tabulator->historicalChart(
+            $this->variantStore->forProjectAndClass($projectName, $class),
+            [
+                'groups' => [
+                    'subject-name',
+                ],
+            ]
         );
     }
 }
