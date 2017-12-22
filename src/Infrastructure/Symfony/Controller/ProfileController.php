@@ -92,6 +92,21 @@ class ProfileController
     }
 
     /**
+     * @Route("/profile/project/delete/{id}", name="profile_project_delete")
+     */
+    public function projectDelete(Request $request, UserInterface $user)
+    {
+        $project = $this->projectService->deleteProject(
+            $user->getUsername(),
+            $request->get('id')
+        );
+
+        return new RedirectResponse($this->urlGenerator->generate(
+            'profile'
+        ));
+    }
+
+    /**
      * @Route("/profile/project/details/{namespace}/{name}", name="profile_project_details")
      */
     public function projectViewDetails(Request $request, UserInterface $user)

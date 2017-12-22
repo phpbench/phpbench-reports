@@ -18,4 +18,6 @@ interface ProjectRepository
     public function findByApiKey(string $apiKey):? Project;
 
     public function findByProjectName(ProjectName $projectName): Project;
+
+    public function deleteProject(BenchUser $user, string $projectId): void;
 }

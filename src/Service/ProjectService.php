@@ -54,6 +54,11 @@ class ProjectService
         $this->projectRepository->updateProject($this->user($username), $project);
     }
 
+    public function deleteProject(string $username, string $uuid): void
+    {
+        $this->projectRepository->deleteProject($this->user($username), $uuid);
+    }
+
     private function user(string $username): BenchUser
     {
         return $this->userRepository->findByUsernameOrExplode($username);

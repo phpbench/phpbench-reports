@@ -38,4 +38,23 @@ class ProjectContext extends RawMinkContext implements Context
         $element = $this->getSession()->getPage()->find('xpath', '//td[contains(., "' . $arg1 . '")]');
         Assert::assertNotNull($element, 'Project cell was found');
     }
+
+    /**
+     * @Given I delete project :subjectName
+     */
+    public function iDeleteProject($projectName)
+    {
+        $deleteLink = $this->getSession()->getPage()->find('xpath', '//td[contains(., "' . $projectName . '")]/../td/a[contains(@class, "delete")]');
+        Assert::assertNotNull($deleteLink, 'Delete link exists');
+        $deleteLink->click();
+    }
+
+    /**
+     * @Then I should not see project :projectName
+     */
+    public function iShouldNotSeeProject($projectName)
+    {
+        $elements = $this->getSession()->getPage()->findAll('xpath', '//td[contains(., "' . $projectName . '")]');
+        Assert::assertCount(0, $elements, 'Project is not visible');
+    }
 }

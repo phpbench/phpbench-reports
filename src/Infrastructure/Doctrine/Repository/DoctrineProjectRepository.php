@@ -93,4 +93,22 @@ class DoctrineProjectRepository implements ProjectRepository
             ->getQuery()
             ->getSingleResult();
     }
+
+    public function deleteProject(BenchUser $user, string $projectId): void
+    {
+        $project = $this->findProjectByUserAndId($user, $projectId);
+        $this->entityManager->remove($project);
+        $this->entityManager->flush();
+    }
+
+    public function findProjectByUserAndId(BenchUser $user, string $projectId)
+    {
+        return $this->queryBuilder('p')
+            ->where('p.user = :userId')
+            ->andWhere('p.id = :id')
+            ->setParameter('userId', $user->id())
+            ->setParameter('id', $projectId)
+            ->getQuery()
+            ->getSingleResult();
+    }
 }

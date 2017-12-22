@@ -23,6 +23,7 @@
             {% for project in projects %}
             <tr>
                 <td><a href="{{ path('profile_project_details', { namespace: project.name.namespace, name:project.name.name }) }}">{{ project.name }}</a></td>
+                <td><a class="ui button danger ac-delete" href="{{ path('profile_project_delete', { id: project.id }) }}"><i class"trash icon"></i> Delete</a>
             </tr>
             {% endfor %}
         </tbody>
