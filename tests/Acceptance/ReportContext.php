@@ -103,4 +103,16 @@ class ReportContext extends RawMinkContext implements Context
             'table.ac-suites'
         ), 'Suites table is present');
     }
+
+    /**
+     * @Then I should see an error row for :subjectName
+     */
+    public function iShouldSeeAnErrorRowFor($subjectName)
+    {
+        $errorRows = $this->getSession()->getPage()->findAll(
+            'xpath',
+            '//td[contains(@class, "ac-error")][contains(., "' . $subjectName . '")]'
+        );
+        Assert::assertCount(1, $errorRows, 'Found error row');
+    }
 }

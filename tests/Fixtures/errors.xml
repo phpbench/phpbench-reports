@@ -9,7 +9,7 @@
       <vcs system="git" branch="master" version="1234f91ba0c3c2103c5e9c06ace274824c5ecc6b"/>
       <baseline nothing="0.010967254638672" md5="0.16498565673828" file_rw="1.3711452484131"/>
     </env>
-    <benchmark class="\App\Tests\Benchmark\ImportBench">
+    <benchmark class="ImportBench">
       <subject name="benchImport">
         <variant sleep="0" output-time-unit="microseconds" output-time-precision="" output-mode="time" revs="1" warmup="0" retry-threshold="">
           <errors>
