@@ -9,6 +9,9 @@ use PhpBench\Dom\Document;
 use Prophecy\Argument;
 use App\Domain\Store\SuiteStore;
 use App\Domain\Store\IterationStore;
+use App\Infrastructure\InMemory\Store\InMemorySuiteStore;
+use App\Infrastructure\InMemory\Store\InMemoryVariantStore;
+use App\Infrastructure\InMemory\Store\InMemoryIterationStore;
 
 class ImporterTest extends TestCase
 {
@@ -30,12 +33,13 @@ class ImporterTest extends TestCase
     public function setUp()
     {
         $this->variantStore = $this->prophesize(VariantStore::class);
-        $this->iterationStore = $this->prophesize(IterationStore::class);
-        $this->suiteStore = $this->prophesize(SuiteStore::class);
+        $this->iterationStore = new InMemoryIterationStore();
+        $this->suiteStore = new InMemorySuiteStore();
+        $this->variantStore = new InMemoryVariantStore();
         $this->importer = new Importer(
-            $this->variantStore->reveal(),
-            $this->suiteStore->reveal(),
-            $this->iterationStore->reveal()
+            $this->variantStore,
+            $this->suiteStore,
+            $this->iterationStore
         );
     }
 
@@ -44,51 +48,46 @@ class ImporterTest extends TestCase
         $document = new Document();
         $document->loadXML(file_get_contents(__DIR__ . '/../../../Fixtures/suite1.xml'));
 
-        $this->suiteStore->store(
-            '1234',
-            Argument::containing(
-                [
-                    'suite-uuid' => '1234',
-                    'env-uname-os' => 'Linux',
-                    'env-uname-host' => 'dtlx1',
-                    'env-php-version' => '7.1',
-                    'project' => 'foo/bar',
-                    'project-id' => '1234',
-                    'project-name' => 'dan',
-                    'project-namespace' => 'leech',
-                ]
-            )
-        )->shouldBeCalled();
-
-        $this->variantStore->storeMany(
-            Argument::containing(
-                [
-                    'suite-uuid' => '1234',
-                    'env-uname-os' => 'Linux',
-                    'env-uname-host' => 'dtlx1',
-                    'env-php-version' => '7.1',
-                    'benchmark-class' => 'HashingBench',
-                    'subject-name' => 'benchMd5',
-                    'variant-index' => 0,
-                    'variant-sleep' => 10,
-                    'variant-iterations' => 1,
-                    'stats-max' => '0.953',
-                ]
-            )
-        )->shouldBeCalled();
-
-        $this->iterationStore->storeMany(
-            Argument::containing([
-                'suite-uuid' => '1234',
-                'benchmark-class' => 'HashingBench',
-                'subject-name' => 'benchMd5',
-                'variant-index' => 0,
-                'time-net' => 100,
-                'mem-peak' => 2000,
-                'comp-z-value' => -0.47,
-                'iteration' => 0,
-            ])
-        )->shouldBeCalled();
         $this->importer->import($document);
+
+        $this->assertContains([
+            'suite-uuid' => '1234',
+            'env-uname-os' => 'Linux',
+            'env-uname-host' => 'dtlx1',
+            'env-php-version' => '7.1',
+            'project' => 'foo/bar',
+            'project-id' => '1234',
+            'project-name' => 'dan',
+            'project-namespace' => 'leech',
+        ], $this->suiteStore->forSuiteUuid('1234'));
+
+        $this->assertContains([
+            'suite-uuid' => '1234',
+            'env-uname-os' => 'Linux',
+            'env-uname-host' => 'dtlx1',
+            'env-php-version' => '7.1',
+            'benchmark-class' => 'HashingBench',
+            'subject-name' => 'benchMd5',
+            'variant-index' => 0,
+            'variant-sleep' => 10,
+            'variant-iterations' => 1,
+            'stats-max' => '0.953',
+        ], $this->variantStore->forSuiteUuid('1234'));
+
+        $this->assertContains([
+            'suite-uuid' => '1234',
+            'benchmark-class' => 'HashingBench',
+            'subject-name' => 'benchMd5',
+            'variant-index' => 0,
+            'time-net' => 100,
+            'mem-peak' => 2000,
+            'comp-z-value' => -0.47,
+            'iteration' => 0,
+        ], $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant(
+            '1234',
+            'HashingBench',
+            'benchMd5',
+            0
+        ));
     }
 }
