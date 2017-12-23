@@ -10,6 +10,7 @@ use App\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
 use Behat\MinkExtension\Context\RawMinkContext;
 use App\Domain\User\BenchUser;
 use PHPUnit\Framework\Assert;
+use App\Service\UserService;
 
 class UserContext extends RawMinkContext implements Context
 {
@@ -32,13 +33,9 @@ class UserContext extends RawMinkContext implements Context
      */
     public function theUserExists($username, $apiKey = null)
     {
-        /** @var DoctrineUserRepository $userRepository */
-        $userRepository = $this->kernel->getContainer()->get(DoctrineUserRepository::class);
-        $user = $userRepository->create(
-            $username,
-            uniqid(),
-            '$2y$12$C8sHO2VzPQG0igceHzAG/eYwGmFFciJXq4VMa3BnFDUjsLnGwrYaK' // "test"
-        );
+        /** @var UserService $userService */
+        $userService = $this->kernel->getContainer()->get(UserService::class);
+        $user = $userService->createLocalUser($username, 'test');
         $this->user = $user;
     }
 
@@ -61,5 +58,12 @@ class UserContext extends RawMinkContext implements Context
     public function iAmOnTheProfilePage()
     {
         $this->getSession()->visit('/profile');
+    }
+    /**
+     * @Given I only have roles :arg1
+     */
+    public function iOnlyHaveRoles($arg1)
+    {
+        throw new PendingException();
     }
 }

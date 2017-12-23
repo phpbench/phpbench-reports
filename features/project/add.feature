@@ -20,3 +20,8 @@ Feature: Add project
         When I fill in "project_add_form[name]" with "phpbench-reports"
         And I press "Add project"
         Then I should see a form error message "Project already exists"
+
+    Scenario: Try to add project without ADD_PROJECT permission
+        Given I only have roles "ROLE_USER"
+        And I am on "/profile"
+        Then I should see "You do not have permission to create new projects"

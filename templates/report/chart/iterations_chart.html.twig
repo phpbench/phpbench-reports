@@ -6,7 +6,7 @@ var chart = c3.generate({
         x: 'x',
         columns: [
             ['x'].concat({{ chart.labels | json_encode | raw }}),
-            ['# µs'].concat({{ chart.series | json_encode | raw }}),
+            ['microseconds'].concat({{ chart.series | json_encode | raw }}),
         ],
     },
     grid: {

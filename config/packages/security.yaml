@@ -6,7 +6,7 @@ security:
                 class: App\Infrastructure\Doctrine\Entity\DoctrineUser
                 property: username
     encoders:
-        App\Infrastructure\Doctrine\Entity\DoctrineUser:
+        App\Domain\User\BenchUser:
             algorithm: bcrypt
             cost: 12
 
