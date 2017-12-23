@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Symfony\Form;
+namespace App\Framework\Form;
 
 class ProjectDto
 {

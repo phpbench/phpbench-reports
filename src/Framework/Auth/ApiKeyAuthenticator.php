@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Symfony\Auth;
+namespace App\Framework\Auth;
 
 use Symfony\Component\Security\Guard\AuthenticatorInterface;
 use Symfony\Component\HttpFoundation\Request;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Symfony\Controller;
+namespace App\Framework\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,11 +10,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use App\Service\ProjectService;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\FormFactory;
-use App\Infrastructure\Symfony\Form\ProjectAddForm;
+use App\Framework\Form\ProjectAddForm;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use App\Infrastructure\Symfony\Form\ProjectDto;
+use App\Framework\Form\ProjectDto;
 
 class ProfileController
 {

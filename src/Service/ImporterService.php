@@ -10,7 +10,7 @@ use RuntimeException;
 use App\Service\Exception\ImportException;
 use App\Domain\Project\ProjectRepository;
 use App\Domain\Project\ProjectName;
-use App\Service\ImporterResponse;
+use App\Service\Importer\ImporterResponse;
 
 class ImporterService
 {

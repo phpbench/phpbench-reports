@@ -28,8 +28,8 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Infrastructure\Symfony\Controller\:
-        resource: '../src/Infrastructure/Symfony/Controller'
+    App\Framework\Controller\:
+        resource: '../src/Framework/Controller'
         tags: ['controller.service_arguments']
 
     Elasticsearch\ClientBuilder: ~
@@ -47,7 +47,7 @@ services:
     App\Service\ImporterService:
         public: true
 
-    App\Infrastructure\Symfony\Auth\Provider\GithubProvider:
+    App\Framework\Auth\Provider\GithubProvider:
         arguments:
             - "%github_client_id%"
             - "%github_client_secret%"

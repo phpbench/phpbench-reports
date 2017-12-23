@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Importer;
 
 use App\Domain\Project\ProjectName;
 

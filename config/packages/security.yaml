@@ -19,7 +19,7 @@ security:
             stateless: true
             guard:
                 authenticators:
-                    - App\Infrastructure\Symfony\Auth\ApiKeyAuthenticator
+                    - App\Framework\Auth\ApiKeyAuthenticator
         main:
             anonymous: ~
             logout: ~
@@ -29,7 +29,7 @@ security:
                 default_target_path: profile
             guard:
                 authenticators:
-                    - App\Infrastructure\Symfony\Auth\GithubGuardAuthenticator
+                    - App\Framework\Auth\GithubGuardAuthenticator
 
     access_control:
         - { path: ^/profile/project, roles: ROLE_BENCHMARKER }

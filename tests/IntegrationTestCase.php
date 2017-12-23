@@ -3,7 +3,7 @@
 namespace App\Tests;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use App\Infrastructure\Symfony\Kernel;
+use App\Framework\Kernel;
 use App\Tests\Helper\DatabaseHelper;
 use PHPUnit\Framework\TestCase;
 use App\Infrastructure\Doctrine\Repository\DoctrineUserRepository;

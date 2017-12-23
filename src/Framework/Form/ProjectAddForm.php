@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Symfony\Form;
+namespace App\Framework\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,8 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Infrastructure\Doctrine\Entity\DoctrineUser;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Infrastructure\Symfony\Form\ProjectDto;
-use App\Infrastructure\Symfony\Validator\Unique;
+use App\Framework\Form\ProjectDto;
+use App\Framework\Validator\Unique;
 use App\Infrastructure\Doctrine\Entity\DoctrineProject;
 use Symfony\Component\Validator\Constraints\Regex;
 

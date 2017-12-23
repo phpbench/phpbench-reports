@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Infrastructure\Symfony\Controller;
+namespace App\Framework\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
-use App\Infrastructure\Symfony\Auth\Provider;
+use App\Framework\Auth\Provider;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
 
