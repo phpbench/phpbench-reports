@@ -84,4 +84,10 @@ class DoctrineUserRepository implements BenchUserRepository
 
         return null;
     }
+
+    public function update(BenchUser $user): void
+    {
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
 }

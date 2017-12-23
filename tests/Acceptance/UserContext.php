@@ -24,9 +24,15 @@ class UserContext extends RawMinkContext implements Context
      */
     private $user;
 
+    /**
+     * @var UserService
+     */
+    private $userService;
+
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
+        $this->userService = $kernel->getContainer()->get(UserService::class);
     }
     /**
      * @Given the user :user exists
@@ -34,9 +40,7 @@ class UserContext extends RawMinkContext implements Context
     public function theUserExists($username, $apiKey = null)
     {
         /** @var UserService $userService */
-        $userService = $this->kernel->getContainer()->get(UserService::class);
-        $user = $userService->createLocalUser($username, 'test');
-        $this->user = $user;
+        $this->user = $this->userService->createLocalUser($username, 'test');
     }
 
     /**
@@ -60,10 +64,11 @@ class UserContext extends RawMinkContext implements Context
         $this->getSession()->visit('/profile');
     }
     /**
-     * @Given I only have roles :arg1
+     * @Given I only have roles :roles
      */
-    public function iOnlyHaveRoles($arg1)
+    public function iOnlyHaveRoles($roles)
     {
-        throw new PendingException();
+        $roles = explode(', ', $roles);
+        $this->userService->setUserRoles($this->user->username(), $roles);
     }
 }

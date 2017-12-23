@@ -31,4 +31,11 @@ class UserService
         $password = $this->encoderFactory->getEncoder(BenchUser::class)->encodePassword($password, null);
         return $this->userRepository->create($username, uniqid(), $password);
     }
+
+    public function setUserRoles(string $username, array $roles)
+    {
+        $user = $this->userRepository->findByUsername($username);
+        $user->setRoles($roles);
+        $this->userRepository->update($user);
+    }
 }

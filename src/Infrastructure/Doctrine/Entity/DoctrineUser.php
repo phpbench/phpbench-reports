@@ -36,6 +36,11 @@ class DoctrineUser implements UserInterface, BenchUser
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="json", nullable=false)
+     */
+    private $roles = [];
+
     public function __construct(string $username, string $vendorId, string $apiKey, string $password = null)
     {
         $this->username = $username;
@@ -64,6 +69,7 @@ class DoctrineUser implements UserInterface, BenchUser
      */
     public function getSalt()
     {
+        return null;
     }
 
     /**
@@ -94,5 +100,15 @@ class DoctrineUser implements UserInterface, BenchUser
     public function id(): string
     {
         return $this->id;
+    }
+
+    public function roles(): array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
     }
 }
