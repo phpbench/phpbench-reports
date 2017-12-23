@@ -38,11 +38,11 @@ class Importer
     {
         $suiteUuid = null;
 
-        foreach ($document->query('//suite') as $suiteDocument) {
-            $suiteUuid = $suiteDocument->getAttribute('uuid');
-            $this->storeSuite($suiteUuid, $suiteDocument);
-            $this->storeVariants($suiteDocument);
-            $this->storeIterations($suiteDocument);
+        foreach ($document->query('//suite') as $suiteElement) {
+            $suiteUuid = $suiteElement->getAttribute('uuid');
+            $this->storeSuite($suiteUuid, $suiteElement);
+            $this->storeVariants($suiteElement);
+            $this->storeIterations($suiteElement);
 
             // only one suite supported per file
             break;
@@ -57,14 +57,17 @@ class Importer
         return $suiteUuid;
     }
 
-    private function storeSuite(string $identifier, Element $suiteDocument)
+    private function storeSuite(string $identifier, Element $suiteElement)
     {
-        $document = $this->flattenDocument($suiteDocument);
-        $document['project-id'] = $suiteDocument->parentNode->getAttribute('project-id');
-        $document['project'] = $suiteDocument->parentNode->getAttribute('project');
-        $document['project-namespace'] = $suiteDocument->parentNode->getAttribute('project-namespace');
-        $document['project-name'] = $suiteDocument->parentNode->getAttribute('project-name');
-        foreach ($suiteDocument->query('.//env/*') as $envDocument) {
+        $document = $this->flattenDocument($suiteElement);
+        $document['project-id'] = $suiteElement->parentNode->getAttribute('project-id');
+        $document['project'] = $suiteElement->parentNode->getAttribute('project');
+        $document['project-namespace'] = $suiteElement->parentNode->getAttribute('project-namespace');
+        $document['project-name'] = $suiteElement->parentNode->getAttribute('project-name');
+        $document['iterations'] = (int) $suiteElement->evaluate('count(//iteration)');
+        $document['benchmarks'] = (int) $suiteElement->evaluate('count(//benchmark)');
+        $document['variants'] = (int) $suiteElement->evaluate('count(//variant)');
+        foreach ($suiteElement->query('.//env/*') as $envDocument) {
             $document = array_merge($document, $this->flattenDocument($envDocument, 'env'));
         }
 

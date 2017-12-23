@@ -9,6 +9,8 @@
         <subject name="benchMd5">
             <variant sleep="10">
                 <iteration time-net="100" mem-peak="2000" comp-z-value="-0.47"/>
+                <iteration time-net="100" mem-peak="2000" comp-z-value="-0.47"/>
+                <iteration time-net="100" mem-peak="2000" comp-z-value="-0.47"/>
                 <stats max="0.953"/>
             </variant>
         </subject>

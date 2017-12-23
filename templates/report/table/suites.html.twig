@@ -6,6 +6,7 @@
             <th>Suite</th>
             <th>Host</th>
             <th>VCS Branch</th>
+            <th># B / V / I <i title="Number of Benchmarks / Variants / Iterations" class="ui blue icon help circle"></i></th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +20,11 @@
             <td><a href="{{ path('report_suite', { namespace: suite['project-namespace'], project: suite['project-name'], uuid: suite['suite-uuid'] }) }}">{{ suite['suite-uuid'] }}</a></td>
             <td>{{ suite['env-uname-host'] | default('') }}</td>
             <td>{{ suite['env-vcs-branch'] | default('') }}</td>
+            <td>
+                {{ suite['benchmarks'] }} /
+                {{ suite['variants'] }} /
+                {{ suite['iterations'] }}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

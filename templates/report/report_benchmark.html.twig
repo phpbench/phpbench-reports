@@ -33,11 +33,18 @@
     ]) }}
 {% endblock %}
 {% block body %}
+    [<a href="{{ path('report_benchmark_historical', { 
+        namespace: project.namespace,
+        project: project.name,
+        class: class
+    }) }}">historical</a>]
+    <h3>Chart</h3>
     {% include "report/chart/variant_chart.html.twig" with {
         chartName: "benchmarkChart",
         chart: variantChart,
     } %}
 
+    <h3>Table</h3>
     {% for subTitle, table in variantTables %}
         {% include "report/table/benchmark.html.twig" %}
     {% endfor %}

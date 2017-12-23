@@ -30,25 +30,16 @@
     ]) }}
 {% endblock %}
 {% block body %}
-    <table class="ui table">
-        {% for cells in suiteReport|batch(2) %}
-            <tr>
-            {% for field, value in cells %}
-                <td class="selected"><b>{{ field|replace({'env-': ''}) }}</b></td>
-                <td title="{{ value }}">{{ value|truncate(50) }}</td>
-            {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
-    <h2>Results</h2>
+    <h3>Chart</h3>
 
     {% include "report/chart/variant_chart.html.twig" with {
         chartName: "suiteChart",
         chart: suiteChart,
     } %}
 
+    <h3>Tables</h3>
     {% for subTitle, table in variantTables %}
-        <h3>
+        <h4>
             <a href="{{ path('report_benchmark', { 
                 namespace: project.namespace,
                 project: project.name,
@@ -60,8 +51,19 @@
                 project: project.name,
                 class: subTitle 
             }) }}">historical</a>]
-        </h3>
+        </h4>
         {% include "report/table/benchmark.html.twig" %}
     {% endfor %}
 
+    <h3>Env</h3>
+    <table class="ui table">
+        {% for cells in suiteReport|batch(2) %}
+            <tr>
+            {% for field, value in cells %}
+                <td class="selected"><b>{{ field|replace({'env-': ''}) }}</b></td>
+                <td title="{{ value }}">{{ value|truncate(50) }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

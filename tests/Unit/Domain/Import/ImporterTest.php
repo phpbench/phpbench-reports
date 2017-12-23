@@ -50,7 +50,7 @@ class ImporterTest extends TestCase
 
         $this->importer->import($document);
 
-        $this->assertContains([
+        $this->assertEquals([
             'suite-uuid' => '1234',
             'env-uname-os' => 'Linux',
             'env-uname-host' => 'dtlx1',
@@ -59,9 +59,12 @@ class ImporterTest extends TestCase
             'project-id' => '1234',
             'project-name' => 'dan',
             'project-namespace' => 'leech',
-        ], $data = $this->suiteStore->forSuiteUuid('1234'));
+            'iterations' => 3,
+            'benchmarks' => 1,
+            'variants' => 1,
+        ], $data = $this->suiteStore->forSuiteUuid('1234')[0]);
 
-        $this->assertContains([
+        $this->assertEquals([
             'suite-uuid' => '1234',
             'env-uname-os' => 'Linux',
             'env-uname-host' => 'dtlx1',
@@ -70,11 +73,11 @@ class ImporterTest extends TestCase
             'subject-name' => 'benchMd5',
             'variant-index' => 0,
             'variant-sleep' => 10,
-            'variant-iterations' => 1,
+            'variant-iterations' => 3,
             'project-name' => 'dan',
             'project-namespace' => 'leech',
             'stats-max' => '0.953',
-        ], $this->variantStore->forSuiteUuid('1234'));
+        ], $this->variantStore->forSuiteUuid('1234')[0]);
 
         $this->assertContains([
             'suite-uuid' => '1234',
