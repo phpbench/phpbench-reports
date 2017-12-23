@@ -11,22 +11,30 @@
                 <td>{{ app.user.username }}</td>
             </tr>
         </table>
-    <h3>Projects</h3>
-    <a class="ui button primary" href="{{ path('profile_project_add') }}" title="Add project"><i class="icon add"></i> Add Project</a>
-    <table class="ui table">
-        <thead>
-            <tr>
-                <th>Project</th>
-                <td>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for project in projects %}
-            <tr>
-                <td><a href="{{ path('profile_project_details', { namespace: project.name.namespace, name:project.name.name }) }}">{{ project.name }}</a></td>
-                <td><a class="ui button red ac-delete" href="{{ path('profile_project_delete', { id: project.id }) }}"><i class="ui trash icon"></i> Delete</a>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endblock %}
+
+        <h3>Projects</h3>
+
+        {% if is_granted('ROLE_BENCHMARKER') %}
+        <a class="ui button primary" href="{{ path('profile_project_add') }}" title="Add project"><i class="icon add"></i> Add Project</a>
+        {% else %}
+        <a class="ui button disabled" disabled href="#" title="Add project"><i class="icon add"></i> Add Project</a> You do not have permission to add projects
+        {% endif %}
+
+        <table class="ui table">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <td>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td><a href="{{ path('profile_project_details', { namespace: project.name.namespace, name:project.name.name }) }}">{{ project.name }}</a></td>
+                    <td><a class="ui button red ac-delete" href="{{ path('profile_project_delete', { id: project.id }) }}"><i class="ui trash icon"></i> Delete</a>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% endblock %}

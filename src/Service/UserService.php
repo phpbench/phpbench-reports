@@ -29,10 +29,10 @@ class UserService
     {
         // using bcrypt, to no salt
         $password = $this->encoderFactory->getEncoder(BenchUser::class)->encodePassword($password, null);
-        return $this->userRepository->create($username, uniqid(), $password);
+        return $this->userRepository->create($username, uniqid(), $password, [ BenchUser::ROLE_USER ]);
     }
 
-    public function setUserRoles(string $username, array $roles)
+    public function grantRoles(string $username, array $roles)
     {
         $user = $this->userRepository->findByUsername($username);
         $user->setRoles($roles);

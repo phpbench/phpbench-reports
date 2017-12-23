@@ -41,11 +41,12 @@ class DoctrineUser implements UserInterface, BenchUser
      */
     private $roles = [];
 
-    public function __construct(string $username, string $vendorId, string $apiKey, string $password = null)
+    public function __construct(string $username, string $vendorId, string $password = null, array $roles = [])
     {
         $this->username = $username;
         $this->vendorId = $vendorId;
         $this->password = $password;
+        $this->roles = $roles;
     }
 
     /**
@@ -53,7 +54,7 @@ class DoctrineUser implements UserInterface, BenchUser
      */
     public function getRoles()
     {
-        return [ BenchUser::ROLE_USER ];
+        return $this->roles;
     }
 
     /**

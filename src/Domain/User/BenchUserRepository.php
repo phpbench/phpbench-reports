@@ -6,7 +6,12 @@ use App\Domain\User\BenchUser;
 
 interface BenchUserRepository
 {
-    public function create(string $username, string $githubId, string $password = null): BenchUser;
+    public function create(
+        string $username,
+        string $githubId,
+        string $password = null,
+        array $roles = []
+    ): BenchUser;
 
     public function findByVendorId($githubId):? BenchUser;
 

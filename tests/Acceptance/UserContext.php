@@ -41,6 +41,10 @@ class UserContext extends RawMinkContext implements Context
     {
         /** @var UserService $userService */
         $this->user = $this->userService->createLocalUser($username, 'test');
+        $this->userService->grantRoles($username, [
+            BenchUser::ROLE_USER,
+            BenchUser::ROLE_BENCHMARKER
+        ]);
     }
 
     /**
@@ -65,10 +69,11 @@ class UserContext extends RawMinkContext implements Context
     }
     /**
      * @Given I only have roles :roles
+     * @Given I have the roles
      */
     public function iOnlyHaveRoles($roles)
     {
         $roles = explode(', ', $roles);
-        $this->userService->setUserRoles($this->user->username(), $roles);
+        $this->userService->grantRoles($this->user->username(), $roles);
     }
 }

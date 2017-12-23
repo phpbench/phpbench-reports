@@ -23,5 +23,6 @@ Feature: Add project
 
     Scenario: Try to add project without ADD_PROJECT permission
         Given I only have roles "ROLE_USER"
+        And I am logged in as user "daniel"
         And I am on "/profile"
-        Then I should see "You do not have permission to create new projects"
+        Then I should see "You do not have permission to add projects"

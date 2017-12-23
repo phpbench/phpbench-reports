@@ -18,21 +18,14 @@ class DoctrineUserRepository implements BenchUserRepository
      */
     private $entityManager;
 
-    /**
-     * @var TokenGenerator
-     */
-    private $tokenGenerator;
-
-    public function __construct(EntityManagerInterface $entityManager, TokenGenerator $tokenGenerator)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->tokenGenerator = $tokenGenerator;
     }
 
-    public function create(string $username, string $vendorId, string $password = null, $apiKey = null): BenchUser
+    public function create(string $username, string $vendorId, string $password = null, array $roles = []): BenchUser
     {
-        $apiKey = $apiKey ?: $this->tokenGenerator->generate();
-        $user = new DoctrineUser($username, $vendorId, $apiKey, $password);
+        $user = new DoctrineUser($username, $vendorId, $password, $roles);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

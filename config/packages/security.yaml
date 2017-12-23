@@ -32,5 +32,6 @@ security:
                     - App\Infrastructure\Symfony\Auth\GithubGuardAuthenticator
 
     access_control:
+        - { path: ^/profile/project, roles: ROLE_BENCHMARKER }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/import, roles: ROLE_USER }
