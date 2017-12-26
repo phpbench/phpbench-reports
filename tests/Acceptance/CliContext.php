@@ -4,6 +4,8 @@ namespace App\Tests\Acceptance;
 
 use Behat\Behat\Context\Context;
 use PHPUnit\Framework\Assert;
+use Exception;
+use Symfony\Component\Process\Process;
 
 class CliContext implements Context
 {
@@ -12,11 +14,21 @@ class CliContext implements Context
      */
     public function iRunTheCommand($command)
     {
-        $response = system(sprintf('%s/../../bin/console %s',
+        $command = sprintf('%s/../../bin/console %s',
             __DIR__,
             $command
-        ), $exitCode);
+        );
+        $process = new Process($command);
+        $process->run();
 
-        Assert::assertEquals(0, $exitCode);
+        if ($process->getExitCode() !== 0) {
+            throw new Exception(sprintf(
+                'Command returned non-zero exit code "%s": %s / %s',
+                $process->getExitCode(),
+                $process->getOutput(),
+                $process->getErrorOutput()
+            ));
+        }
+        sleep(1);
     }
 }
