@@ -6,6 +6,7 @@ parameters:
     locale: 'en'
     github_client_id: "%env(GITHUB_CLIENT_ID)%"
     github_client_secret: "%env(GITHUB_CLIENT_SECRET)%"
+    archive_path: '%kernel.root_dir%/../../suites'
 
 services:
     # default configuration for services in *this* file
@@ -42,7 +43,7 @@ services:
         public: true
 
     App\Infrastructure\Filesystem\SuiteStorage\FilesystemSuiteStorage:
-        arguments: [ '%kernel.root_dir%/../../suites' ]
+        arguments: [ '%archive_path%' ]
 
     App\Service\ImporterService:
         public: true

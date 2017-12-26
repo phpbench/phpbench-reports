@@ -11,6 +11,7 @@ use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use PhpBench\Dom\Document;
+use ArrayIterator;
 
 class FilesystemSuiteStorage implements ArchiveStorage
 {
@@ -38,8 +39,13 @@ class FilesystemSuiteStorage implements ArchiveStorage
 
     public function list(): Iterator
     {
+        if (false === file_exists($this->storagePath)) {
+            return new ArrayIterator([]);
+        }
+
         $iterator = new RecursiveDirectoryIterator($this->storagePath);
         $iterator = new RecursiveIteratorIterator($iterator);
+
         return new RegexIterator($iterator, '{.*xml\.bz2}');
     }
 

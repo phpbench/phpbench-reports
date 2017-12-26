@@ -1,6 +1,7 @@
 parameters:
     github_client_id: 1234 
     github_client_secret: 1234
+    archive_path: '%kernel.root_dir%/../../tests/Workspace/archive'
 
 services:
     _defaults:

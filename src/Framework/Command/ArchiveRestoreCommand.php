@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\ArchiveRestoreService;
+use App\Infrastructure\Symfony\Archive\ConsoleRestoreProgress;
 
 class ArchiveRestoreCommand extends Command
 {
@@ -27,6 +28,7 @@ class ArchiveRestoreCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->service->restoreArchive();
+        $progress = new ConsoleRestoreProgress($output);
+        $this->service->restoreArchive($progress);
     }
 }

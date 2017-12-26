@@ -26,7 +26,7 @@ class ImportContext implements Context
     }
 
     /**
-     * @When I post/posted the suite :filename with API key :apiKey
+     * @When I post the suite :filename with API key :apiKey
      */
     public function iUploadTheSuite($filename, $apiKey)
     {
@@ -40,6 +40,16 @@ class ImportContext implements Context
         $request->headers->set('X-API-Key', $apiKey);
         $this->response = $this->kernel->handle($request);
     }
+
+    /**
+     * @Given I posted the suite :filename with API key :apiKey
+     */
+    public function iUploadedTheSuite($filename, $apiKey)
+    {
+        $this->iUploadTheSuite($filename, $apiKey);
+        $this->theHttpStatusShouldBe(200);
+    }
+
 
     /**
      * @Then the HTTP status should be :code

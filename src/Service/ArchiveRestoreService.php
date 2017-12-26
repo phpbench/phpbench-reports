@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Domain\Archive\ArchiveStorage;
 use App\Domain\Import\Importer;
+use App\Domain\Archive\ArchiveRestoreProgress;
 
 class ArchiveRestoreService
 {
@@ -23,13 +24,14 @@ class ArchiveRestoreService
         $this->importer = $importer;
     }
 
-    public function restoreArchive()
+    public function restoreArchive(ArchiveRestoreProgress $progress)
     {
         $files = $this->storage->list();
 
         foreach ($files as $file) {
             $document = $this->storage->load(file_get_contents($file->getPathName()));
             $this->importer->import($document);
+            $progress->suiteImported($document);
         }
     }
 }

@@ -14,7 +14,7 @@ class CliContext implements Context
      */
     public function iRunTheCommand($command)
     {
-        $command = sprintf('%s/../../bin/console %s',
+        $command = sprintf('%s/../../bin/console --env=test %s',
             __DIR__,
             $command
         );
