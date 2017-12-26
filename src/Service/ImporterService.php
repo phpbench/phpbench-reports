@@ -10,7 +10,7 @@ use RuntimeException;
 use App\Service\Exception\ImportException;
 use App\Domain\Project\ProjectRepository;
 use App\Domain\Project\ProjectName;
-use App\Service\Importer\ImporterResponse;
+use App\Domain\Import\ImporterResponse;
 
 class ImporterService
 {
@@ -50,11 +50,11 @@ class ImporterService
     {
         $document = $this->createDocument($payload, $apiKey);
 
-        $suiteUuid = $this->importer->import($document);
+        $response = $this->importer->import($document);
         $projectId = $document->firstChild->getAttribute('project-id');
-        $this->storage->storePayload($projectId, $suiteUuid, $document->saveXML());
+        $this->storage->storePayload($projectId, $response->uuid(), $document->saveXML());
 
-        return $this->importerResponse($suiteUuid, $document);
+        return $response;
     }
 
     public function importFromFile(string $filename, ProjectName $projectName = null): ImporterResponse
@@ -101,15 +101,5 @@ class ImporterService
         }
 
         return $document;
-    }
-
-    private function importerResponse($id, Document $document): ImporterResponse
-    {
-        $projectName = ProjectName::fromNamespaceAndName(
-            $document->firstChild->getAttribute('project-namespace'),
-            $document->firstChild->getAttribute('project-name')
-        );
-
-        return ImporterResponse::create($projectName, $id);
     }
 }

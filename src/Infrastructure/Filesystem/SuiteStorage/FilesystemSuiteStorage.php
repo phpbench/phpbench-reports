@@ -27,7 +27,7 @@ class FilesystemSuiteStorage implements SuiteStorage
     {
         $path = sprintf('%s/%s/%s.xml', $this->storagePath, $projectId, $suiteUuid);
 
-        if (false === $filesystem->exists(dirname($path))) {
+        if (false === $this->filesystem->exists(dirname($path))) {
             $this->filesystem->mkdir(dirname($path));
         }
 

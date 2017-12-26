@@ -5,7 +5,7 @@ namespace App\Tests\Integration;
 use App\Tests\IntegrationTestCase;
 use App\Service\ImporterService;
 use App\Domain\Project\ProjectName;
-use App\Service\Importer\ImporterResponse;
+use App\Domain\Import\ImporterResponse;
 
 class ImporterTest extends IntegrationTestCase
 {

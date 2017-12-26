@@ -7,6 +7,7 @@ use App\Domain\Store\VariantStore;
 use PhpBench\Dom\Element;
 use App\Domain\Store\SuiteStore;
 use App\Domain\Store\IterationStore;
+use App\Domain\Project\ProjectName;
 
 class Importer
 {
@@ -34,7 +35,7 @@ class Importer
         $this->iterationStore = $iterationStore;
     }
 
-    public function import(Document $document)
+    public function import(Document $document): ImporterResponse
     {
         $suiteUuid = null;
 
@@ -54,7 +55,7 @@ class Importer
             );
         }
 
-        return $suiteUuid;
+        return $this->importerResponse($suiteUuid, $document);
     }
 
     private function storeSuite(string $identifier, Element $suiteElement)
@@ -168,5 +169,15 @@ class Importer
     {
         $id = implode('-', [ $data['suite-uuid'], md5(serialize($data)) ]);
         return $id;
+    }
+
+    private function importerResponse($id, Document $document): ImporterResponse
+    {
+        $projectName = ProjectName::fromNamespaceAndName(
+            $document->firstChild->getAttribute('project-namespace'),
+            $document->firstChild->getAttribute('project-name')
+        );
+
+        return ImporterResponse::create($projectName, $id);
     }
 }
