@@ -50,11 +50,11 @@ class ImporterService
     {
         $document = $this->createDocument($payload, $apiKey);
 
-        $id = $this->importer->import($document);
-        $this->storage->storePayload($id, $document->saveXML());
+        $suiteUuid = $this->importer->import($document);
+        $projectId = $document->firstChild->getAttribute('project-id');
+        $this->storage->storePayload($projectId, $suiteUuid, $document->saveXML());
 
-
-        return $this->importerResponse($id, $document);
+        return $this->importerResponse($suiteUuid, $document);
     }
 
     public function importFromFile(string $filename, ProjectName $projectName = null): ImporterResponse
