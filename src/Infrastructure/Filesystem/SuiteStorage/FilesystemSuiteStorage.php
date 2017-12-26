@@ -4,6 +4,7 @@ namespace App\Infrastructure\Filesystem\SuiteStorage;
 
 use App\Domain\Archive\ArchiveStorage;
 use Symfony\Component\Filesystem\Filesystem;
+use App\Infrastructure\Filesystem\SuiteStorage\Writer;
 
 class FilesystemSuiteStorage implements ArchiveStorage
 {
@@ -13,24 +14,19 @@ class FilesystemSuiteStorage implements ArchiveStorage
     private $storagePath;
 
     /**
-     * @var Filesystem
+     * @var Writer
      */
-    private $filesystem;
+    private $writer;
 
     public function __construct(string $storagePath)
     {
         $this->storagePath = $storagePath;
-        $this->filesystem = new Filesystem();
+        $this->writer = new Writer();
     }
 
-    public function storePayload(string $projectId, string $suiteUuid, string $xmlContents)
+    public function storePayload(string $projectId, string $suiteUuid, string $xmlContents): void
     {
-        $path = sprintf('%s/%s/%s.xml', $this->storagePath, $projectId, $suiteUuid);
-
-        if (false === $this->filesystem->exists(dirname($path))) {
-            $this->filesystem->mkdir(dirname($path));
-        }
-
-        $this->filesystem->dumpFile($path, $xmlContents);
+        $path = sprintf('%s/%s/%s.xml.bz2', $this->storagePath, $projectId, $suiteUuid);
+        $this->writer->write($path, bzcompress($xmlContents));
     }
 }
