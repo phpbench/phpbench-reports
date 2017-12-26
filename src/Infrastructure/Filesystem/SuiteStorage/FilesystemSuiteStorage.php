@@ -20,7 +20,7 @@ class FilesystemSuiteStorage implements SuiteStorage
     public function storePayload(string $projectId, string $suiteUuid, string $xmlContents)
     {
         $filesystem = new Filesystem();
-        $path = sprintf('%s/%s.xml', $this->storagePath, $suiteUuid);
+        $path = sprintf('%s/%s/%s.xml', $this->storagePath, $projectId, $suiteUuid);
 
         if (false === file_exists(dirname($path))) {
             $filesystem->mkdir(dirname($path));
