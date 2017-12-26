@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Domain\Import\Importer;
 use PhpBench\Dom\Document;
-use App\Domain\SuiteStorage;
+use App\Domain\Archive\ArchiveStorage;
 use App\Domain\User\BenchUserRepository;
 use RuntimeException;
 use App\Service\Exception\ImportException;
@@ -37,7 +37,7 @@ class ImporterService
 
     public function __construct(
         Importer $importer,
-        SuiteStorage $storage,
+        ArchiveStorage $storage,
         BenchUserRepository $userRepository,
         ProjectRepository $projectRepository
     ) {

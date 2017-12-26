@@ -2,10 +2,10 @@
 
 namespace App\Infrastructure\Filesystem\SuiteStorage;
 
-use App\Domain\SuiteStorage;
+use App\Domain\Archive\ArchiveStorage;
 use Symfony\Component\Filesystem\Filesystem;
 
-class FilesystemSuiteStorage implements SuiteStorage
+class FilesystemSuiteStorage implements ArchiveStorage
 {
     /**
      * @var string

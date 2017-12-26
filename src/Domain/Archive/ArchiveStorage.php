@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain;
+namespace App\Domain\Archive;
 
-interface SuiteStorage
+interface ArchiveStorage
 {
     public function storePayload(string $projectId, string $suiteUuid, string $xmlContents);
 }
