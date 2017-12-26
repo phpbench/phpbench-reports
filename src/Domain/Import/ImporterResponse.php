@@ -16,15 +16,21 @@ class ImporterResponse
      */
     private $uuid;
 
-    private function __construct(ProjectName $projectName, string $uuid)
+    /**
+     * @var string
+     */
+    private $projectId;
+
+    private function __construct(ProjectName $projectName, string $projectId, string $uuid)
     {
         $this->projectName = $projectName;
         $this->uuid = $uuid;
+        $this->projectId = $projectId;
     }
 
-    public static function create(ProjectName $projectName, string $uuid)
+    public static function create(ProjectName $projectName, string $projectId, string $uuid)
     {
-        return new self($projectName, $uuid);
+        return new self($projectName, $projectId, $uuid);
     }
 
     public function project(): ProjectName
@@ -35,5 +41,10 @@ class ImporterResponse
     public function uuid(): string
     {
         return $this->uuid;
+    }
+
+    public function projectId(): string
+    {
+        return $this->projectId;
     }
 }

@@ -51,8 +51,7 @@ class ImporterService
         $document = $this->createDocument($payload, $apiKey);
 
         $response = $this->importer->import($document);
-        $projectId = $document->firstChild->getAttribute('project-id');
-        $this->storage->storePayload($projectId, $response->uuid(), $document->saveXML());
+        $this->storage->storePayload($response->projectId(), $response->uuid(), $document->saveXML());
 
         return $response;
     }

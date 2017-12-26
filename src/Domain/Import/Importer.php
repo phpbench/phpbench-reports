@@ -171,13 +171,14 @@ class Importer
         return $id;
     }
 
-    private function importerResponse($id, Document $document): ImporterResponse
+    private function importerResponse($suiteUuid, Document $document): ImporterResponse
     {
         $projectName = ProjectName::fromNamespaceAndName(
             $document->firstChild->getAttribute('project-namespace'),
             $document->firstChild->getAttribute('project-name')
         );
+        $projectId = $document->firstChild->getAttribute('project-id');
 
-        return ImporterResponse::create($projectName, $id);
+        return ImporterResponse::create($projectName, $projectId, $suiteUuid);
     }
 }
