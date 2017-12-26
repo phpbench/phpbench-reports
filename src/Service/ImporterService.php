@@ -11,6 +11,7 @@ use App\Service\Exception\ImportException;
 use App\Domain\Project\ProjectRepository;
 use App\Domain\Project\ProjectName;
 use App\Domain\Import\ImporterResponse;
+use PhpBench\Dom\Element;
 
 class ImporterService
 {
@@ -49,9 +50,13 @@ class ImporterService
     public function importFromPayload(string $payload, string $apiKey = null): ImporterResponse
     {
         $document = $this->createDocument($payload, $apiKey);
-
         $response = $this->importer->import($document);
-        $this->storage->storePayload($response->projectId(), $response->uuid(), $document->saveXML());
+
+        $this->storage->storePayload(
+            $response->projectId(),
+            $response->uuid(),
+            $document->saveXML()
+        );
 
         return $response;
     }
@@ -89,16 +94,21 @@ class ImporterService
         }
 
         if (empty($projectId) || empty($username)) {
-            $project = $this->projectRepository->findByApiKey($apiKey);
-            $user = $project->user();
-            $document->firstChild->setAttribute('project-id', $project->id());
-            $document->firstChild->setAttribute('project-namespace', $project->name()->namespace());
-            $document->firstChild->setAttribute('project', (string) $project->name());
-            $document->firstChild->setAttribute('project-name', $project->name()->name());
-            $document->firstChild->setAttribute('user-id', $user->id());
-            $document->firstChild->setAttribute('username', $user->username());
+            $this->associateDocumentWithProject($apiKey, $document->firstChild);
         }
 
         return $document;
+    }
+
+    private function associateDocumentWithProject(string $apiKey, Element $element): void
+    {
+        $project = $this->projectRepository->findByApiKey($apiKey);
+        $user = $project->user();
+        $element->setAttribute('project-id', $project->id());
+        $element->setAttribute('project-namespace', $project->name()->namespace());
+        $element->setAttribute('project', (string) $project->name());
+        $element->setAttribute('project-name', $project->name()->name());
+        $element->setAttribute('user-id', $user->id());
+        $element->setAttribute('username', $user->username());
     }
 }
