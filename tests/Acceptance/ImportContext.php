@@ -26,7 +26,7 @@ class ImportContext implements Context
     }
 
     /**
-     * @When I post the suite :filename with API key :apiKey
+     * @When I post/posted the suite :filename with API key :apiKey
      */
     public function iUploadTheSuite($filename, $apiKey)
     {

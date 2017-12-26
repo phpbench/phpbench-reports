@@ -17,6 +17,7 @@ default:
                 - App\Tests\Acceptance\FormContext
                 - App\Tests\Acceptance\ElasticContext:
                     kernel: '@kernel'
+                - App\Tests\Acceptance\CliContext:
 
     extensions:
         Behat\Symfony2Extension:

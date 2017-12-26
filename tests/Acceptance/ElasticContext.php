@@ -36,4 +36,13 @@ class ElasticContext implements Context
         $this->mappingLoader->purgeAll();
         $this->mappingLoader->loadMappings();
     }
+
+    /**
+     * @Given the elastic search index was destroyed
+     */
+    public function elasticSearchIndexHasBeenDestroyed()
+    {
+        $this->mappingLoader->purgeAll();
+        $this->mappingLoader->loadMappings();
+    }
 }
