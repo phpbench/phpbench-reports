@@ -31,13 +31,6 @@ class SuiteReport
         return $this->suiteStore->all();
     }
 
-    public function suitesForUser(string $username): array
-    {
-        $user = $this->userRepository->findByUsernameOrExplode($username);
-
-        return $this->suiteStore->forUserId($user->id());
-    }
-
     public function suitesForNamespace(string $namespace): array
     {
         return $this->suiteStore->forNamespace($namespace);

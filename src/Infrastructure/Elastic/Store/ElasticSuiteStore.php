@@ -33,24 +33,6 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
         return $result['_source'];
     }
 
-    public function forUserId(string $userId): array
-    {
-        $result = $this->search(self::INDEX_NAME, [
-            'body' => [
-                'sort' =>  [
-                    'suite-date.keyword' => 'DESC',
-                ],
-                'query' => [
-                    'match' => [
-                        'user-id' => $userId,
-                    ],
-                ],
-            ],
-        ]);
-
-        return $this->documentsFromResult($result);
-    }
-
     public function forNamespace(string $namespace): array
     {
         $result = $this->search(self::INDEX_NAME, [
