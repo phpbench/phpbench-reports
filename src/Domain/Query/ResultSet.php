@@ -5,8 +5,9 @@ namespace App\Domain\Query;
 use IteratorAggregate;
 use ArrayIterator;
 use InvalidArgumentException;
+use Countable;
 
-class ResultSet implements IteratorAggregate
+class ResultSet implements IteratorAggregate, Countable
 {
     /**
      * @var array
@@ -51,5 +52,13 @@ class ResultSet implements IteratorAggregate
     public function toArray()
     {
         return $this->documents;
+
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function count()
+    {
+        return count($this->documents);
     }
 }

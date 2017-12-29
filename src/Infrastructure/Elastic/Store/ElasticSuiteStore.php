@@ -6,6 +6,7 @@ use Elasticsearch\Client;
 use App\Domain\Store\SuiteStore;
 use App\Domain\Project\ProjectName;
 use App\Domain\Query\ResultSet;
+use App\Domain\Query\PagerContext;
 
 class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
 {
@@ -34,7 +35,7 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
         return $result['_source'];
     }
 
-    public function forNamespace(string $namespace): ResultSet
+    public function forNamespace(PagerContext $pager, string $namespace): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -47,12 +48,14 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
                     ],
                 ],
             ],
+            'size' => $pager->pageSize(),
+            'from' => $pager->from(),
         ]);
 
         return $this->resultSet($result);
     }
 
-    public function all(): ResultSet
+    public function all(PagerContext $pager): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -60,12 +63,14 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
                     'suite-date.keyword' => 'DESC',
                 ],
             ],
+            'size' => $pager->pageSize(),
+            'from' => $pager->from(),
         ]);
 
         return $this->resultSet($result);
     }
 
-    public function forProject(ProjectName $project): ResultSet
+    public function forProject(PagerContext $pager, ProjectName $project): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -81,6 +86,8 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
                     ],
                 ],
             ],
+            'size' => $pager->pageSize(),
+            'from' => $pager->from(),
         ]);
 
         return $this->resultSet($result);

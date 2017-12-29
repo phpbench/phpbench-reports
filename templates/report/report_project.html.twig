@@ -16,5 +16,7 @@
     ]) }}
 {% endblock %}
 {% block body %}
+    {% include "report/pager.html.twig" with { pager: pager, resultSet: suitesReport } %}
     {% include "report/table/project_suites.html.twig" with { table: suitesReport } %}
+    {% include "report/pager.html.twig" with { pager: pager, resultSet: suitesReport } %}
 {% endblock %}

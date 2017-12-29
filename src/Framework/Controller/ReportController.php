@@ -19,6 +19,7 @@ use App\Domain\Report\IterationReports;
 use App\Domain\User\UserNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Domain\Project\ProjectName;
+use App\Domain\Query\PagerContext;
 
 class ReportController
 {
@@ -29,17 +30,17 @@ class ReportController
     private $twig;
 
     /**
-     * @var SuiteReport
+     * @var SuiteReports
      */
     private $suiteReport;
 
     /**
-     * @var VariantReport
+     * @var VariantReports
      */
     private $variantReport;
 
     /**
-     * @var IterationReport
+     * @var IterationReports
      */
     private $iterationReport;
 
@@ -61,10 +62,12 @@ class ReportController
      */
     public function latestSuites(Request $request)
     {
-        $suitesReport = $this->suiteReport->allSuites();
+        $pager = $this->pagerContext($request);
+        $suitesReport = $this->suiteReport->allSuites($pager);
 
         return new Response($this->twig->render('report/report_all_suites.html.twig', [
             'suitesReport' => $suitesReport,
+            'pager' => $pager,
         ]));
     }
 
@@ -73,12 +76,14 @@ class ReportController
      */
     public function namespace(Request $request)
     {
+        $pager = $this->pagerContext($request);
         $namespace = $request->attributes->get('namespace');
-        $suitesReport = $this->suiteReport->suitesForNamespace($namespace);
+        $suitesReport = $this->suiteReport->suitesForNamespace($pager, $namespace);
 
         return new Response($this->twig->render('report/report_namespace.html.twig', [
             'namespace' => $namespace,
             'suitesReport' => $suitesReport,
+            'pager' => $pager,
         ]));
     }
 
@@ -87,12 +92,14 @@ class ReportController
      */
     public function project(Request $request)
     {
+        $pager = $this->pagerContext($request);
         $projectName = $this->projectName($request);
-        $suitesReport = $this->suiteReport->suitesForProject($projectName);
+        $suitesReport = $this->suiteReport->suitesForProject($pager, $projectName);
 
         return new Response($this->twig->render('report/report_project.html.twig', [
             'project' => $projectName,
             'suitesReport' => $suitesReport,
+            'pager' => $pager,
         ]));
     }
 
@@ -175,5 +182,13 @@ class ReportController
         $namespace = $request->attributes->get('namespace');
         $name = $request->attributes->get('project');
         return ProjectName::fromNamespaceAndName($namespace, $name);
+    }
+
+    private function pagerContext(Request $request)
+    {
+        return PagerContext::create(
+            $request->query->get('pageSize', 50),
+            $request->query->get('page', 0)
+        );
     }
 }

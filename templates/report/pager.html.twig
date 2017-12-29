@@ -1,0 +1,11 @@
+<div class="ui pagination menu">
+    {% if pager.page > 0 %}
+    <a class="item" href="?page={{ pager.page - 1 }}">Newer</a>
+    {% endif %}
+    <div class="item">
+        Showing {{ pager.from }} - {{ pager.from + resultSet|length }} / {{ resultSet.hits }}
+    </div>
+    {% if not pager.isLastPage(resultSet.hits) %}
+    <a class="item" href="?page={{ pager.page + 1 }}">Older</a>
+    {% endif %}
+</div>

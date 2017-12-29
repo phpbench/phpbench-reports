@@ -4,6 +4,7 @@ namespace App\Domain\Store;
 
 use App\Domain\Project\ProjectName;
 use App\Domain\Query\ResultSet;
+use App\Domain\Query\PagerContext;
 
 interface SuiteStore
 {
@@ -11,9 +12,9 @@ interface SuiteStore
 
     public function forSuiteUuid(string $uuid): array;
 
-    public function forProject(ProjectName $project): ResultSet;
+    public function forProject(PagerContext $pager, ProjectName $project): ResultSet;
 
-    public function all(): ResultSet;
+    public function all(PagerContext $pager): ResultSet;
 
-    public function forNamespace(string $namespace): ResultSet;
+    public function forNamespace(PagerContext $pager, string $namespace): ResultSet;
 }

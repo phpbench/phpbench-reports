@@ -6,6 +6,7 @@ use App\Domain\Store\SuiteStore;
 use App\Domain\User\BenchUserRepository;
 use App\Domain\Project\ProjectName;
 use App\Domain\Query\ResultSet;
+use App\Domain\Query\PagerContext;
 
 class SuiteReports
 {
@@ -27,19 +28,19 @@ class SuiteReports
         $this->userRepository = $userRepository;
     }
 
-    public function allSuites(): ResultSet
+    public function allSuites(PagerContext $pager): ResultSet
     {
-        return $this->suiteStore->all();
+        return $this->suiteStore->all($pager);
     }
 
-    public function suitesForNamespace(string $namespace): ResultSet
+    public function suitesForNamespace(PagerContext $pager, string $namespace): ResultSet
     {
-        return $this->suiteStore->forNamespace($namespace);
+        return $this->suiteStore->forNamespace($pager, $namespace);
     }
 
-    public function suitesForProject(ProjectName $projectName): ResultSet
+    public function suitesForProject(PagerContext $pager, ProjectName $projectName): ResultSet
     {
-        return $this->suiteStore->forProject($projectName);
+        return $this->suiteStore->forProject($pager, $projectName);
     }
 
     public function environmentFor($uuid): array
