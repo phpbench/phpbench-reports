@@ -38,4 +38,16 @@ class UserService
         $user->setRoles($roles);
         $this->userRepository->update($user);
     }
+
+    public function findOrCreateForVendor(string $username, int $vendorId): BenchUser
+    {
+        $user = $this->userRepository->findByVendorId($vendorId);
+
+        if (null === $user) {
+            $user = $this->userRepository->create($username, $vendorId);
+            $user->setRoles([ BenchUser::ROLE_USER ]);
+        }
+
+        return $user;
+    }
 }

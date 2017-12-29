@@ -12,7 +12,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Psr\Log\LoggerInterface;
-use App\Domain\User\BenchUserRepository;
+use App\Domain\User\BenchUserService;
+use App\Service\UserService;
 
 class GithubGuardAuthenticator implements AuthenticatorInterface
 {
@@ -27,9 +28,9 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
     private $logger;
 
     /**
-     * @var BenchUserRepository
+     * @var UserService
      */
-    private $userRepository;
+    private $userService;
 
     /**
      * @var Provider
@@ -40,11 +41,11 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
         UrlGeneratorInterface $urlGenerator,
         LoggerInterface $logger,
         Provider $provider,
-        BenchUserRepository $userRepository
+        UserService $userService
     ) {
         $this->urlGenerator = $urlGenerator;
         $this->logger = $logger;
-        $this->userRepository = $userRepository;
+        $this->userService = $userService;
         $this->provider = $provider;
     }
 
@@ -85,13 +86,8 @@ class GithubGuardAuthenticator implements AuthenticatorInterface
     {
         $owner = $this->provider->resourceOwner($token);
         $githubId = $owner->getId();
-        $user = $this->userRepository->findByVendorId($githubId);
 
-        if (null === $user) {
-            $user = $this->userRepository->create($owner->getNickname(), $githubId);
-        }
-
-        return $user;
+        return $this->userService->findOrCreateForVendor($owner->getNickname(), $githubId);
     }
 
     /**
