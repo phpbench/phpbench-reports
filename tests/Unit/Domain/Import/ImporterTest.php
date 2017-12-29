@@ -77,7 +77,7 @@ class ImporterTest extends TestCase
             'project-name' => 'dan',
             'project-namespace' => 'leech',
             'stats-max' => '0.953',
-        ], $this->variantStore->forSuiteUuid('1234')[0]);
+        ], $this->variantStore->forSuiteUuid('1234')->toArray()[0]);
 
         $this->assertContains([
             'suite-uuid' => '1234',
@@ -102,7 +102,7 @@ class ImporterTest extends TestCase
         $document->loadXML(file_get_contents(__DIR__ . '/../../../Fixtures/errors.xml'));
         $this->importer->import($document);
 
-        $variants = $this->variantStore->forSuiteUuid('1234');
+        $variants = $this->variantStore->forSuiteUuid('1234')->toArray();
         $this->assertCount(1, $variants);
         $variant = reset($variants);
         $this->assertContains('Attempted to load class', $variant['error']);

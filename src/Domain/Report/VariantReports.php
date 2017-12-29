@@ -28,13 +28,13 @@ class VariantReports
 
     public function aggregatesForUuid(string $uuid): array
     {
-        return $this->tabulator->aggregate($this->variantStore->forSuiteUuid($uuid));
+        return $this->tabulator->aggregate($this->variantStore->forSuiteUuid($uuid)->toArray());
     }
     
     public function aggregatesForProjectAndClassByVariant(ProjectName $projectName, string $class)
     {
         return $this->tabulator->aggregate(
-            $this->variantStore->forProjectAndClass($projectName, $class),
+            $this->variantStore->forProjectAndClass($projectName, $class)->toArray(),
             [
                 'groups' => [
                     'subject-name',
@@ -46,28 +46,28 @@ class VariantReports
     public function chartForUuid(string $uuid): array
     {
         return $this->tabulator->chart(
-            $this->variantStore->forSuiteUuid($uuid)
+            $this->variantStore->forSuiteUuid($uuid)->toArray()
         );
     }
 
     public function aggregatesForUuidAndClass(string $uuid, string $class)
     {
         return $this->tabulator->aggregate(
-            $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
+            $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)->toArray()
         );
     }
 
     public function chartForUuidAndClass(string $uuid, string $class): array
     {
         return $this->tabulator->chart(
-            $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)
+            $this->variantStore->forSuiteUuidAndBenchmark($uuid, $class)->toArray()
         );
     }
 
     public function historicalChart(ProjectName $projectName, string $class)
     {
         return $this->tabulator->historicalChart(
-            $this->variantStore->forProjectAndClass($projectName, $class),
+            $this->variantStore->forProjectAndClass($projectName, $class)->toArray(),
             [
                 'groups' => [
                     'subject-name',

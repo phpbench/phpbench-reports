@@ -6,6 +6,7 @@ use App\Domain\Store\SuiteStore;
 use App\Domain\Project\ProjectName;
 use App\Domain\Store\VariantStore;
 use App\Domain\Store\IterationStore;
+use App\Domain\Query\ResultSet;
 
 class InMemoryIterationStore implements IterationStore
 {
@@ -23,14 +24,14 @@ class InMemoryIterationStore implements IterationStore
         string $class,
         string $subject,
         string $variant
-    )
+    ): ResultSet
     {
-        return array_filter($this->iterations, function (array $data) use ($uuid, $class, $subject, $variant) {
+        return ResultSet::create(array_filter($this->iterations, function (array $data) use ($uuid, $class, $subject, $variant) {
             return $data['suite-uuid'] === $uuid && 
                 $data['benchmark-class'] === $class &&
                 $data['subject-name'] === $subject &&
                 $data['variant-index'] == $variant;
-        });
+        }));
     }
 
 }

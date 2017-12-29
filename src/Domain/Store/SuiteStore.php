@@ -3,6 +3,7 @@
 namespace App\Domain\Store;
 
 use App\Domain\Project\ProjectName;
+use App\Domain\Query\ResultSet;
 
 interface SuiteStore
 {
@@ -10,9 +11,9 @@ interface SuiteStore
 
     public function forSuiteUuid(string $uuid): array;
 
-    public function forProject(ProjectName $project): array;
+    public function forProject(ProjectName $project): ResultSet;
 
-    public function all(): array;
+    public function all(): ResultSet;
 
-    public function forNamespace(string $namespace);
+    public function forNamespace(string $namespace): ResultSet;
 }

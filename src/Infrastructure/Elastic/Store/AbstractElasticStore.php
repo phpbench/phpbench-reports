@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Elastic\Store;
 
 use Elasticsearch\Client;
+use App\Domain\Query\ResultSet;
 
 abstract class AbstractElasticStore
 {
@@ -39,11 +40,11 @@ abstract class AbstractElasticStore
         $this->client->bulk($params);
     }
 
-    protected function documentsFromResult(array $result)
+    protected function resultSet(array $result): ResultSet
     {
-        return array_map(function ($hit) {
+        return ResultSet::create(array_map(function ($hit) {
             return $hit['_source'];
-        }, $result['hits']['hits']);
+        }, $result['hits']['hits']));
     }
 
     protected function search(string $indexName, $params)

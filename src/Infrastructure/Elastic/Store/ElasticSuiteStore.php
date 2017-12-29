@@ -5,6 +5,7 @@ namespace App\Infrastructure\Elastic\Store;
 use Elasticsearch\Client;
 use App\Domain\Store\SuiteStore;
 use App\Domain\Project\ProjectName;
+use App\Domain\Query\ResultSet;
 
 class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
 {
@@ -33,7 +34,7 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
         return $result['_source'];
     }
 
-    public function forNamespace(string $namespace): array
+    public function forNamespace(string $namespace): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -48,10 +49,10 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
             ],
         ]);
 
-        return $this->documentsFromResult($result);
+        return $this->resultSet($result);
     }
 
-    public function all(): array
+    public function all(): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -61,10 +62,10 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
             ],
         ]);
 
-        return $this->documentsFromResult($result);
+        return $this->resultSet($result);
     }
 
-    public function forProject(ProjectName $project): array
+    public function forProject(ProjectName $project): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -82,6 +83,6 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
             ],
         ]);
 
-        return $this->documentsFromResult($result);
+        return $this->resultSet($result);
     }
 }

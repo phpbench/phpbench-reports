@@ -29,20 +29,20 @@ class IterationReports
         string $subject,
         string $variant
     ): array {
-        return $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant);
+        return $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)->toArray();
     }
 
     public function chartForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant)
     {
         return $this->tabulator->chart(
-            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
+            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)->toArray()
         );
     }
 
     public function histogramForUuidClassSubjectAndVariant($uuid, $class, $subject, $variant)
     {
         return $this->tabulator->histogram(
-            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)
+            $this->iterationStore->forSuiteUuidBenchmarkSubjectAndVariant($uuid, $class, $subject, $variant)->toArray()
         );
     }
 }

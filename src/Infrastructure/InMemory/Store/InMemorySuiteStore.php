@@ -4,6 +4,7 @@ namespace App\Infrastructure\InMemory\Store;
 
 use App\Domain\Store\SuiteStore;
 use App\Domain\Project\ProjectName;
+use App\Domain\Query\ResultSet;
 
 class InMemorySuiteStore implements SuiteStore
 {
@@ -19,30 +20,23 @@ class InMemorySuiteStore implements SuiteStore
         return $this->suites[$uuid];
     }
 
-    public function forUserId(string $uuid): array
+    public function forProject(ProjectName $project): ResultSet
     {
-        return array_filter($this->suites, function (array $data) use ($uuid) {
-            return $data['user-id'] === $uuid;
-        });
-    }
-
-    public function forProject(ProjectName $project): array
-    {
-        return array_filter($this->suites, function (array $data) use ($project) {
+        return ResultSet::create(array_filter($this->suites, function (array $data) use ($project) {
             return $data['project-name'] === $project->name() &&
                 $data['project-namespace'] === $project->namespace();
-        });
+        }));
     }
 
-    public function all(): array
+    public function all(): ResultSet
     {
-        return $this->suites;
+        return ResultSet::create($this->suites);
     }
 
-    public function forNamespace(string $namespace)
+    public function forNamespace(string $namespace): ResultSet
     {
-        return array_filter($this->suites, function (array $data) use ($project) {
+        return ResultSet::create(array_filter($this->suites, function (array $data) use ($project) {
             return $data['project-namespace'] === $project->namespace();
-        });
+        }));
     }
 }

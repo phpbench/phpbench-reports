@@ -5,6 +5,7 @@ namespace App\Infrastructure\InMemory\Store;
 use App\Domain\Store\SuiteStore;
 use App\Domain\Project\ProjectName;
 use App\Domain\Store\VariantStore;
+use App\Domain\Query\ResultSet;
 
 class InMemoryVariantStore implements VariantStore
 {
@@ -17,27 +18,27 @@ class InMemoryVariantStore implements VariantStore
         }
     }
 
-    public function forSuiteUuid(string $uuid): array
+    public function forSuiteUuid(string $uuid): ResultSet
     {
-        return array_filter($this->variants, function (array $data) use ($uuid) {
+        return ResultSet::create(array_filter($this->variants, function (array $data) use ($uuid) {
             return $data['suite-uuid'] === $uuid;
-        });
+        }));
     }
 
-    public function forSuiteUuidAndBenchmark(string $uuid, string $class): array
+    public function forSuiteUuidAndBenchmark(string $uuid, string $class): ResultSet
     {
-        return array_filter($this->variants, function (array $data) use ($uuid, $class) {
+        return ResultSet::create(array_filter($this->variants, function (array $data) use ($uuid, $class) {
             return $data['suite-uuid'] === $uuid && 
                 $data['benchmark-class'] === $class;
-        });
+        }));
     }
 
-    public function forProjectAndClass(ProjectName $projectName, string $class): array
+    public function forProjectAndClass(ProjectName $projectName, string $class): ResultSet
     {
-        return array_filter($this->variants, function (array $data) use ($projectName, $class) {
+        return ResultSet::create(array_filter($this->variants, function (array $data) use ($projectName, $class) {
             return $data['project-name'] === $projectName->name() && 
                 $data['project-namespace'] === $projectName->namespace() && 
                 $data['benchmark-class'] === $class;
-        });
+        }));
     }
 }

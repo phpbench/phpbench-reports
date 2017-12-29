@@ -5,6 +5,7 @@ namespace App\Infrastructure\Elastic\Store;
 use App\Domain\Store\VariantStore;
 use Elasticsearch\Client;
 use App\Domain\Project\ProjectName;
+use App\Domain\Query\ResultSet;
 
 class ElasticVariantStore extends AbstractElasticStore implements VariantStore
 {
@@ -15,7 +16,7 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
         $this->doStoreMany(self::INDEX_NAME, $documents);
     }
 
-    public function forProjectAndClass(ProjectName $projectName, string $class): array
+    public function forProjectAndClass(ProjectName $projectName, string $class): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -34,10 +35,10 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
             ],
         ]);
 
-        return $this->documentsFromResult($result);
+        return $this->resultSet($result);
     }
 
-    public function forSuiteUuid(string $uuid): array
+    public function forSuiteUuid(string $uuid): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -52,10 +53,10 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
             ],
         ]);
 
-        return $this->documentsFromResult($result);
+        return $this->resultSet($result);
     }
 
-    public function forSuiteUuidAndBenchmark(string $uuid, string $class): array
+    public function forSuiteUuidAndBenchmark(string $uuid, string $class): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -70,6 +71,6 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
             ],
         ]);
 
-        return $this->documentsFromResult($result);
+        return $this->resultSet($result);
     }
 }

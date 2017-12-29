@@ -4,6 +4,7 @@ namespace App\Infrastructure\Elastic\Store;
 
 use Elasticsearch\Client;
 use App\Domain\Store\IterationStore;
+use App\Domain\Query\ResultSet;
 
 class ElasticIterationStore extends AbstractElasticStore implements IterationStore
 {
@@ -14,7 +15,7 @@ class ElasticIterationStore extends AbstractElasticStore implements IterationSto
         $this->doStoreMany(self::INDEX_NAME, $documents);
     }
 
-    public function forSuiteUuidBenchmarkSubjectAndVariant(string $uuid, string $class, string $subject, string $variant)
+    public function forSuiteUuidBenchmarkSubjectAndVariant(string $uuid, string $class, string $subject, string $variant): ResultSet
     {
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
@@ -33,6 +34,6 @@ class ElasticIterationStore extends AbstractElasticStore implements IterationSto
             ],
         ]);
 
-        return $this->documentsFromResult($result);
+        return $this->resultSet($result);
     }
 }
