@@ -44,7 +44,9 @@ abstract class AbstractElasticStore
     {
         return ResultSet::create(array_map(function ($hit) {
             return $hit['_source'];
-        }, $result['hits']['hits']));
+        }, $result['hits']['hits']), [
+            'hits' => $result['hits']['total']
+        ]);
     }
 
     protected function search(string $indexName, $params)

@@ -28,6 +28,8 @@ class ResultSet implements IteratorAggregate
                     'Option "%s" is invalid', $key
                 ));
             }
+
+            $new->$key = $value;
         }
 
         return $new;
