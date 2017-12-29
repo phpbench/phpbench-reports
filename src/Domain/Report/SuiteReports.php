@@ -6,7 +6,7 @@ use App\Domain\Store\SuiteStore;
 use App\Domain\User\BenchUserRepository;
 use App\Domain\Project\ProjectName;
 
-class SuiteReport
+class SuiteReports
 {
     /**
      * @var SuiteStore

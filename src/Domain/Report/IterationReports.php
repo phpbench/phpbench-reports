@@ -5,7 +5,7 @@ namespace App\Domain\Report;
 use App\Domain\Store\IterationStore;
 use App\Domain\Report\Tabulator\IterationTabulator;
 
-class IterationReport
+class IterationReports
 {
     /**
      * @var IterationStore

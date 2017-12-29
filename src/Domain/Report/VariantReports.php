@@ -6,7 +6,7 @@ use App\Domain\Store\VariantStore;
 use App\Domain\Report\Tabulator\VariantTabulator;
 use App\Domain\Project\ProjectName;
 
-class VariantReport
+class VariantReports
 {
     /**
      * @var VariantStore

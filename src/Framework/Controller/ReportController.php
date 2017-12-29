@@ -13,9 +13,9 @@ use App\Domain\Report\Tabulator\SuiteTabulator;
 use App\Domain\Report\Tabulator\IterationTabulator;
 use App\Domain\Store\IterationStore;
 use App\Domain\Report\Tabulator\UserTabulator;
-use App\Domain\Report\SuiteReport;
-use App\Domain\Report\VariantReport;
-use App\Domain\Report\IterationReport;
+use App\Domain\Report\SuiteReports;
+use App\Domain\Report\VariantReports;
+use App\Domain\Report\IterationReports;
 use App\Domain\User\UserNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Domain\Project\ProjectName;
@@ -45,9 +45,9 @@ class ReportController
 
     public function __construct(
         Environment $twig,
-        SuiteReport $suiteReport,
-        VariantReport $variantReport,
-        IterationReport $iterationReport
+        SuiteReports $suiteReport,
+        VariantReports $variantReport,
+        IterationReports $iterationReport
     )
     {
         $this->twig = $twig;
