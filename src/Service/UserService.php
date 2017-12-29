@@ -44,8 +44,7 @@ class UserService
         $user = $this->userRepository->findByVendorId($vendorId);
 
         if (null === $user) {
-            $user = $this->userRepository->create($username, $vendorId);
-            $user->setRoles([ BenchUser::ROLE_USER ]);
+            $user = $this->userRepository->create($username, $vendorId, null, [ BenchUser::ROLE_USER ]);
         }
 
         return $user;
