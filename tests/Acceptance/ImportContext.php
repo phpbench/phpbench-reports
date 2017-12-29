@@ -71,4 +71,12 @@ class ImportContext implements Context
             $this->response->getContent()
         );
     }
+
+    /**
+     * @Then the response should be :json
+     */
+    public function theResponseShouldBe($json)
+    {
+        Assert::assertEquals($json, $this->response->getContent());
+    }
 }

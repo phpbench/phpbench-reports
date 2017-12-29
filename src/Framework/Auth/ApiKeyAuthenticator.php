@@ -36,7 +36,12 @@ class ApiKeyAuthenticator implements AuthenticatorInterface
         AuthenticationException $authException = null
     ) {
         $data = [
-            'message' => 'Authentication Required'
+            'error' => 'Authentication Required',
+            'message' => sprintf(
+                'You must obtain a valid API key for this project from %s://%s',
+                $request->getScheme(),
+                $request->getHost()
+            )
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);

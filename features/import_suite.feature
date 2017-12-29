@@ -15,3 +15,4 @@ Feature: Upload suite results
     Scenario: Upload suite result with an invalid API key
         When I post the suite "worse_reflection.xml" with API key "4321"
         Then the HTTP status should be 401
+        And the response should be '{"error":"Authentication Required","message":"You must obtain a valid API key for this project from http:\/\/localhost"}'
