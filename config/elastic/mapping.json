@@ -387,7 +387,7 @@
             }
           },
           "suite-date" : {
-            "type" : "text",
+            "type" : "date",
             "fields" : {
               "keyword" : {
                 "type" : "keyword",
@@ -680,7 +680,7 @@
             }
           },
           "suite-date" : {
-            "type" : "text",
+            "type" : "date",
             "fields" : {
               "keyword" : {
                 "type" : "keyword",

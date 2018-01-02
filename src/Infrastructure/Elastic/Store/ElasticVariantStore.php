@@ -21,7 +21,7 @@ class ElasticVariantStore extends AbstractElasticStore implements VariantStore
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
-                    'suite-date.keyword' => 'DESC',
+                    'suite-date' => 'DESC',
                 ],
                 'query' => [
                     'bool' => [

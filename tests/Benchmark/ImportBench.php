@@ -42,7 +42,7 @@ class ImportBench extends IntegrationTestCase
     }
 
     /**
-     * @Iterations(10)
+     * @Iterations(50)
      */
     public function benchImport()
     {

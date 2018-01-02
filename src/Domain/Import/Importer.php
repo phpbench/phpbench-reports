@@ -150,7 +150,15 @@ class Importer
 
         foreach ($element->attributes as $attrName => $attrElement) {
             $key = $prefix . self::DELIMITER . $attrName;
-            $data[$key] = $attrElement->nodeValue;
+
+            $value = $attrElement->nodeValue;
+
+            // phpbench < 0.14 did not have a UTC date, ensure that all times include the timezone
+            if ($key === 'suite-date') {
+                $value = (new \DateTime($attrElement->nodeValue))->format('c');
+            }
+
+            $data[$key] = $value;
         }
 
         return $data;

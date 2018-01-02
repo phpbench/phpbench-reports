@@ -1,3 +1,4 @@
+{% import "report/table/macros.html.twig" as macros %}
 <table class="ui table">
     <thead>
         <tr>
@@ -14,30 +15,17 @@
     </thead>
     <tbody>
         {% for variant in table %}
-            {% if variant['error'] is defined and variant['error'] %}
-            <tr class="negative">
-                <td class="ac-error">{{ variant['subject-name'] }}{% if variant['variant-index'] != 0 %} # {{ variant['variant-index'] }}{% endif %}</td>
-                <td colspan="7">{{ variant['error'] }}</td>
-            </tr>
-            {% else %}
-            <tr>
+            <tr {% if variant['error'] is defined and variant['error'] %}negative{% endif %}>
                 <td>{{ variant['suite-date'] | time_diff }}</td>
-                <td>
-                    <a href="{{ path('report_suite', {
-                        namespace: project.namespace,
-                        project: project.name,
-                        uuid: variant['suite-uuid']
-                        }) }}">{{ variant['suite-uuid'] }}</a>
-                </td>
-                <td>{{ variant['env-uname-host'] | default('?') }}</td>
+                <td>{{ macros.suiteUuid(variant) }}</td>
+                <td>{{ macros.host(variant) }}</td>
                 <td>{{ variant['env-vcs-branch'] | default('?') }}</td>
-                <td>{{ variant['variant-revs'] ~ ' * ' ~ variant['variant-iterations'] }}</td>
-                <td>{{ variant['stats-min'] | default(0) | number_format('2') }}µs</td>
-                <td>{{ variant['stats-max'] | default(0) | number_format('2') }}µs</td>
-                <td>{{ variant['stats-mode'] | default(0) | number_format('2') }}µs</td>
-                <td>{{ variant['stats-rstdev'] | default(0) | number_format('2') }}%</td>
+                <td>{{ macros.revsIterations(variant) }}</td>
+                <td>{{ macros.statTime(variant, 'stats-min') }}</td>
+                <td>{{ macros.statTime(variant, 'stats-max') }}</td>
+                <td>{{ macros.statTime(variant, 'stats-mode') }}</td>
+                <td>{{ macros.statPercent(variant, 'stats-rstdev') }}</td>
             </tr>
-            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

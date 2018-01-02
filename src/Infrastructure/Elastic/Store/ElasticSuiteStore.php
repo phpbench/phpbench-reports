@@ -60,7 +60,7 @@ class ElasticSuiteStore extends AbstractElasticStore implements SuiteStore
         $result = $this->search(self::INDEX_NAME, [
             'body' => [
                 'sort' =>  [
-                    'suite-date.keyword' => 'DESC',
+                    'suite-date' => 'DESC',
                 ],
             ],
             'size' => $pager->pageSize(),

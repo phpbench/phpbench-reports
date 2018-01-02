@@ -23,6 +23,7 @@ class ReportsExtension extends AbstractExtension
     {
         return array(
             new TwigFilter('short_class', [$this, 'shortClass']),
+            new TwigFilter('reverse_truncate', [$this, 'reverseTruncate']),
         );
     }
 
@@ -33,6 +34,15 @@ class ReportsExtension extends AbstractExtension
                 'is_safe' => [ 'html' ],
             ]),
         );
+    }
+
+    public function reverseTruncate(string $string, int $length): string
+    {
+        if (strlen($string) <= $length) {
+            return $string;
+        }
+
+        return '...' . substr($string, -($length + 3));
     }
 
     public function shortClass($className)

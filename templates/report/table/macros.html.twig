@@ -1,0 +1,49 @@
+{% macro subject_name(variant) %}
+    {% if variant['error'] is defined and variant['error'] %}
+        <i class="ui warning icon" title="{{ variant['error'] }}"></i>
+        <span class="ac-error">{{ variant['subject-name'] }}</span>
+        {% if variant['variant-index'] != 0 %} # {{ variant['variant-index'] }}{% endif %}
+    {% else %}
+    <a href="{{ path('report_variant', { 
+        namespace: variant['project-namespace'],
+        project: variant['project-name'],
+        uuid: variant['suite-uuid'], 
+        class: variant['benchmark-class'], 
+        subject: variant['subject-name'], 
+        variant: variant['variant-index']
+    }) }}">
+        {{ variant['subject-name'] }}
+        {% if variant['variant-index'] != 0 %} # {{ variant['variant-index'] }}{% endif %}
+    </a>
+    {% endif %}
+{% endmacro %}
+
+{% macro suiteUuid(variant) %}
+    <a title="{{ variant['suite-uuid'] }}" href="{{ path('report_suite', {
+        namespace: variant['project-namespace'],
+        project: variant['project-name'],
+        uuid: variant['suite-uuid']
+        }) }}">
+        {{ variant['suite-uuid'] | reverse_truncate(10) }}
+    </a>
+{% endmacro %}
+
+{% macro host(variant) %}
+<span title="{{ variant['env-uname-host'] | default('?') }}">{{ variant['env-uname-host'] | default('?') | truncate(20) }}</span>
+{% endmacro %}
+
+{% macro error(variant) %}
+    {% if variant['variant-index'] != 0 %} # {{ variant['variant-index'] }}{% endif %}
+{% endmacro %}
+
+{% macro revsIterations(variant) %}
+{{ variant['variant-revs'] ~ ' * ' ~ variant['variant-iterations'] }}
+{% endmacro %}
+
+{% macro statTime(variant, stat) %}
+{{ variant[stat] | default(0) | number_format('2') }}µs
+{% endmacro %}
+
+{% macro statPercent(variant, stat) %}
+{{ variant[stat] | default(0) | number_format('2') }}%
+{% endmacro %}

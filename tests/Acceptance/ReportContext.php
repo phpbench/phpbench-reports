@@ -111,7 +111,7 @@ class ReportContext extends RawMinkContext implements Context
     {
         $errorRows = $this->getSession()->getPage()->findAll(
             'xpath',
-            '//td[contains(@class, "ac-error")][contains(., "' . $subjectName . '")]'
+            '//span[contains(@class, "ac-error")][contains(., "' . $subjectName . '")]'
         );
         Assert::assertCount(1, $errorRows, 'Found error row');
     }

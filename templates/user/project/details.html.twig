@@ -26,9 +26,10 @@
         <pre>
 {
     "storage": "reports",
+    "storage.reports.url": "https://{{ app.request.host }}",
     "storage.reports.api_key": "{{ project.apiKey }}",
     "extensions": [
-        "PhpBench\\Extension\\ReportsExtension"
+        "PhpBench\\Extensions\\Reports\\ReportsExtension"
     ]
 }
         </pre>
