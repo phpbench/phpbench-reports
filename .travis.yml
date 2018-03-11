@@ -5,6 +5,7 @@ env:
         secure: "blzIkEKQt7IOUi1FREiuD90Mo/zMLxLrytyqOemFLSeV0OgosI+j7B2d4B5uOgMZesiXQ2Qbc/LlUD0cI9tzrSqaswvetenVezqj2HeZj/j/4mU8J9K3KQujss41AN2cG+04b9I52lnoSiiRVMYg+lfuTqsAVeLm36WiMr2l8+IPJ55CdZqb8oxSslukykTFo48Rvcu813HftRBnsZ4ljoeah/nkpaWU8i3tDAdASRWBvykSZyrP50OqJ3UtyV00Pa7+j5AdleQO0kBt+O51nE//u6z9WjuDsqDxm41HWl0gLmV6nHD9zWQJfnP3GKn8j0LuU54ehdg+i1gvDOqQwiCxSvyOm64El8o0SydzvBMle6jq/lKhMk5wTaw9oXHZZn5HoHq32SgPnpoXZ+/Prjz607VMCraDsVqOxEzJvEz6kLCUlTlNarOFazBDoOaJ17tDL24+3HBNGb1kKATk/DGeebI2jiTv6PEp89jozO8B6lfj6OVNvrGj1EG9LoYrSkycsSEcm56VaWAjDA1WEmz7rO0y2NV1QbXp1eBDuIdrctwAMy/PLlvdlOCgZZadl1BBs59EXIRZkgif9yXVXW+01CInRPOT+ocUP0YYYSl8XBinL82y3kIGvTGlQmstcFRcypLyp/rJahpmEk+YT56+blWa4akUxV/EVDHfOL4="
 
 php:
+    - 7.1
     - 7.2
 
 sudo: required
